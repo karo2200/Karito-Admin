@@ -10,13 +10,7 @@ const config = {
 	BLOB_BASE_URL,
 	SUBSCRIPTION_URL,
 	//
-	UPLOAD_URL: 'https://karito-dev.s3.ir-thr-at1.arvanstorage.ir',
-	AWS_BUCKET_NAME: 'karito-dev',
-	AWS_BUCKET_URL: 'https://bucket-qa-version.s3.ca-central-1.amazonaws.com/',
-	AWS_REGION: 'ir-thr-at1',
-	ACLs: 'enabled',
-	AWS_ACCESS_KEY_ID: '89b30745-61e9-43c7-9e32-5512ed68333e',
-	AWS_SECRET_ACCESS_KEY: '9b26f6aa5ce7310a85f075933df9d3c5ddd2c0d51ea00faf036f823071832257',
+	
 	//
 	FIREBASE: {
 		APP_ID: '',
