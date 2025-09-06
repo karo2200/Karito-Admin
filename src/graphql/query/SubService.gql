@@ -1,0 +1,50 @@
+mutation serviceSubCategory_create($input: CreateServiceSubCategoryInput!) {
+	serviceSubCategory_create(input: $input) {
+		status
+		result {
+			id
+			name
+			logo
+		}
+	}
+}
+
+mutation serviceSubCategory_update($input: UpdateServiceSubCategoryInput!) {
+	serviceSubCategory_update(input: $input) {
+		status
+		result {
+			id
+			name
+			logo
+		}
+	}
+}
+
+mutation serviceSubCategory_delete($input: DeleteServiceSubCategoryInput!) {
+	serviceSubCategory_delete(input: $input) {
+		status
+	}
+}
+
+query serviceSubCategory_getAll(
+	$skip: Int
+	$take: Int
+	$where: ServiceSubCategoryDtoFilterInput
+	$order: [ServiceSubCategoryDtoSortInput!]
+) {
+	serviceSubCategory_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				id
+				name
+				logo
+				serviceCategory {
+					id
+					name
+				}
+			}
+			totalCount
+		}
+		status
+	}
+}

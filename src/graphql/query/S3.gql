@@ -1,0 +1,25 @@
+mutation s3_generatePresignedUrl($input: GeneratePresignedUrlInput!) {
+	s3_generatePresignedUrl(input: $input) {
+		status
+		result {
+			presignedUrl
+			objectUrl
+		}
+	}
+}
+mutation s3_generatePresignedUrls($input: GenerateMultipartPresignedUrlsInput!) {
+	s3_generatePresignedUrls(input: $input) {
+		status
+		result {
+			uploadId
+			presignedUrls
+			objectUrl
+		}
+	}
+}
+
+mutation s3_completeMultipartUpload($input: CompleteMultipartUploadInput!) {
+	s3_completeMultipartUpload(input: $input) {
+		status
+	}
+}

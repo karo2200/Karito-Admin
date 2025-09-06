@@ -1,0 +1,14 @@
+export { default as AdminPage } from './Admin';
+export { default as BanerPage } from './Admin/Baner';
+export { default as CarouselPage } from './Admin/Carousel';
+export { default as CategoryPage } from './Admin/Category';
+export { default as CityPage } from './Admin/City';
+export { default as ExpertPage } from './Admin/Expert';
+export { default as NeighborhoodPage } from './Admin/Neighborhood';
+export { default as StatePage } from './Admin/State';
+export { default as SubCategoryPage } from './Admin/SubCategory';
+export { default as SubSubCategoryPage } from './Admin/SubSubCategory';
+export { default as HomePage } from './Home';
+export { default as LoginPage } from './Login';
+export { default as ForgetPass } from './Login/forgetPass';
+export { default as OrderPage } from './Orders';

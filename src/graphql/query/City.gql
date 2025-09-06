@@ -1,0 +1,85 @@
+mutation city_createCity($input: CreateCityInput!) {
+	city_create(input: $input) {
+		status
+	}
+}
+
+mutation createProvince($input: CreateProvinceInput!) {
+	province_create(input: $input) {
+		status
+		result {
+			id
+			name
+		}
+	}
+}
+mutation city_activate($input: ActivateCityInput!) {
+	city_activate(input: $input) {
+		status
+	}
+}
+
+mutation city_deactivate($input: DeactivateCityInput!) {
+	city_deactivate(input: $input) {
+		status
+	}
+}
+
+query city_getAll($skip: Int, $take: Int, $where: CityDtoFilterInput, $order: [CityDtoSortInput!]) {
+	city_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				id
+				province {
+					id
+					name
+				}
+				name
+				isActive
+				activeBanner {
+					id
+					title
+					imageUrl
+				}
+				activeCarousel {
+					id
+					imageUrls
+					title
+				}
+			}
+		}
+	}
+}
+
+mutation city_updateCity($input: UpdateCityInput!) {
+	city_update(input: $input) {
+		status
+	}
+}
+
+query provinces($skip: Int, $take: Int, $where: ProvinceDtoFilterInput, $order: [ProvinceDtoSortInput!]) {
+	province_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				name
+				id
+			}
+		}
+	}
+}
+
+mutation province_update($input: UpdateProvinceInput!) {
+	province_update(input: $input) {
+		status
+		result {
+			id
+			name
+		}
+	}
+}
+
+mutation province_delete($input: DeleteProvinceInput!) {
+	province_delete(input: $input) {
+		status
+	}
+}

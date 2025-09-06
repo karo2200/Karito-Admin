@@ -1,0 +1,10 @@
+mutation city_setActiveBanner($input: SetActiveBannerInput!) {
+	city_setActiveBanner(input: $input) {
+		status
+	}
+}
+mutation city_setActiveCarousel($input: SetActiveCarouselInput!) {
+	city_setActiveCarousel(input: $input) {
+		status
+	}
+}

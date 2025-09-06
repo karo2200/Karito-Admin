@@ -1,0 +1,22 @@
+html,
+body {
+	/*direction: rtl;*/
+}
+@font-face {
+	font-family: 'Yekan';
+	src: local('Yekan'), url(./fonts/Vazir-Light-FD-WOL.ttf) format('truetype');
+}
+
+.MuiOutlinedInput-notchedOutline,
+.MuiButton-root,
+.MuiCard-root {
+	/*border-radius: 8px !important;*/
+}
+
+.MuiButtonBase-root {
+	color: #fff;
+}
+
+.MuiFormHelperText-root {
+	text-align: right;
+}

@@ -1,0 +1,8 @@
+**/node_modules/*
+**/out/*
+**/build/*
+**/.next/*
+/src/graphql/generated.tsx
+/next.config.js
+/build
+**/*.env

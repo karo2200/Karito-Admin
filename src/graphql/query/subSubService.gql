@@ -1,0 +1,55 @@
+mutation serviceType_create($input: CreateServiceTypeInput!) {
+	serviceType_create(input: $input) {
+		status
+		result {
+			id
+			name
+			logo
+		}
+	}
+}
+
+mutation serviceType_update($input: UpdateServiceTypeInput!) {
+	serviceType_update(input: $input) {
+		status
+		result {
+			id
+			name
+			logo
+		}
+	}
+}
+
+mutation serviceType_delete($input: DeleteServiceTypeInput!) {
+	serviceType_delete(input: $input) {
+		status
+	}
+}
+
+query serviceTypes_getAll(
+	$skip: Int
+	$take: Int
+	$where: ServiceTypeDtoFilterInput
+	$order: [ServiceTypeDtoSortInput!]
+) {
+	serviceTypes_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				id
+				name
+				basePrice
+				logo
+				serviceSubCategory {
+					id
+					name
+					serviceCategory {
+						id
+						name
+					}
+				}
+			}
+			totalCount
+		}
+		status
+	}
+}

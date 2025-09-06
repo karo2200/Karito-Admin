@@ -1,0 +1,40 @@
+mutation carousel_create($input: CreateCarouselInput!) {
+	carousel_create(input: $input) {
+		status
+		result {
+			id
+			title
+			imageUrls
+		}
+	}
+}
+
+mutation carousel_update($input: UpdateCarouselInput!) {
+	carousel_update(input: $input) {
+		status
+		result {
+			id
+			title
+			imageUrls
+		}
+	}
+}
+mutation carousel_delete($input: DeleteCarouselInput!) {
+	carousel_delete(input: $input) {
+		status
+	}
+}
+
+query carousel_getAll($skip: Int, $take: Int, $where: CarouselDtoFilterInput, $order: [CarouselDtoSortInput!]) {
+	carousel_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				id
+				imageUrls
+				title
+			}
+			totalCount
+		}
+		status
+	}
+}

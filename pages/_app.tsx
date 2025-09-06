@@ -1,0 +1,45 @@
+// scroll bar
+import 'simplebar-react/dist/simplebar.min.css';
+// lazy image
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
+import 'react-lazy-load-image-component/src/effects/black-and-white.css';
+import '@/theme/index.css';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Head from 'next/head';
+
+import { ProgressBar } from '@/components/atoms';
+import AuthProvider from '@/providers/AuthProvider';
+import NotistackProvider from '@/providers/NotistackProvider';
+import { ThemeProvider } from '@/theme';
+
+export const queryClient = new QueryClient();
+
+const App = (props: AppPropsWithLayout) => {
+	const { Component, pageProps } = props;
+
+	const getLayout = Component.getLayout ?? ((page) => page);
+
+	return (
+		<>
+			<Head>
+				<meta name="viewport" content="initial-scale=1, width=device-width" />
+			</Head>
+			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools initialIsOpen={false} />
+				<NotistackProvider>
+					<AuthProvider>
+						<ThemeProvider>
+							<ProgressBar />
+							{getLayout(<Component {...pageProps} />)}
+						</ThemeProvider>
+					</AuthProvider>
+				</NotistackProvider>
+			</QueryClientProvider>
+		</>
+	);
+};
+
+export default App;

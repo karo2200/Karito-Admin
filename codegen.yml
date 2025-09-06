@@ -1,0 +1,13 @@
+overwrite: true
+schema: 'http://193.151.152.161:8081/graphql'
+documents: 'src/graphql/**/*.gql'
+generates:
+  src/graphql/generated.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      addInfiniteQuery: true
+      fetcher:
+        func: 'src/graphql/fetcher#fetcher'

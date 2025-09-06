@@ -1,0 +1,49 @@
+query specialist_getAll(
+	$skip: Int
+	$take: Int
+	$where: SpecialistProfileDtoFilterInput
+	$order: [SpecialistProfileDtoSortInput!]
+) {
+	specialist_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				city {
+					id
+					name
+				}
+				firstName
+				id
+				idCardImageUrl
+				identityVerificationVideoStatus
+				idCardVerificationStatus
+				identityVerificationVideoUrl
+				lastName
+
+				serviceTypes {
+					id
+					name
+				}
+				specializedDocumentsVerificationStatus
+				specializedDocumentUrls
+			}
+			totalCount
+		}
+		status
+	}
+}
+mutation specialist_verifyIDCard($input: VerifyIDCardInput!) {
+	specialist_verifyIDCard(input: $input) {
+		status
+	}
+}
+
+mutation specialist_verifyIdentityVerificationVideo($input: VerifyIdentityVerificationVideoInput!) {
+	specialist_verifyIdentityVerificationVideo(input: $input) {
+		status
+	}
+}
+mutation specialist_verifySpecializedDocuments($input: VerifySpecializedDocumentsInput!) {
+	specialist_verifySpecializedDocuments(input: $input) {
+		status
+	}
+}

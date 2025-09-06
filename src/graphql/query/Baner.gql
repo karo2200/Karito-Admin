@@ -1,0 +1,41 @@
+mutation banner_create($input: CreateBannerInput!) {
+	banner_create(input: $input) {
+		status
+		result {
+			id
+			title
+			imageUrl
+		}
+	}
+}
+
+mutation banner_update($input: UpdateBannerInput!) {
+	banner_update(input: $input) {
+		status
+		result {
+			id
+			title
+			imageUrl
+		}
+	}
+}
+
+mutation banner_delete($input: DeleteBannerInput!) {
+	banner_delete(input: $input) {
+		status
+	}
+}
+
+query banner_getAll($skip: Int, $take: Int, $where: BannerDtoFilterInput, $order: [BannerDtoSortInput!]) {
+	banner_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				id
+				imageUrl
+				title
+			}
+			totalCount
+		}
+		status
+	}
+}

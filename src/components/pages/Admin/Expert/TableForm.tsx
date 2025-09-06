@@ -1,0 +1,282 @@
+import ArticleIcon from '@mui/icons-material/Article';
+import { LoadingButton } from '@mui/lab';
+import {
+	Dialog,
+	DialogContent,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+} from '@mui/material';
+import React, { FC, useState } from 'react';
+import { VerificationStatus } from 'src/graphql/generated';
+
+import { IPageProps } from './type-page';
+const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, OnhandleDocument, OnhandleListDocument }) => {
+	console.log(rows);
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+	// Open modal with image
+	const handleImageClick = (url: string) => {
+		setSelectedImage(url);
+	};
+
+	// Close modal
+	const handleCloseModal = () => {
+		setSelectedImage(null);
+	};
+	return (
+		<>
+			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
+				<Table aria-label="simple table">
+					<TableHead>
+						<TableRow
+							sx={{
+								height: 30,
+								background: '#c7dffa', // nice blue gradient
+								color: '#555', // white text
+							}}
+						>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانواادگی</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کارت ملی</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>ویدئو</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>اکیومنت</TableCell>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+								کارت ملی
+							</TableCell>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+								ویدئو
+							</TableCell>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+								داکیومنت
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{rows.length === 0 ? (
+							<TableRow>
+								<TableCell colSpan={9} align="center">
+									هیچ داده‌ای یافت نشد
+								</TableCell>
+							</TableRow>
+						) : (
+							rows?.map((row) => (
+								<TableRow
+									key={row.id}
+									sx={{
+										'&:last-child td, &:last-child th': { border: 0 },
+										height: 30,
+									}}
+								>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{row.firstName}
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{row.lastName}
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{row.city?.name}
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{row.serviceTypes[0]?.name}
+									</TableCell>
+									<TableCell
+										scope="row"
+										sx={{ textAlign: 'right', cursor: 'pointer', paddingY: 0, height: 30, width: 100 }}
+									>
+										<img
+											//src={getFullImageUrl(row.idCardImageUrl)}
+											src={row?.idCardImageUrl}
+											style={{ width: '50px', border: '1px solid #00000036' }}
+											onClick={() => handleImageClick(row?.idCardImageUrl)}
+										></img>
+									</TableCell>
+									<TableCell
+										scope="row"
+										sx={{ textAlign: 'right', cursor: 'pointer', paddingY: 0, height: 30, width: 100 }}
+									>
+										<video
+											src={row?.identityVerificationVideoUrl}
+											style={{ width: '50px', border: '1px solid #00000036' }}
+											onClick={() => handleImageClick(row?.identityVerificationVideoUrl)}
+										/>
+									</TableCell>
+									<TableCell
+										scope="row"
+										sx={{ textAlign: 'right', cursor: 'pointer' }}
+										onClick={() => OnhandleListDocument(row)}
+									>
+										<ArticleIcon />
+									</TableCell>
+
+									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
+										<LoadingButton
+											variant="contained"
+											onClick={() => OnhandleEditClick(row)}
+											//loading={loading}
+											fullWidth
+											sx={{
+												fontSize: '13px',
+												background:
+													row?.idCardVerificationStatus === VerificationStatus.Pending
+														? '#ccb349'
+														: row?.idCardVerificationStatus === VerificationStatus.Approved
+														? '#3eb14b'
+														: '#db7450',
+												color: '#fff',
+												borderRadius: '8px !important',
+												width: '100px',
+												height: '35px !important',
+												margin: '3px',
+												boxShadow:
+													' 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12) !important',
+												'&:hover': {
+													background:
+														row?.idCardVerificationStatus === VerificationStatus.Pending
+															? '#b39f33'
+															: row?.idCardVerificationStatus === VerificationStatus.Approved
+															? '#3eb14b'
+															: '#db7450',
+													boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // add some shadow on hover
+												},
+											}}
+										>
+											{row?.idCardVerificationStatus === VerificationStatus.Pending
+												? 'در انتظار'
+												: row?.idCardVerificationStatus === VerificationStatus.Approved
+												? 'تایید شده'
+												: 'رد شده'}
+										</LoadingButton>
+									</TableCell>
+									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
+										<LoadingButton
+											variant="contained"
+											onClick={() => OnhandleVideo(row)}
+											//loading={loading}
+											fullWidth
+											sx={{
+												fontSize: '13px',
+												background:
+													row?.identityVerificationVideoStatus === VerificationStatus.Pending
+														? '#ccb349'
+														: row?.identityVerificationVideoStatus === VerificationStatus.Approved
+														? '#3eb14b'
+														: '#db7450',
+												color: '#fff',
+												borderRadius: '8px !important',
+												width: '100px',
+												height: '35px !important',
+												margin: '3px',
+												boxShadow:
+													' 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12) !important',
+												'&:hover': {
+													background:
+														row?.identityVerificationVideoStatus === VerificationStatus.Pending
+															? '#b39f33'
+															: row?.identityVerificationVideoStatus === VerificationStatus.Approved
+															? '#3eb14b'
+															: '#db7450',
+													boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // add some shadow on hover
+												},
+											}}
+										>
+											{row?.identityVerificationVideoStatus === VerificationStatus.Pending
+												? 'در انتظار'
+												: row?.identityVerificationVideoStatus === VerificationStatus.Approved
+												? 'تایید شده'
+												: 'رد شده'}
+										</LoadingButton>
+									</TableCell>
+									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
+										<LoadingButton
+											variant="contained"
+											onClick={() => OnhandleDocument(row)}
+											//loading={loading}
+											fullWidth
+											sx={{
+												fontSize: '13px',
+												background:
+													row?.specializedDocumentsVerificationStatus === VerificationStatus.Pending
+														? '#ccb349'
+														: row?.specializedDocumentsVerificationStatus === VerificationStatus.Approved
+														? '#3eb14b'
+														: '#db7450',
+												color: '#fff',
+												borderRadius: '8px !important',
+												width: '100px',
+												height: '35px !important',
+												margin: '3px',
+												boxShadow:
+													' 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12) !important',
+												'&:hover': {
+													background:
+														row?.specializedDocumentsVerificationStatus === VerificationStatus.Pending
+															? '#b39f33'
+															: row?.specializedDocumentsVerificationStatus === VerificationStatus.Approved
+															? '#3eb14b'
+															: '#db7450',
+													boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // add some shadow on hover
+												},
+											}}
+										>
+											{row?.specializedDocumentsVerificationStatus === VerificationStatus.Pending
+												? 'در انتظار'
+												: row?.specializedDocumentsVerificationStatus === VerificationStatus.Approved
+												? 'تایید شده'
+												: 'رد شده'}
+										</LoadingButton>
+									</TableCell>
+								</TableRow>
+							))
+						)}
+					</TableBody>
+				</Table>
+			</TableContainer>
+
+			<Dialog open={!!selectedImage} onClose={handleCloseModal} fullWidth maxWidth="md">
+				<DialogContent
+					sx={{
+						p: 0,
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: '80vh',
+						backgroundColor: '#000',
+					}}
+				>
+					{selectedImage &&
+					(selectedImage.endsWith('.mp4') || selectedImage.endsWith('.webm') || selectedImage.endsWith('.ogg')) ? (
+						<video
+							src={selectedImage}
+							controls
+							style={{
+								maxWidth: '100%',
+								maxHeight: '100%',
+							}}
+						/>
+					) : (
+						<img
+							src={selectedImage}
+							alt="Preview"
+							style={{
+								maxWidth: '100%',
+								maxHeight: '100%',
+								objectFit: 'contain',
+								display: 'block',
+								margin: '0 auto',
+							}}
+						/>
+					)}
+				</DialogContent>
+			</Dialog>
+		</>
+	);
+};
+
+export default index;
