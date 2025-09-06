@@ -5,7 +5,7 @@
 	"scripts": {
 		"prepare": "husky install",
 		"dev": "node prebuild && next dev -p 4500",
-		"qa": "node prebuild && next dev -p 4600",
+		"qa": "node prebuild && next qa -p 4600",
 		"build": "npm run generate && node prebuild && next build && next export",
 		"build:prd": "npm run generate && node prebuild -prd && next build && next export",
 		"build:qa": "npm run generate && node prebuild -qa && next build && next export",
