@@ -43,6 +43,7 @@
 		"generate-graphql": "^1.0.1",
 		"graphql": "^16.6.0",
 		"iconsax-react": "^0.0.8",
+		"jalaali-js": "^1.2.8",
 		"jwt-decode": "^3.1.2",
 		"leaflet": "^1.9.4",
 		"leaflet.markercluster": "^1.5.3",

@@ -46,7 +46,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 									{row.name}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.logo} style={{ width: '50px', border: '1px solid #00000036' }}></img>
+									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
 								</TableCell>
 								<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 									<IconButton>

@@ -71,10 +71,11 @@ export default function AuthProvider({ children }) {
 					router.push('/Admin');
 				}
 			} else {
-				dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: false, isLoading: null } });
-				if (!router.pathname.includes('login') && !router.pathname.includes('signup')) {
-					router.push('/login');
-				}
+				RefreshToken();
+				//dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: false, isLoading: null } });
+				//if (!router.pathname.includes('login') && !router.pathname.includes('signup')) {
+				//router.push('/login');
+				//}
 			}
 		}
 		initialize();

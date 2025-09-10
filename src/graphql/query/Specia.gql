@@ -11,6 +11,15 @@ query specialist_getAll(
 					id
 					name
 				}
+				phoneNumber
+				nationalCode
+				profileImageUrl
+				gender
+				birthDate
+				rateCount
+				averageRating
+				daysRegistered
+				successfulMissions
 				firstName
 				id
 				idCardImageUrl

@@ -9,12 +9,15 @@ import {
 import Modal from '@/components/organisms/ModalAccsept';
 import ModalD from '@/components/organisms/ModalDocuments';
 
+import ModalS from './ModalShow';
 import TableForm from './TableForm';
 import { IPageProps } from './type-page';
-const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, TotalCount }) => {
 	const [open, setOpen] = useState(false);
 	const [openD, setOpenD] = useState(false);
+	const [openS, setOpenS] = useState(false);
 	const [name, setname] = useState('');
+	const [dataShow, setdataShow] = useState(null);
 	const [List, setList] = useState([]);
 	const [id, setid] = useState(0);
 	const [FormType, setFormType] = useState(0);
@@ -99,6 +102,13 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					setList(data.specializedDocumentUrls);
 					setOpenD(true);
 				}}
+				OnhandleShow={(data) => {
+					setdataShow(data);
+					setOpenS(true);
+				}}
+				OnsetRowsPerPage={(row, page) => {
+					OnsetRowsPerPage(row, page);
+				}}
 			/>
 			<Modal
 				open={open}
@@ -108,6 +118,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 				handleReject={() => handleConfirm(0)}
 			></Modal>
 			<ModalD data={List} open={openD} name={name} handleClose={() => setOpenD(false)}></ModalD>
+			<ModalS data={List} open={openS} data={dataShow} handleClose={() => setOpenS(false)}></ModalS>
 		</>
 	);
 };

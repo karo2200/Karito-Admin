@@ -46,7 +46,7 @@ const Index = ({ getcode }: { getcode: any }) => {
 					<CardContent>
 						<Box marginBottom="30px" display="flex" flexDirection="column" alignItems="center">
 							<Typography
-								fontFamily="Yekan"
+								fontFamily="Vazir"
 								color={COLORS.blue}
 								fontSize="12px"
 								textAlign="center"
@@ -55,7 +55,7 @@ const Index = ({ getcode }: { getcode: any }) => {
 								کاریتو
 							</Typography>
 							<Typography
-								fontFamily="Yekan"
+								fontFamily="Vazir"
 								color={COLORS.black}
 								fontSize="14px"
 								textAlign="center"
@@ -70,7 +70,7 @@ const Index = ({ getcode }: { getcode: any }) => {
 								sx={{ height: 46, width: '100%', borderRadius: '8px !important', backgroundColor: '#D9D9D9' }}
 							>
 								<S.cell>
-									<Typography fontWeight={400} color={COLORS.red} fontSize="17px" textAlign="right" fontFamily="Yekan">
+									<Typography fontWeight={400} color={COLORS.red} fontSize="17px" textAlign="right" fontFamily="Vazir">
 										.نام کاربری یا رمز عبور صحیح نیست
 									</Typography>
 								</S.cell>

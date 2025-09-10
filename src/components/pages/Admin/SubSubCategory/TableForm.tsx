@@ -8,7 +8,6 @@ import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick }) => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 	return (
 		<>
@@ -28,7 +27,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت</TableCell>
 
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر</TableCell>
-
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
 							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
@@ -51,7 +50,14 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 									{row.basePrice}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.logo} style={{ width: '50px', border: '1px solid #00000036' }}></img>
+									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
+									<input
+										type="checkbox"
+										checked={row.isSpecial}
+										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
+									/>
 								</TableCell>
 								<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 									<IconButton>

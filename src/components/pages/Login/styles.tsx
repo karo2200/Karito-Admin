@@ -51,7 +51,7 @@ export const cell = styled(Box)({
 });
 export const Authsingup = styled(Box)({
 	fontSize: 16,
-	fontFamily: 'Yekan',
+	fontFamily: 'Vazir',
 	cursor: 'pointer',
 	color: COLORS.black1,
 	marginLeft: 10,
@@ -59,7 +59,7 @@ export const Authsingup = styled(Box)({
 
 export const Authsingupabi = styled(Box)({
 	fontSize: 16,
-	fontFamily: 'Yekan',
+	fontFamily: 'Vazir',
 	cursor: 'pointer',
 	color: COLORS.blue,
 });

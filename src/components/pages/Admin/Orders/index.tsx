@@ -1,41 +1,53 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { SortEnumType, useSpecialist_GetAllQuery } from 'src/graphql/generated';
+import { SortEnumType, useServiceRequest_GetAllQuery } from 'src/graphql/generated';
 
 import MidelForm from './MidelForm';
 import SearchPage from './SearchForm';
-const rows = [
-	{ name: 'Ice cream', calories: 200, fat: 10, carbs: 30, protein: 4, active: true },
-	{ name: 'Cake', calories: 250, fat: 15, carbs: 35, protein: 5, active: false },
-];
+
 const index = () => {
-	const [selectedRow, setSelectedRow] = useState('');
 	const [CityId, setCityId] = useState('');
-	const [load, setLoad] = useState(1);
+	const [name, setname] = useState('');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [load, setLoad] = useState(1);
+
 	const {
-		data: List,
+		data: list,
 		isSuccess,
 		isError,
-	} = useSpecialist_GetAllQuery(
+	} = useServiceRequest_GetAllQuery(
 		{
 			take: rowsPerPage,
 			skip: page * rowsPerPage,
-			order: { id: SortEnumType.Desc },
+			order: { requestDate: SortEnumType.Desc },
 			where:
-				CityId != '' && CityId != '0'
+				CityId != ''
 					? {
-							city: { id: { eq: CityId } },
-							or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }],
+							address: {
+								neighborhood: {
+									city: {
+										id: { eq: CityId },
+									},
+								},
+							},
+
+							...(name && {
+								or: [{ customer: { firstName: { contains: name } } }, { customer: { lastName: { contains: name } } }],
+							}),
 					  }
-					: { or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }] },
+					: {
+							...(name && {
+								or: [{ customer: { firstName: { contains: name } } }, { customer: { lastName: { contains: name } } }],
+							}),
+					  },
 		},
 		{
 			keepPreviousData: true,
 			enabled: load === 1,
 		}
 	);
+
 	useEffect(() => {
 		if (load === 1 && (isSuccess || isError)) {
 			setLoad(0);
@@ -57,14 +69,15 @@ const index = () => {
 			>
 				<SearchPage
 					onSearchItem={(name, CityId) => {
-						setSelectedRow(name);
+						setname(name);
 						setCityId(CityId);
 						setLoad(1);
 					}}
 				/>
 			</Box>
 			<MidelForm
-				DataRow={List?.specialist_getAll?.result?.items || []}
+				TotalCount={list?.serviceRequest_getAll?.result?.totalCount || 1}
+				DataRow={list?.serviceRequest_getAll?.result?.items || []}
 				onRefreshItem={() => {
 					setLoad(1);
 				}}

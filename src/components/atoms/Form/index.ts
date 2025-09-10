@@ -1,3 +1,4 @@
+export { default as CheckBox } from './RHFCheckBox';
 export { default as FormProvider } from './RHFFormProvider';
 export { default as TextField } from './RHFTextInput';
 export { default as SelectField } from './SelectInput';

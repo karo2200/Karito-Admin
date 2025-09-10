@@ -51,7 +51,7 @@ const Index = ({ Mobil }: { Mobil: any }) => {
 					<CardContent>
 						<Box marginBottom="30px" display="flex" flexDirection="column" alignItems="center">
 							<Typography
-								fontFamily="Yekan"
+								fontFamily="Vazir"
 								color={COLORS.blue}
 								fontSize="24px"
 								fontWeight="bold"
@@ -61,7 +61,7 @@ const Index = ({ Mobil }: { Mobil: any }) => {
 								کاریتو
 							</Typography>
 							<Typography
-								fontFamily="Yekan"
+								fontFamily="Vazir"
 								color={COLORS.black}
 								fontSize="20px"
 								fontWeight="bold"
@@ -83,7 +83,7 @@ const Index = ({ Mobil }: { Mobil: any }) => {
 											color={COLORS.red}
 											fontSize="17px"
 											textAlign="right"
-											fontFamily="Yekan"
+											fontFamily="Vazir"
 										>
 											اطلاعات صحیح نیست{' '}
 										</Typography>

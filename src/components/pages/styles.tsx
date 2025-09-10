@@ -78,3 +78,13 @@ export const Filterbtn = styled(Box)<{ isActive?: boolean }>(({ isActive }) => (
 		backgroundColor: '#f4f7fc',
 	},
 }));
+export const textBox = styled('input')({
+	width: '100%',
+	maxWidth: '400px',
+	padding: '10px 15px',
+	fontSize: '16px',
+	borderRadius: '6px',
+	border: '1px solid #ccc',
+	boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)',
+	transition: 'border-color 0.3s ease',
+});

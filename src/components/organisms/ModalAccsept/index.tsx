@@ -44,14 +44,14 @@ function MyModal({ open, handleClose, name, handleConfirm, handleReject }) {
 			</IconButton>
 
 			<Box>
-				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Yekan' }}>
+				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Vazir' }}>
 					پذیرفتن اطلاعات / رد شدن اطلاعات
 				</DialogTitle>
-				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Yekan' }}>
+				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Vazir' }}>
 					{name}
 				</DialogTitle>
 				<Typography
-					fontFamily="Yekan"
+					fontFamily="Vazir"
 					color={COLORS.black}
 					fontSize="16px"
 					textAlign="right"

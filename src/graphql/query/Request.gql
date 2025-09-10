@@ -1,70 +1,71 @@
-
-query serviceRequest_getAll($skip: Int, $take: Int, $where: ServiceRequestDtoFilterInput, $order: [ServiceRequestDtoSortInput!]) {
+query serviceRequest_getAll(
+	$skip: Int
+	$take: Int
+	$where: ServiceRequestDtoFilterInput
+	$order: [ServiceRequestDtoSortInput!]
+) {
 	serviceRequest_getAll {
 		result(skip: $skip, take: $take, where: $where, order: $order) {
-      items{
-        address{
-          neighborhood{
-            name
-            id
-            city{
-              province{
-                name
-                id
-              }
-              id
-              name
-            }
-          }
-          text
-          location{
-            latitude
-            longitude
-          }
-        }
-         basePrice
-        cancellationReason{
-          id
-          name
-        }
-        customer{
-           firstName
-          id
-          lastName
-          phoneNumber
-          profileImageUrl
-        }
-        description
-        discountAmount
-        finalPrice
-        id
-        qnAs{
-          questionText
-          answer
-        }
-        requestDate
-        status
-        specialist{
-          firstName
-          id
-          lastName
-        }
-        serviceType{
-          id
-          name
-          logo
-          serviceSubCategory{
-            id
-            name
-            serviceCategory{
-              id
-              name
-            }
-          }
-        }
-      }
-      totalCount
-    }
-    status
-  }
+			items {
+				address {
+					neighborhood {
+						name
+						id
+						city {
+							province {
+								name
+								id
+							}
+							id
+							name
+						}
+					}
+					text
+				}
+				basePrice
+				cancellationReason {
+					id
+					name
+				}
+				customer {
+					firstName
+					id
+					lastName
+					phoneNumber
+					profileImageUrl
+				}
+				description
+				discountAmount
+				finalPrice
+				id
+
+				requestDate
+				status
+				specialist {
+					firstName
+					id
+					lastName
+					averageRating
+					rateCount
+					phoneNumber
+					profileImageUrl
+				}
+				serviceType {
+					id
+					name
+					logo
+					serviceSubCategory {
+						id
+						name
+						serviceCategory {
+							id
+							name
+						}
+					}
+				}
+			}
+			totalCount
+		}
+		status
+	}
 }

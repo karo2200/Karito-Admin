@@ -20,7 +20,7 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 				sx={{
 					'.MuiTablePagination-toolbar': {
 						bgcolor: '#cdd3e28f', // soft blue background
-						borderRadius: '8px',
+						borderRadius: '0 0 8px 8px',
 						minHeight: '50px',
 						padding: '0 16px',
 						gap: 1,
@@ -31,6 +31,8 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 					'.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
 						color: '#555 !important',
 					},
+					'.MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected': { color: '#555 !important' },
+					'.MuiButtonBase-root': { color: '#555 !important' },
 					'.MuiTablePagination-select': {
 						borderRadius: '6px',
 						bgcolor: 'white',
@@ -39,9 +41,7 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 						fontWeight: '500',
 						color: '#555 !important',
 					},
-					'.MuiButtonBase-root': {
-						color: '#555 !important',
-					},
+
 					'.MuiSelect-icon': {
 						color: '#030202ff !important',
 					},

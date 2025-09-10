@@ -73,12 +73,15 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 									{row.name}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									<img src={row.activeBanner?.imageUrl} style={{ width: '50px', border: '1px solid #00000036' }}></img>
+									<img
+										src={row.activeBanner?.imageUrl}
+										style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
+									></img>
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									<img
 										src={row.activeCarousel?.imageUrls[0]}
-										style={{ width: '50px', border: '1px solid #00000036' }}
+										style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
 									></img>
 								</TableCell>
 								<TableCell align="left" sx={{ paddingY: 0, height: 30 }}>

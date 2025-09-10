@@ -39,6 +39,7 @@ query serviceTypes_getAll(
 				name
 				basePrice
 				logo
+				isSpecial
 				serviceSubCategory {
 					id
 					name

@@ -36,7 +36,7 @@ const menuItems = [
 			{ text: '  منوی یک', link: '/Admin/Category' },
 			{ text: '  منوی دو', link: '/Admin/SubCategory' },
 			{ text: '  منوی سه', link: '/Admin/SubSubCategory' },
-			{ text: 'Carousel', link: '/Admin/Carousel' },
+			{ text: 'تصاویر چرخشی', link: '/Admin/Carousel' },
 		],
 	},
 	{
@@ -55,14 +55,14 @@ const menuItems = [
 		text: 'سفارشات',
 		Icon: CellIcon,
 		iconW: CellwIcon,
-		link: '#',
+		link: '/Admin/Orders',
 	},
 ];
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useEffect, useState } from 'react';
 
-const AdminDrawer = () => {
+const AdminDrawer = ({ toggleCollapse }) => {
 	const router = useRouter();
 	const { logout } = useAuth();
 	const { pathname } = useRouter();
@@ -91,7 +91,8 @@ const AdminDrawer = () => {
 		setIsActiveMobileMenu((prev) => !prev);
 	};
 
-	const toggleCollapse = () => {
+	const toggleCollaps = () => {
+		toggleCollapse(!isCollapsed);
 		setIsCollapsed((prev) => !prev);
 	};
 
@@ -144,21 +145,21 @@ const AdminDrawer = () => {
 					alignItems="center"
 					justifyContent="space-between"
 					sx={{ px: isCollapsed ? 1 : 3, cursor: 'pointer' }}
-					onClick={toggleCollapse}
+					onClick={toggleCollaps}
 				>
 					{!isCollapsed && (
 						<>
-							<Typography fontSize={36} color={COLORS.blue} sx={{ margin: '-10px 20px 0 0', textAlign: 'right' }}>
+							<Typography fontSize={36} color={COLORS.blue3} sx={{ textAlign: 'right', paddingLeft: '10px' }}>
 								کاریتو
 							</Typography>
-							<Box sx={{ flexBasis: 60, flexGrow: 0, flexShrink: 0 }}>
-								<img src="/icons/logo.png" alt="business-icon" draggable="false" />
+							<Box sx={{ flexBasis: 80, flexGrow: 0, flexShrink: 0 }}>
+								<img src="/icons/logo.jpg" alt="business-icon" draggable="false" />
 							</Box>
 						</>
 					)}
 					{isCollapsed && (
 						<Box sx={{ flexBasis: 60, flexGrow: 0, flexShrink: 0 }}>
-							<img src="/icons/logo.png" alt="business-icon" draggable="false" style={{ width: 40 }} />
+							<img src="/icons/logo.jpg" alt="business-icon" draggable="false" style={{ width: 40 }} />
 						</Box>
 					)}
 				</Box>
@@ -182,7 +183,7 @@ const AdminDrawer = () => {
 											height: 55,
 											paddingRight: 25,
 											background: pathname.includes(item.link) ? '#D7F2F3' : '',
-											fontFamily: 'Yekan !important',
+											fontFamily: 'Vazir !important',
 											color: '#878686',
 										}}
 									>
@@ -194,9 +195,9 @@ const AdminDrawer = () => {
 										{!isCollapsed && (
 											<ListItemText
 												primary={item.text}
-												style={{ fontFamily: 'Yekan !important' }}
+												style={{ fontFamily: 'Vazir !important' }}
 												sx={{
-													fontFamily: 'Yekan !important',
+													fontFamily: 'Vazir !important',
 													color: '#878686',
 													textAlign: 'right',
 													fontSize: '18px',
@@ -234,7 +235,7 @@ const AdminDrawer = () => {
 														height: 40,
 														paddingRight: 25,
 														background: pathname.includes(sub.link) ? '#E0F7FA' : '',
-														fontFamily: 'Yekan !important',
+														fontFamily: 'Vazir !important',
 														color: '#666',
 														fontSize: '16px',
 													}}
@@ -264,13 +265,13 @@ const AdminDrawer = () => {
 							style={{
 								height: 55,
 								paddingRight: 25,
-								fontFamily: 'Yekan !important',
+								fontFamily: 'Vazir !important',
 								color: '#878686',
 							}}
 						>
 							<ListItemText
 								primary="خروج"
-								sx={{ fontFamily: 'Yekan', color: '#838A93', textAlign: 'right', fontSize: '15px' }}
+								sx={{ fontFamily: 'Vazir', color: '#838A93', textAlign: 'right', fontSize: '15px' }}
 							/>
 							<ListItemIcon sx={{ minWidth: 'auto', marginLeft: '12px', color: '#DC5865' }}>
 								<LogoutIcon />

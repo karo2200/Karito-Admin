@@ -1,4 +1,5 @@
 import ArticleIcon from '@mui/icons-material/Article';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { LoadingButton } from '@mui/lab';
 import {
 	Dialog,
@@ -14,11 +15,23 @@ import {
 import React, { FC, useState } from 'react';
 import { VerificationStatus } from 'src/graphql/generated';
 
-import { IPageProps } from './type-page';
-const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, OnhandleDocument, OnhandleListDocument }) => {
-	console.log(rows);
-	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+import Pagination from '@/components/organisms/pagination';
+import COLORS from '@/theme/colors';
 
+import { IPageProps } from './type-page';
+const index: FC<IPageProps> = ({
+	rows,
+	OnhandleEditClick,
+	OnhandleVideo,
+	OnhandleDocument,
+	OnhandleListDocument,
+	OnhandleShow,
+	OnsetRowsPerPage,
+	TotalCount,
+}) => {
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [page, setPage] = React.useState(0);
 	// Open modal with image
 	const handleImageClick = (url: string) => {
 		setSelectedImage(url);
@@ -46,7 +59,8 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, Onhandl
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کارت ملی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>ویدئو</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>اکیومنت</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>داکیومنت</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
 							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
 								کارت ملی
 							</TableCell>
@@ -93,7 +107,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, Onhandl
 										<img
 											//src={getFullImageUrl(row.idCardImageUrl)}
 											src={row?.idCardImageUrl}
-											style={{ width: '50px', border: '1px solid #00000036' }}
+											style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
 											onClick={() => handleImageClick(row?.idCardImageUrl)}
 										></img>
 									</TableCell>
@@ -103,7 +117,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, Onhandl
 									>
 										<video
 											src={row?.identityVerificationVideoUrl}
-											style={{ width: '50px', border: '1px solid #00000036' }}
+											style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
 											onClick={() => handleImageClick(row?.identityVerificationVideoUrl)}
 										/>
 									</TableCell>
@@ -112,9 +126,15 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, Onhandl
 										sx={{ textAlign: 'right', cursor: 'pointer' }}
 										onClick={() => OnhandleListDocument(row)}
 									>
-										<ArticleIcon />
+										<ArticleIcon sx={{ fontSize: 30 }} />
 									</TableCell>
-
+									<TableCell
+										scope="row"
+										sx={{ textAlign: 'right', cursor: 'pointer' }}
+										onClick={() => OnhandleShow(row)}
+									>
+										<VisibilityIcon sx={{ fontSize: 30, color: COLORS.blue }} />
+									</TableCell>
 									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 										<LoadingButton
 											variant="contained"
@@ -238,7 +258,19 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleVideo, Onhandl
 					</TableBody>
 				</Table>
 			</TableContainer>
-
+			<Pagination
+				Len={TotalCount || 1}
+				rowsPerPage={rowsPerPage || 5}
+				page={page}
+				OnchangePage={(newPage) => {
+					setPage(newPage);
+					OnsetRowsPerPage(rowsPerPage, newPage);
+				}}
+				OnsetRowsPerPage={(event) => {
+					OnsetRowsPerPage(event, 0);
+					setRowsPerPage(event);
+				}}
+			></Pagination>
 			<Dialog open={!!selectedImage} onClose={handleCloseModal} fullWidth maxWidth="md">
 				<DialogContent
 					sx={{

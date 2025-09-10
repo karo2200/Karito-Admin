@@ -10,7 +10,7 @@ type RHFTextFieldType = TextFieldProps & {
 	onChanged?: (e?: any) => void;
 };
 const CommonTextField = styled(TextField)({
-	fontFamily: 'Yekan',
+	fontFamily: 'Vazir',
 	fontSize: 15,
 	'& .MuiOutlinedInput-root': {
 		borderRadius: '2px', // Custom border-radius
@@ -57,7 +57,7 @@ export default function RHFTextField({ name, label, id, onChanged, ...other }: R
 								inputProps={{
 									sx: {
 										height: 15,
-										fontFamily: 'Yekan',
+										fontFamily: 'Vazir',
 										fontSize: 15,
 										fontWeight: 'bold',
 										'&:hover': {

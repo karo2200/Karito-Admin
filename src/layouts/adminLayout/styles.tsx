@@ -17,26 +17,18 @@ export const Main = styled('main')({
 		gridTemplateColumns: '1fr',
 	},*/
 });
-export const MainContent = styled('div')<{ show: boolean }>(({ show }) => ({
+export const MainContent = styled('div', {
+	shouldForwardProp: (prop) => prop !== 'show',
+})<{ show: boolean }>(({ show }) => ({
 	minHeight: 'calc(100vh - 81px - 24px)',
-	maxWidth: !show ? 'calc(100vw - 200px)' : 'calc(100vw - 70px)',
-	scrollbarWidth: 'none' /* Firefox 64 */,
+	maxWidth: show ? 'calc(100vw - 70px)' : 'calc(100vw - 270px)',
+	scrollbarWidth: 'none',
+	overflowY: 'auto',
+	overflowX: 'hidden',
+	padding: 30,
 	'@media(max-width:600px)': {
 		maxWidth: '100vw',
 	},
-	overflowY: 'auto',
-	overflowX: 'hidden',
-	//boxShadow: ' rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
-	padding: 30,
-	//borderRadius: 10,
-	//  backgroundColor: COLORS.grey13,
-
-	/*'@media(min-width:1400px)': {
-		minWidth: 1070,
-	},
-	'@media(max-width:1310px)': {
-		minWidth: 'calc(100vw - 280px)',
-	},*/
 }));
 export const Mainnav = styled('div')<{ isActiveMobileMenu: boolean }>(({ isActiveMobileMenu }) => ({
 	backgroundColor: '#fff',

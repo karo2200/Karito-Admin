@@ -28,11 +28,11 @@ function MyModal({ open, handleClose, name, handleConfirm }) {
 			}}
 		>
 			<Box>
-				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '20px', fontFamily: 'Yekan' }}>
+				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '20px', fontFamily: 'Vazir' }}>
 					حذف اطلاعات
 				</DialogTitle>
 				<Typography
-					fontFamily="Yekan"
+					fontFamily="Vazir"
 					color={COLORS.black}
 					fontSize="16px"
 					textAlign="right"

@@ -44,9 +44,9 @@ function MyModal({ open, handleClose, data }) {
 			</IconButton>
 
 			{/* ✅ Two images per row */}
-			<Grid container spacing={2} justifyContent="center">
+			<Grid container spacing={2} justifyContent="rigth">
 				{data?.map((item, index) => (
-					<Grid item xs={12} sm={6} key={index}>
+					<Grid item xs={12} sm={4} key={index}>
 						<Box
 							component="img"
 							src={item}

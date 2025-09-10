@@ -7,10 +7,9 @@ export interface IPageProps {
 	onSearchItem?: (name: string, CityId: string) => void;
 	OnhandleEditClick?: (value: any) => void;
 	OnhandleDocument?: (value: any) => void;
-	OnhandleListDocument?: (value: any) => void;
+	OnsetRowsPerPage?: (row: number, page: number) => void;
 	OnhandleVideo?: (value: any) => void;
 	OnhandleShow?: (value: any) => void;
 	DataRow?: [];
-	OnsetRowsPerPage?: (row: number, page: number) => void;
 	TotalCount?: number;
 }

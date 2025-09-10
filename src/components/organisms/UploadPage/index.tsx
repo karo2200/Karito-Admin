@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import {
 	useS3_CompleteMultipartUploadMutation,
@@ -83,27 +84,28 @@ const UploadPage: FC<IPageProps> = ({ onDrop, Empty, OnhandelEmpty, Url }) => {
 	};
 
 	return (
-		<div>
-			<input
-				type="file"
-				accept="image/*"
-				onChange={(e) => {
-					OnhandelEmpty(false);
-					setFile(e.target.files ? e.target.files[0] : null);
-				}}
-			/>
-
+		<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
+			<Grid item xs={12} sm={9} sx={{ display: 'flex', alignItems: 'center' }}>
+				<input
+					type="file"
+					accept="image/*"
+					onChange={(e) => {
+						OnhandelEmpty(false);
+						setFile(e.target.files ? e.target.files[0] : null);
+					}}
+				/>
+			</Grid>
 			{/* Show preview */}
 			{previewUrl ? (
-				<div style={{ marginTop: 10 }}>
-					<img src={previewUrl} alt="Preview" style={{ maxWidth: '300px', maxHeight: '200px', objectFit: 'contain' }} />
-				</div>
+				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+					<img src={previewUrl} alt="Preview" style={{ maxWidth: '50px', maxHeight: '50px', objectFit: 'contain' }} />
+				</Grid>
 			) : (
 				''
 			)}
 
 			{error && <p style={{ color: 'red' }}>خطا در آپلود فایل</p>}
-		</div>
+		</Grid>
 	);
 };
 export default UploadPage;

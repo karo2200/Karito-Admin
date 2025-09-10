@@ -9,7 +9,7 @@ import {
 } from 'src/graphql/generated';
 
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
-import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
+import { CheckBox, FormProvider, SelectField, TextField } from '@/components/atoms/Form';
 import UploadPage from '@/components/organisms/UploadPage';
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام را وارد کنید'),
@@ -82,6 +82,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 		serviceCategoryId: '',
 		CategoryId: '',
 		price: 0,
+		isSpecial: false,
 	};
 	const methods = useForm({
 		resolver: yupResolver(LoginSchema),
@@ -111,6 +112,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				serviceCategoryId: DataRow?.serviceSubCategory?.id || listSub[0].value,
 				CategoryId: DataRow?.serviceSubCategory?.serviceCategory?.id || listCategury[0].value,
 				price: DataRow?.basePrice || 0,
+				isSpecial: DataRow?.isSpecial || false,
 			});
 			setdisabled(true);
 		}
@@ -125,6 +127,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						logo: data.FilePath,
 						serviceSubCategoryId: data.serviceCategoryId,
 						basePrice: data.price,
+						isSpecial: data.isSpecial,
 					},
 				},
 				{
@@ -149,6 +152,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						newLogo: data.FilePath,
 						basePrice: data.price,
 						id: data.id,
+						isSpecial: data.isSpecial,
 					},
 				},
 				{
@@ -199,7 +203,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 					/>
 				</Grid>
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<TextField required name="Name" placeholder="  سرویس" sx={{ height: '40px' }} id="Name" />
+					<TextField required name="Name" placeholder="  سرویس" sx={{ height: '40px', width: '234px' }} id="Name" />
 				</Grid>
 
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -224,7 +228,15 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 			</Grid>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl" marginTop="5px">
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<TextField required type="number" name="price" placeholder="  قیمت" sx={{ height: '40px' }} id="price" />
+					<TextField
+						fullWidth
+						required
+						type="number"
+						name="price"
+						placeholder="  قیمت"
+						sx={{ height: '40px', width: '234px' }}
+						id="price"
+					/>
 				</Grid>
 
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -236,6 +248,9 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						Url={getValues('FilePath')}
 					/>
 					{/*<RHFUploadAvatar name="FilePath" onDrop={handleDrop} />*/}
+				</Grid>
+				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+					<CheckBox name="isSpecial" label="isSpecial" />
 				</Grid>
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}></Grid>
 			</Grid>

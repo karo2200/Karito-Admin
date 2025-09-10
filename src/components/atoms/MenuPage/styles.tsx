@@ -23,7 +23,7 @@ export const BoxReport = styled(Box)({
 });
 export const font = styled(Typography)({
 	color: COLORS.black,
-	fontFamily: 'Amiri',
+	fontFamily: 'Vazir',
 	fontStyle: 'normal',
 	fontWeight: 700,
 	lineHeight: 'normal',

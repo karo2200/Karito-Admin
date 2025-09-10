@@ -4,17 +4,15 @@ import React, { useState } from 'react';
 import Admindrawer from './drawer';
 import * as S from './styles';
 
-const drawerWidth = 240;
-
 const AdminLayout = ({ children }: React.PropsWithChildren) => {
-	const { Show, ShowState } = useState(false);
+	const [show, setShowState] = useState(false);
 
 	return (
 		<S.Main>
-			<S.MainContent show={Show}>
+			<S.MainContent show={show}>
 				<Box>{children}</Box>
 			</S.MainContent>
-			<Admindrawer toggleCollapse={(show) => ShowState(show)} />
+			<Admindrawer toggleCollapse={(value) => setShowState(value)} />
 		</S.Main>
 	);
 };

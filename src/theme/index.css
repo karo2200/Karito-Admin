@@ -3,8 +3,8 @@ body {
 	/*direction: rtl;*/
 }
 @font-face {
-	font-family: 'Yekan';
-	src: local('Yekan'), url(./fonts/Vazir-Light-FD-WOL.ttf) format('truetype');
+	font-family: 'Vazir';
+	src: local('Vazir'), url(./fonts/Vazir-Light-FD-WOL.ttf) format('truetype');
 }
 
 .MuiOutlinedInput-notchedOutline,
