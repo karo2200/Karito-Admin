@@ -2,6 +2,7 @@ import config from 'config';
 import { GraphQLClient } from 'graphql-request';
 import jwtDecode from 'jwt-decode';
 
+import { refreshTokenManually } from '@/providers/Refresh';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import { getCookieStorage } from '@/utils/storage/cookie';
 
@@ -13,6 +14,10 @@ export function fetcher<TData, TVariables>(query: string, variables?: TVariables
 		// Set header only if token exists and is valid
 		if (token && !isTokenExpired(token)) {
 			graphQLClient.setHeader('Authorization', 'Bearer ' + token);
+		} else if (isTokenExpired(token)) {
+			//const { RefreshToken } = useAuth();
+			//RefreshToken();
+			refreshTokenManually();
 		} else {
 			// Remove token header if expired or not present
 			graphQLClient.setHeaders({});

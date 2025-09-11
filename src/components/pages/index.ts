@@ -3,6 +3,7 @@ export { default as BanerPage } from './Admin/Baner';
 export { default as CarouselPage } from './Admin/Carousel';
 export { default as CategoryPage } from './Admin/Category';
 export { default as CityPage } from './Admin/City';
+export { default as CustomerPage } from './Admin/Customer';
 export { default as ExpertPage } from './Admin/Expert';
 export { default as NeighborhoodPage } from './Admin/Neighborhood';
 export { default as OrderPage } from './Admin/Orders';

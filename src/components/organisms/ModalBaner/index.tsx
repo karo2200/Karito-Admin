@@ -96,7 +96,7 @@ function MyModal({ open, handleClose, name, handleReject, cityId }) {
 			</IconButton>
 
 			<Box>
-				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Yekan' }}>
+				<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Vazir' }}>
 					انتخاب بنر برای شهر <strong>{name}</strong>
 				</DialogTitle>
 

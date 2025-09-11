@@ -18,7 +18,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 	alignItems: 'center',
 	justifyContent: 'center',
 	border: '1px solid #DEE2E6',
-	fontFamily: 'IRANVazir',
+	fontFamily: 'Vazir',
 	fontSize: 15,
 	fontWeight: 'bold',
 	color: COLORS.blue1,
@@ -132,7 +132,7 @@ function UploadAvatar({ sx, error, file, dense, disabled, helperText, isUploadin
 								type="button"
 								variant="text"
 								style={{
-									fontFamily: 'IRANVazir',
+									fontFamily: 'Vazir',
 									fontSize: 15,
 									fontWeight: 'bold',
 									color: COLORS.blue1,

@@ -1,39 +1,43 @@
-# مرحله 1: نصب و ساخت پروژه
+### مرحله 1: ساخت پروژه
 FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# کپی فقط فایل‌های مورد نیاز برای نصب پکیج‌ها
+# نصب ابزار لازم برای ساخت (در Alpine)
+RUN apk add --no-cache python3 make g++
+
+# فقط فایل‌های ضروری برای نصب پکیج‌ها و اجرای codegen
 COPY package*.json ./
+COPY package-lock.json ./
 COPY codegen.yml ./
 
-# نصب پکیج‌ها
-RUN npm install
+# نصب پکیج‌ها کامل
+RUN npm install --force
 
-# کپی باقی کدها
+# کپی کل سورس‌کد
 COPY . .
 
-# اجرای codegen + prebuild + build
+# اجرای codegen، prebuild و build نهایی
 RUN npm run generate && node prebuild && npm run build
 
-# مرحله 2: اجرای نهایی
+---
+
+### مرحله 2: تصویر نهایی برای اجرا
 FROM node:18-alpine
 
 WORKDIR /app
 
-# کپی node_modules و فایل‌های ساخته شده
-COPY --from=builder /app/node_modules ./node_modules
+# فقط فایل‌های مورد نیاز را از مرحله‌ی build کپی می‌کنیم
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/server.js ./server.js
 
-# 
-COPY --from=builder /app/graphql ./graphql
-COPY --from=builder /app/prebuild.js ./prebuild.js
+# نصب پکیج‌های فقط برای تولید (بدون devDependencies)
+RUN npm ci --only=production
 
 # پورت مورد استفاده
 EXPOSE 4500
 
 # اجرای برنامه
-CMD ["npm", "start"]
+CMD ["npx", "next", "start", "-p", "4500"]

@@ -45,12 +45,12 @@ const menuItems = [
 		iconW: MoneywIcon,
 		link: '/Admin/Expert',
 	},
-	/*{
-		text: 'کاربران',
-		Icon: BuyerIcon,
-		iconW: BuyerwIcon,
-		link: '/buyer',
-	},*/
+	{
+		text: 'مشتریان',
+		Icon: CellIcon,
+		iconW: CellIcon,
+		link: '/Admin/Customer',
+	},
 	{
 		text: 'سفارشات',
 		Icon: CellIcon,
@@ -92,8 +92,8 @@ const AdminDrawer = ({ toggleCollapse }) => {
 	};
 
 	const toggleCollaps = () => {
-		toggleCollapse(!isCollapsed);
-		setIsCollapsed((prev) => !prev);
+		//toggleCollapse(!isCollapsed);
+		//setIsCollapsed((prev) => !prev);
 	};
 
 	const onLogoutClick = () => {

@@ -72,7 +72,7 @@ export default function RHFSelectInput({ name, label, options, onChanged, ...oth
 					>
 						{options?.map((o: any, i: any) => (
 							<MenuItem
-								style={{ color: '#000', fontFamily: 'IRANYekan', fontSize: 15 }}
+								style={{ color: '#000', fontFamily: 'Vazir', fontSize: 15 }}
 								disabled={o.disabled}
 								key={`${i}-${o.option}`}
 								value={o.value}

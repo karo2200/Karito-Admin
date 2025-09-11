@@ -140,10 +140,7 @@ export default function AuthProvider({ children }) {
 					saveCookie(REFRESH_TOKEN_KEY, res?.auth_refreshToken?.result?.refreshToken || '');
 					graphQLClient.setHeader('Authorization', 'Bearer ' + res?.auth_refreshToken?.result?.accessToken);
 
-					dispatch({
-						type: 'INITIALIZE',
-						payload: { isAuthenticated: true, isLoading: null },
-					});
+					dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: true, isLoading: null } });
 				},
 				onError: (err) => {
 					logout();
