@@ -1,0 +1,1714 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AddressDto {
+  id: UUID!
+  text: String!
+  longitude: Float!
+  latitude: Float!
+  customer: CustomerDto!
+  neighborhood: NeighborhoodDto!
+  isPrimary: Boolean!
+}
+
+"A segment of a collection."
+type AddressDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [AddressDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type AuthResult {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type BannerDto {
+  id: UUID!
+  title: String!
+  imageUrl: String!
+}
+
+"A segment of a collection."
+type BannerDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [BannerDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type CancellationReasonDto {
+  id: UUID!
+  name: String!
+}
+
+"A segment of a collection."
+type CancellationReasonDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [CancellationReasonDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type CarouselDto {
+  id: UUID!
+  title: String!
+  imageUrls: [String!]!
+}
+
+"A segment of a collection."
+type CarouselDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [CarouselDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type CityDto {
+  id: UUID!
+  name: String!
+  isActive: Boolean!
+  province: ProvinceDto!
+  activeBanner: BannerDto
+  activeCarousel: CarouselDto
+}
+
+"A segment of a collection."
+type CityDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [CityDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+"Information about the offset pagination."
+type CollectionSegmentInfo {
+  "Indicates whether more items exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more items exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+}
+
+type CustomerDto {
+  id: UUID!
+  firstName: String
+  lastName: String
+  phoneNumber: String!
+  profileImageUrl: String
+  gender: Gender!
+  code: String!
+}
+
+"A segment of a collection."
+type CustomerDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [CustomerDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type DisabledServiceTimeDto {
+  id: UUID!
+  time: DateTime!
+}
+
+"A segment of a collection."
+type DisabledServiceTimeDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [DisabledServiceTimeDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type DiscountCodeDto {
+  id: UUID!
+  code: String!
+  title: String!
+  amount: Decimal!
+  isPercentage: Boolean!
+  expiryDate: DateTime
+  isActive: Boolean!
+  customerDto: CustomerDto!
+}
+
+"A segment of a collection."
+type DiscountCodeDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [DiscountCodeDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type ListResponseBaseOfAddressDto {
+  result(skip: Int take: Int where: AddressDtoFilterInput @cost(weight: "10") order: [AddressDtoSortInput!] @cost(weight: "10")): AddressDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfBannerDto {
+  result(skip: Int take: Int where: BannerDtoFilterInput @cost(weight: "10") order: [BannerDtoSortInput!] @cost(weight: "10")): BannerDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfCancellationReasonDto {
+  result(skip: Int take: Int where: CancellationReasonDtoFilterInput @cost(weight: "10") order: [CancellationReasonDtoSortInput!] @cost(weight: "10")): CancellationReasonDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfCarouselDto {
+  result(skip: Int take: Int where: CarouselDtoFilterInput @cost(weight: "10") order: [CarouselDtoSortInput!] @cost(weight: "10")): CarouselDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfCityDto {
+  result(skip: Int take: Int where: CityDtoFilterInput @cost(weight: "10") order: [CityDtoSortInput!] @cost(weight: "10")): CityDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfCustomerDto {
+  result(skip: Int take: Int where: CustomerDtoFilterInput @cost(weight: "10") order: [CustomerDtoSortInput!] @cost(weight: "10")): CustomerDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfDisabledServiceTimeDto {
+  result(skip: Int take: Int where: DisabledServiceTimeDtoFilterInput @cost(weight: "10") order: [DisabledServiceTimeDtoSortInput!] @cost(weight: "10")): DisabledServiceTimeDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfDiscountCodeDto {
+  result(skip: Int take: Int where: DiscountCodeDtoFilterInput @cost(weight: "10") order: [DiscountCodeDtoSortInput!] @cost(weight: "10")): DiscountCodeDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfNeighborhoodDto {
+  result(skip: Int take: Int where: NeighborhoodDtoFilterInput @cost(weight: "10") order: [NeighborhoodDtoSortInput!] @cost(weight: "10")): NeighborhoodDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfPopularServiceTypeDto {
+  result(skip: Int take: Int where: PopularServiceTypeDtoFilterInput @cost(weight: "10") order: [PopularServiceTypeDtoSortInput!] @cost(weight: "10")): PopularServiceTypeDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfProvinceDto {
+  result(skip: Int take: Int where: ProvinceDtoFilterInput @cost(weight: "10") order: [ProvinceDtoSortInput!] @cost(weight: "10")): ProvinceDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfRateAndReviewDto {
+  result(skip: Int take: Int where: RateAndReviewDtoFilterInput @cost(weight: "10") order: [RateAndReviewDtoSortInput!] @cost(weight: "10")): RateAndReviewDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfServiceCategoryDto {
+  result(skip: Int take: Int where: ServiceCategoryDtoFilterInput @cost(weight: "10") order: [ServiceCategoryDtoSortInput!] @cost(weight: "10")): ServiceCategoryDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfServiceRequestDto {
+  result(skip: Int take: Int where: ServiceRequestDtoFilterInput @cost(weight: "10") order: [ServiceRequestDtoSortInput!] @cost(weight: "10")): ServiceRequestDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfServiceSubCategoryDto {
+  result(skip: Int take: Int where: ServiceSubCategoryDtoFilterInput @cost(weight: "10") order: [ServiceSubCategoryDtoSortInput!] @cost(weight: "10")): ServiceSubCategoryDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfServiceTypeDto {
+  result(skip: Int take: Int where: ServiceTypeDtoFilterInput @cost(weight: "10") order: [ServiceTypeDtoSortInput!] @cost(weight: "10")): ServiceTypeDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfServiceTypeQuestionDto {
+  result(skip: Int take: Int where: ServiceTypeQuestionDtoFilterInput @cost(weight: "10") order: [ServiceTypeQuestionDtoSortInput!] @cost(weight: "10")): ServiceTypeQuestionDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type ListResponseBaseOfSpecialistProfileDto {
+  result(skip: Int take: Int where: SpecialistProfileDtoFilterInput @cost(weight: "10") order: [SpecialistProfileDtoSortInput!] @cost(weight: "10")): SpecialistProfileDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
+type Mutation {
+  address_create(input: AddAddressInput!): ResponseBaseOfAddressDto! @cost(weight: "10")
+  address_update(input: UpdateAddressInput!): ResponseBaseOfAddressDto! @cost(weight: "10")
+  address_delete(input: DeleteAddressInput!): ResponseBase! @cost(weight: "10")
+  address_setPrimary(input: SetPrimaryAddressInput!): ResponseBaseOfAddressDto! @cost(weight: "10")
+  auth_requestOtp(input: RequestOtpInput!): ResponseBase! @cost(weight: "10")
+  auth_verifyOtp(input: VerifyOtpInput!): ResponseBaseOfAuthResult! @cost(weight: "10")
+  auth_refreshToken(input: RefreshTokenInput!): ResponseBaseOfAuthResult! @cost(weight: "10")
+  banner_create(input: CreateBannerInput!): ResponseBaseOfBannerDto! @cost(weight: "10")
+  banner_update(input: UpdateBannerInput!): ResponseBaseOfBannerDto! @cost(weight: "10")
+  banner_delete(input: DeleteBannerInput!): ResponseBase! @cost(weight: "10")
+  cancellationReason_create(input: CreateCancellationReasonInput!): ResponseBaseOfCancellationReasonDto! @cost(weight: "10")
+  cancellationReason_update(input: UpdateCancellationReasonInput!): ResponseBaseOfCancellationReasonDto! @cost(weight: "10")
+  cancellationReason_delete(input: DeleteCancellationReasonInput!): ResponseBase! @cost(weight: "10")
+  carousel_create(input: CreateCarouselInput!): ResponseBaseOfCarouselDto! @cost(weight: "10")
+  carousel_update(input: UpdateCarouselInput!): ResponseBaseOfCarouselDto! @cost(weight: "10")
+  carousel_delete(input: DeleteCarouselInput!): ResponseBase! @cost(weight: "10")
+  city_create(input: CreateCityInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  city_update(input: UpdateCityInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  city_activate(input: ActivateCityInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  city_deactivate(input: DeactivateCityInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  city_setActiveBanner(input: SetActiveBannerInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  city_setActiveCarousel(input: SetActiveCarouselInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  disabledServiceTime_create(input: CreateDisabledServiceTimeInput!): ResponseBaseOfDisabledServiceTimeDto! @cost(weight: "10")
+  disabledServiceTime_remove(input: RemoveDisabledServiceTimeInput!): ResponseBase! @cost(weight: "10")
+  discountCode_create(input: CreateDiscountCodeInput!): ResponseBaseOfDiscountCodeDto! @cost(weight: "10")
+  discountCode_delete(input: DeleteDiscountCodeInput!): ResponseBase! @cost(weight: "10")
+  discountCode_activate(input: ActivateDiscountCodeInput!): ResponseBaseOfDiscountCodeDto! @cost(weight: "10")
+  discountCode_deactivate(input: DeactivateDiscountCodeInput!): ResponseBaseOfDiscountCodeDto! @cost(weight: "10")
+  neighborhood_create(input: CreateNeighborhoodInput!): ResponseBaseOfNeighborhoodDto! @cost(weight: "10")
+  neighborhood_update(input: UpdateNeighborhoodInput!): ResponseBaseOfNeighborhoodDto! @cost(weight: "10")
+  neighborhood_delete(input: DeleteNeighborhoodInput!): ResponseBase! @cost(weight: "10")
+  province_create(input: CreateProvinceInput!): ResponseBaseOfProvinceDto! @cost(weight: "10")
+  province_update(input: UpdateProvinceInput!): ResponseBaseOfProvinceDto! @cost(weight: "10")
+  province_delete(input: DeleteProvinceInput!): ResponseBase! @cost(weight: "10")
+  rateAndReview_create(input: CreateRateAndReviewInput!): ResponseBaseOfRateAndReviewDto! @cost(weight: "10")
+  s3_generatePresignedUrl(input: GeneratePresignedUrlInput!): ResponseBaseOfS3SinglepartUploadUrlsResultDto! @cost(weight: "10")
+  s3_generatePresignedUrls(input: GenerateMultipartPresignedUrlsInput!): ResponseBaseOfS3MultipartUploadUrlsResultDto! @cost(weight: "10")
+  s3_completeMultipartUpload(input: CompleteMultipartUploadInput!): ResponseBase! @cost(weight: "10")
+  serviceCategory_create(input: CreateServiceCategoryInput!): ResponseBaseOfServiceCategoryDto! @cost(weight: "10")
+  serviceCategory_update(input: UpdateServiceCategoryInput!): ResponseBaseOfServiceCategoryDto! @cost(weight: "10")
+  serviceCategory_delete(input: DeleteServiceCategoryInput!): ResponseBase! @cost(weight: "10")
+  serviceRequest_create(input: CreateServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_accept(input: AcceptServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_cancel(input: CancelServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_markAsArrived(input: MarkAsArrivedInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_completeService(input: CompleteServiceInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_reject(input: RejectServiceRequestInput!): ResponseBaseOfRejectedServiceRequestDto! @cost(weight: "10")
+  serviceSubCategory_create(input: CreateServiceSubCategoryInput!): ResponseBaseOfServiceSubCategoryDto! @cost(weight: "10")
+  serviceSubCategory_update(input: UpdateServiceSubCategoryInput!): ResponseBaseOfServiceSubCategoryDto! @cost(weight: "10")
+  serviceSubCategory_delete(input: DeleteServiceSubCategoryInput!): ResponseBase! @cost(weight: "10")
+  serviceTypeQuestion_create(input: CreateServiceTypeQuestionInput!): ResponseBaseOfServiceTypeQuestionDto! @cost(weight: "10")
+  serviceTypeQuestion_update(input: UpdateServiceTypeQuestionInput!): ResponseBaseOfServiceTypeQuestionDto! @cost(weight: "10")
+  serviceTypeQuestion_delete(input: DeleteServiceTypeQuestionInput!): ResponseBase! @cost(weight: "10")
+  serviceType_create(input: CreateServiceTypeInput!): ResponseBaseOfServiceTypeDto! @cost(weight: "10")
+  serviceType_update(input: UpdateServiceTypeInput!): ResponseBaseOfServiceTypeDto! @cost(weight: "10")
+  serviceType_delete(input: DeleteServiceTypeInput!): ResponseBase! @cost(weight: "10")
+  specialist_updateSpecializedDocuments(input: UpdateSpecializedDocumentsInput!): ResponseBase! @cost(weight: "10")
+  specialist_updateIdentityVerificationVideo(input: UpdateIdentityVerificationVideoInput!): ResponseBase! @cost(weight: "10")
+  specialist_verifyIDCard(input: VerifyIDCardInput!): ResponseBase! @cost(weight: "10")
+  specialist_verifyIdentityVerificationVideo(input: VerifyIdentityVerificationVideoInput!): ResponseBase! @cost(weight: "10")
+  specialist_verifySpecializedDocuments(input: VerifySpecializedDocumentsInput!): ResponseBase! @cost(weight: "10")
+  specialist_setLocationAndSpecialty(input: SetLocationAndSpecialtyInput!): ResponseBaseOfSpecialistProfileDto! @cost(weight: "10")
+  specialist_setPersonalInformation(input: SetPersonalInformationInput!): ResponseBaseOfSpecialistProfileDto! @cost(weight: "10")
+  "Allows an owner to create a new admin user."
+  user_createAdmin(adminPhoneNumber: String!): ResponseBase! @cost(weight: "10")
+  user_updateProfile(input: UpdateUserProfileInput!): ResponseBaseOfUserProfileDto! @cost(weight: "10")
+}
+
+type NeighborhoodDto {
+  id: UUID!
+  name: String!
+  city: CityDto!
+}
+
+"A segment of a collection."
+type NeighborhoodDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [NeighborhoodDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type PopularServiceTypeDto {
+  requestCount: Int!
+  id: UUID!
+  name: String!
+  logo: String!
+  basePrice: Decimal!
+  serviceSubCategory: ServiceSubCategoryDto!
+  isSpecial: Boolean!
+}
+
+"A segment of a collection."
+type PopularServiceTypeDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [PopularServiceTypeDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type ProvinceDto {
+  id: UUID!
+  name: String!
+}
+
+"A segment of a collection."
+type ProvinceDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ProvinceDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type Query {
+  address_nearestAddresses(input: GetNearestAddressesInput!): ListResponseBaseOfAddressDto! @cost(weight: "10")
+  address_getMyAddresses: ListResponseBaseOfAddressDto! @cost(weight: "10")
+  address_getAddressById(input: GetAddressByIdInput!): ResponseBaseOfAddressDto! @cost(weight: "10")
+  banner_getAll: ListResponseBaseOfBannerDto! @cost(weight: "10")
+  banner_getById(input: GetBannerByIdInput!): ResponseBaseOfBannerDto! @cost(weight: "10")
+  cancellationReason_getAll: ListResponseBaseOfCancellationReasonDto! @cost(weight: "10")
+  cancellationReason_getById(input: GetCancellationReasonByIdInput!): ResponseBaseOfCancellationReasonDto! @cost(weight: "10")
+  carousel_getAll: ListResponseBaseOfCarouselDto! @cost(weight: "10")
+  carousel_getById(input: GetCarouselByIdInput!): ResponseBaseOfCarouselDto! @cost(weight: "10")
+  city_getAll: ListResponseBaseOfCityDto! @cost(weight: "10")
+  city_getById(input: GetCityByIdInput!): ResponseBaseOfCityDto! @cost(weight: "10")
+  "Returns all customers."
+  customer_getAll: ListResponseBaseOfCustomerDto! @cost(weight: "10")
+  "Returns a customer by their ID."
+  customer_getById(input: GetCustomerByIdInput!): ResponseBaseOfCustomerDto! @cost(weight: "10")
+  disabledServiceTime_getAll: ListResponseBaseOfDisabledServiceTimeDto! @cost(weight: "10")
+  discountCode_getMyCodes: ListResponseBaseOfDiscountCodeDto! @cost(weight: "10")
+  discountCode_getAll: ListResponseBaseOfDiscountCodeDto! @cost(weight: "10")
+  discountCode_getById(input: GetDiscountCodeByIdInput!): ResponseBaseOfDiscountCodeDto! @cost(weight: "10")
+  neighborhood_getAll: ListResponseBaseOfNeighborhoodDto! @cost(weight: "10")
+  neighborhood_getById(input: GetNeighborhoodByIdInput!): ResponseBaseOfNeighborhoodDto! @cost(weight: "10")
+  province_getAll: ListResponseBaseOfProvinceDto! @cost(weight: "10")
+  province_getById(input: GetProvinceByIdInput!): ResponseBaseOfProvinceDto! @cost(weight: "10")
+  rateAndReview_getByCustomerId(customerId: UUID!): ListResponseBaseOfRateAndReviewDto! @cost(weight: "10")
+  rateAndReview_getBySpecialistId(specialistId: UUID!): ListResponseBaseOfRateAndReviewDto! @cost(weight: "10")
+  serviceCategory_getAll: ListResponseBaseOfServiceCategoryDto! @cost(weight: "10")
+  serviceCategory_getById(input: GetServiceCategoryByIdInput!): ResponseBaseOfServiceCategoryDto! @cost(weight: "10")
+  serviceRequest_getAll: ListResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_getById(input: GetServiceRequestByIdInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_getMyRequests: ListResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_getMyAcceptances: ListResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_getAvailableRequests: ListResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceSubCategory_getAll: ListResponseBaseOfServiceSubCategoryDto! @cost(weight: "10")
+  serviceSubCategory_getById(input: GetServiceSubCategoryByIdInput!): ResponseBaseOfServiceSubCategoryDto! @cost(weight: "10")
+  serviceTypeQuestion_getByServiceType(input: GetServiceTypeQuestionsByServiceTypeInput!): ListResponseBaseOfServiceTypeQuestionDto! @cost(weight: "10")
+  serviceTypeQuestion_getById(input: GetServiceTypeQuestionByIdInput!): ResponseBaseOfServiceTypeQuestionDto! @cost(weight: "10")
+  serviceTypes_getAll: ListResponseBaseOfServiceTypeDto! @cost(weight: "10")
+  serviceType_getById(input: GetServiceTypeByIdInput!): ResponseBaseOfServiceTypeDto! @cost(weight: "10")
+  serviceTypes_getPopular: ListResponseBaseOfPopularServiceTypeDto! @cost(weight: "10")
+  "Returns the profile of the currently authenticated specialist."
+  specialist_getMyProfile: ResponseBaseOfSpecialistProfileDto! @cost(weight: "10")
+  "Returns all specialists."
+  specialist_getAll: ListResponseBaseOfSpecialistProfileDto! @cost(weight: "10")
+  "Returns a specialist by their ID."
+  specialist_getById(input: GetSpecialistByIdInput!): ResponseBaseOfSpecialistProfileDto! @cost(weight: "10")
+  "Gets the profile of the currently authenticated user."
+  user_getMyProfile: ResponseBaseOfUserProfileDto! @cost(weight: "10")
+}
+
+type RateAndReviewDto {
+  rate: Int!
+  comment: String!
+}
+
+"A segment of a collection."
+type RateAndReviewDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [RateAndReviewDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type RejectedServiceRequestDto {
+  specialist: SpecialistDto!
+  serviceRequest: ServiceRequestDto!
+}
+
+type ResponseBase {
+  status: Any
+}
+
+type ResponseBaseOfAddressDto {
+  status: Any
+  result: AddressDto
+}
+
+type ResponseBaseOfAuthResult {
+  status: Any
+  result: AuthResult
+}
+
+type ResponseBaseOfBannerDto {
+  status: Any
+  result: BannerDto
+}
+
+type ResponseBaseOfCancellationReasonDto {
+  status: Any
+  result: CancellationReasonDto
+}
+
+type ResponseBaseOfCarouselDto {
+  status: Any
+  result: CarouselDto
+}
+
+type ResponseBaseOfCityDto {
+  status: Any
+  result: CityDto
+}
+
+type ResponseBaseOfCustomerDto {
+  status: Any
+  result: CustomerDto
+}
+
+type ResponseBaseOfDisabledServiceTimeDto {
+  status: Any
+  result: DisabledServiceTimeDto
+}
+
+type ResponseBaseOfDiscountCodeDto {
+  status: Any
+  result: DiscountCodeDto
+}
+
+type ResponseBaseOfNeighborhoodDto {
+  status: Any
+  result: NeighborhoodDto
+}
+
+type ResponseBaseOfProvinceDto {
+  status: Any
+  result: ProvinceDto
+}
+
+type ResponseBaseOfRateAndReviewDto {
+  status: Any
+  result: RateAndReviewDto
+}
+
+type ResponseBaseOfRejectedServiceRequestDto {
+  status: Any
+  result: RejectedServiceRequestDto
+}
+
+type ResponseBaseOfS3MultipartUploadUrlsResultDto {
+  status: Any
+  result: S3MultipartUploadUrlsResultDto
+}
+
+type ResponseBaseOfS3SinglepartUploadUrlsResultDto {
+  status: Any
+  result: S3SinglepartUploadUrlsResultDto
+}
+
+type ResponseBaseOfServiceCategoryDto {
+  status: Any
+  result: ServiceCategoryDto
+}
+
+type ResponseBaseOfServiceRequestDto {
+  status: Any
+  result: ServiceRequestDto
+}
+
+type ResponseBaseOfServiceSubCategoryDto {
+  status: Any
+  result: ServiceSubCategoryDto
+}
+
+type ResponseBaseOfServiceTypeDto {
+  status: Any
+  result: ServiceTypeDto
+}
+
+type ResponseBaseOfServiceTypeQuestionDto {
+  status: Any
+  result: ServiceTypeQuestionDto
+}
+
+type ResponseBaseOfSpecialistProfileDto {
+  status: Any
+  result: SpecialistProfileDto
+}
+
+type ResponseBaseOfUserProfileDto {
+  status: Any
+  result: UserProfileDto
+}
+
+type S3MultipartUploadUrlsResultDto {
+  uploadId: String!
+  presignedUrls: [String!]!
+  objectUrl: String!
+}
+
+type S3SinglepartUploadUrlsResultDto {
+  presignedUrl: String!
+  objectUrl: String!
+}
+
+type ServiceCategoryDto {
+  id: UUID!
+  name: String!
+  logo: String!
+}
+
+"A segment of a collection."
+type ServiceCategoryDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ServiceCategoryDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type ServiceRequestDto {
+  id: UUID!
+  customer: CustomerDto!
+  specialist: SpecialistDto
+  address: AddressDto!
+  description: String
+  basePrice: Decimal!
+  discountAmount: Decimal!
+  finalPrice: Decimal!
+  status: ServiceRequestStatus!
+  requestDate: DateTime!
+  serviceType: ServiceTypeDto!
+  qnAs: [ServiceRequestQnADto!]!
+  cancellationReason: CancellationReasonDto
+  rateAndReview: RateAndReviewDto
+}
+
+"A segment of a collection."
+type ServiceRequestDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ServiceRequestDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type ServiceRequestQnADto {
+  questionText: String!
+  answer: String!
+}
+
+type ServiceSubCategoryDto {
+  id: UUID!
+  name: String!
+  logo: String!
+  serviceCategory: ServiceCategoryDto!
+}
+
+"A segment of a collection."
+type ServiceSubCategoryDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ServiceSubCategoryDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type ServiceTypeDto {
+  id: UUID!
+  name: String!
+  logo: String!
+  basePrice: Decimal!
+  serviceSubCategory: ServiceSubCategoryDto!
+  isSpecial: Boolean!
+}
+
+"A segment of a collection."
+type ServiceTypeDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ServiceTypeDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type ServiceTypeQuestionDto {
+  id: UUID!
+  text: String!
+  options: [String!]!
+  questionType: QuestionType!
+}
+
+"A segment of a collection."
+type ServiceTypeQuestionDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ServiceTypeQuestionDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type SpecialistDto {
+  id: UUID!
+  firstName: String
+  lastName: String
+  phoneNumber: String!
+  profileImageUrl: String
+  gender: Gender!
+  rateCount: Int!
+  averageRating: Float!
+  code: String!
+}
+
+type SpecialistProfileDto {
+  id: UUID!
+  phoneNumber: String!
+  firstName: String
+  lastName: String
+  nationalCode: String
+  profileImageUrl: String
+  gender: Gender!
+  birthDate: DateTime!
+  idCardImageUrl: String
+  rateCount: Int!
+  averageRating: Float!
+  idCardVerificationStatus: VerificationStatus!
+  specializedDocumentUrls: [String!]
+  specializedDocumentsVerificationStatus: VerificationStatus!
+  identityVerificationVideoUrl: String
+  identityVerificationVideoStatus: VerificationStatus!
+  serviceSubCategory: ServiceSubCategoryDto
+  serviceTypes: [ServiceTypeDto!]!
+  city: CityDto
+  daysRegistered: Int!
+  successfulMissions: Int!
+}
+
+"A segment of a collection."
+type SpecialistProfileDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [SpecialistProfileDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type UserProfileDto {
+  id: UUID!
+  phoneNumber: String!
+  firstName: String
+  lastName: String
+  profileImageUrl: String
+  gender: Gender!
+  code: String!
+}
+
+input AcceptServiceRequestInput {
+  serviceRequestId: UUID!
+}
+
+input ActivateCityInput {
+  cityId: UUID!
+}
+
+input ActivateDiscountCodeInput {
+  id: UUID!
+}
+
+input AddAddressInput {
+  customerId: UUID!
+  neighborhoodId: UUID!
+  text: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+input AddressDtoFilterInput {
+  and: [AddressDtoFilterInput!]
+  or: [AddressDtoFilterInput!]
+  id: UuidOperationFilterInput
+  text: StringOperationFilterInput
+  longitude: FloatOperationFilterInput
+  latitude: FloatOperationFilterInput
+  customer: CustomerDtoFilterInput
+  neighborhood: NeighborhoodDtoFilterInput
+  isPrimary: BooleanOperationFilterInput
+}
+
+input AddressDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  text: SortEnumType @cost(weight: "10")
+  longitude: SortEnumType @cost(weight: "10")
+  latitude: SortEnumType @cost(weight: "10")
+  customer: CustomerDtoSortInput @cost(weight: "10")
+  neighborhood: NeighborhoodDtoSortInput @cost(weight: "10")
+  isPrimary: SortEnumType @cost(weight: "10")
+}
+
+input BannerDtoFilterInput {
+  and: [BannerDtoFilterInput!]
+  or: [BannerDtoFilterInput!]
+  id: UuidOperationFilterInput
+  title: StringOperationFilterInput
+  imageUrl: StringOperationFilterInput
+}
+
+input BannerDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  title: SortEnumType @cost(weight: "10")
+  imageUrl: SortEnumType @cost(weight: "10")
+}
+
+input BooleanOperationFilterInput {
+  eq: Boolean @cost(weight: "10")
+  neq: Boolean @cost(weight: "10")
+}
+
+input CancelServiceRequestInput {
+  serviceRequestId: UUID!
+  cancellationReasonId: UUID!
+}
+
+input CancellationReasonDtoFilterInput {
+  and: [CancellationReasonDtoFilterInput!]
+  or: [CancellationReasonDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+}
+
+input CancellationReasonDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+}
+
+input CarouselDtoFilterInput {
+  and: [CarouselDtoFilterInput!]
+  or: [CarouselDtoFilterInput!]
+  id: UuidOperationFilterInput
+  title: StringOperationFilterInput
+  imageUrls: ListStringOperationFilterInput
+}
+
+input CarouselDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  title: SortEnumType @cost(weight: "10")
+}
+
+input CityDtoFilterInput {
+  and: [CityDtoFilterInput!]
+  or: [CityDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+  isActive: BooleanOperationFilterInput
+  province: ProvinceDtoFilterInput
+  activeBanner: BannerDtoFilterInput
+  activeCarousel: CarouselDtoFilterInput
+}
+
+input CityDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  isActive: SortEnumType @cost(weight: "10")
+  province: ProvinceDtoSortInput @cost(weight: "10")
+  activeBanner: BannerDtoSortInput @cost(weight: "10")
+  activeCarousel: CarouselDtoSortInput @cost(weight: "10")
+}
+
+input CompleteMultipartUploadInput {
+  objectKey: String!
+  uploadId: String!
+}
+
+input CompleteServiceInput {
+  serviceRequestId: UUID!
+}
+
+input CreateBannerInput {
+  title: String!
+  imageUrl: String!
+}
+
+input CreateCancellationReasonInput {
+  name: String!
+}
+
+input CreateCarouselInput {
+  title: String!
+  imageUrls: [String!]!
+}
+
+input CreateCityInput {
+  name: String!
+  provinceId: UUID!
+}
+
+input CreateDisabledServiceTimeInput {
+  time: DateTime!
+}
+
+input CreateDiscountCodeInput {
+  customerId: UUID!
+  title: String!
+  amount: Decimal!
+  isPercentage: Boolean!
+  expiryDate: DateTime
+}
+
+input CreateNeighborhoodInput {
+  name: String!
+  cityId: UUID!
+}
+
+input CreateProvinceInput {
+  name: String!
+}
+
+input CreateRateAndReviewInput {
+  serviceRequestId: UUID!
+  rate: Int!
+  comment: String
+}
+
+input CreateServiceCategoryInput {
+  name: String!
+  logo: String!
+}
+
+input CreateServiceRequestInput {
+  addressId: UUID!
+  serviceTypeId: UUID!
+  requestDate: DateTime!
+  gender: Gender
+  locationType: LocationType!
+  qnAs: [QnAInput!]!
+  description: String!
+}
+
+input CreateServiceSubCategoryInput {
+  name: String!
+  logo: String!
+  serviceCategoryId: UUID!
+}
+
+input CreateServiceTypeInput {
+  name: String!
+  logo: String!
+  basePrice: Decimal!
+  serviceSubCategoryId: UUID!
+  isSpecial: Boolean!
+}
+
+input CreateServiceTypeQuestionInput {
+  title: String!
+  isRequired: Boolean!
+  questionType: QuestionType!
+  options: [String!]!
+  serviceTypeId: UUID!
+}
+
+input CustomerDtoFilterInput {
+  and: [CustomerDtoFilterInput!]
+  or: [CustomerDtoFilterInput!]
+  id: UuidOperationFilterInput
+  firstName: StringOperationFilterInput
+  lastName: StringOperationFilterInput
+  phoneNumber: StringOperationFilterInput
+  profileImageUrl: StringOperationFilterInput
+  gender: GenderOperationFilterInput
+  code: StringOperationFilterInput
+}
+
+input CustomerDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  firstName: SortEnumType @cost(weight: "10")
+  lastName: SortEnumType @cost(weight: "10")
+  phoneNumber: SortEnumType @cost(weight: "10")
+  profileImageUrl: SortEnumType @cost(weight: "10")
+  gender: SortEnumType @cost(weight: "10")
+  code: SortEnumType @cost(weight: "10")
+}
+
+input DateTimeOperationFilterInput {
+  eq: DateTime @cost(weight: "10")
+  neq: DateTime @cost(weight: "10")
+  in: [DateTime] @cost(weight: "10")
+  nin: [DateTime] @cost(weight: "10")
+  gt: DateTime @cost(weight: "10")
+  ngt: DateTime @cost(weight: "10")
+  gte: DateTime @cost(weight: "10")
+  ngte: DateTime @cost(weight: "10")
+  lt: DateTime @cost(weight: "10")
+  nlt: DateTime @cost(weight: "10")
+  lte: DateTime @cost(weight: "10")
+  nlte: DateTime @cost(weight: "10")
+}
+
+input DeactivateCityInput {
+  cityId: UUID!
+}
+
+input DeactivateDiscountCodeInput {
+  id: UUID!
+}
+
+input DecimalOperationFilterInput {
+  eq: Decimal @cost(weight: "10")
+  neq: Decimal @cost(weight: "10")
+  in: [Decimal] @cost(weight: "10")
+  nin: [Decimal] @cost(weight: "10")
+  gt: Decimal @cost(weight: "10")
+  ngt: Decimal @cost(weight: "10")
+  gte: Decimal @cost(weight: "10")
+  ngte: Decimal @cost(weight: "10")
+  lt: Decimal @cost(weight: "10")
+  nlt: Decimal @cost(weight: "10")
+  lte: Decimal @cost(weight: "10")
+  nlte: Decimal @cost(weight: "10")
+}
+
+input DeleteAddressInput {
+  addressId: UUID!
+}
+
+input DeleteBannerInput {
+  bannerId: UUID!
+}
+
+input DeleteCancellationReasonInput {
+  id: UUID!
+}
+
+input DeleteCarouselInput {
+  id: UUID!
+}
+
+input DeleteDiscountCodeInput {
+  id: UUID!
+}
+
+input DeleteNeighborhoodInput {
+  neighborhoodId: UUID!
+}
+
+input DeleteProvinceInput {
+  id: UUID!
+}
+
+input DeleteServiceCategoryInput {
+  serviceCategoryId: UUID!
+}
+
+input DeleteServiceSubCategoryInput {
+  serviceSubCategoryId: UUID!
+}
+
+input DeleteServiceTypeInput {
+  id: UUID!
+}
+
+input DeleteServiceTypeQuestionInput {
+  id: UUID!
+}
+
+input DisabledServiceTimeDtoFilterInput {
+  and: [DisabledServiceTimeDtoFilterInput!]
+  or: [DisabledServiceTimeDtoFilterInput!]
+  id: UuidOperationFilterInput
+  time: DateTimeOperationFilterInput
+}
+
+input DisabledServiceTimeDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  time: SortEnumType @cost(weight: "10")
+}
+
+input DiscountCodeDtoFilterInput {
+  and: [DiscountCodeDtoFilterInput!]
+  or: [DiscountCodeDtoFilterInput!]
+  id: UuidOperationFilterInput
+  code: StringOperationFilterInput
+  title: StringOperationFilterInput
+  amount: DecimalOperationFilterInput
+  isPercentage: BooleanOperationFilterInput
+  expiryDate: DateTimeOperationFilterInput
+  isActive: BooleanOperationFilterInput
+  customerDto: CustomerDtoFilterInput
+}
+
+input DiscountCodeDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  code: SortEnumType @cost(weight: "10")
+  title: SortEnumType @cost(weight: "10")
+  amount: SortEnumType @cost(weight: "10")
+  isPercentage: SortEnumType @cost(weight: "10")
+  expiryDate: SortEnumType @cost(weight: "10")
+  isActive: SortEnumType @cost(weight: "10")
+  customerDto: CustomerDtoSortInput @cost(weight: "10")
+}
+
+input FloatOperationFilterInput {
+  eq: Float @cost(weight: "10")
+  neq: Float @cost(weight: "10")
+  in: [Float] @cost(weight: "10")
+  nin: [Float] @cost(weight: "10")
+  gt: Float @cost(weight: "10")
+  ngt: Float @cost(weight: "10")
+  gte: Float @cost(weight: "10")
+  ngte: Float @cost(weight: "10")
+  lt: Float @cost(weight: "10")
+  nlt: Float @cost(weight: "10")
+  lte: Float @cost(weight: "10")
+  nlte: Float @cost(weight: "10")
+}
+
+input GenderOperationFilterInput {
+  eq: Gender @cost(weight: "10")
+  neq: Gender @cost(weight: "10")
+  in: [Gender!] @cost(weight: "10")
+  nin: [Gender!] @cost(weight: "10")
+}
+
+input GenerateMultipartPresignedUrlsInput {
+  objectKey: String!
+  fileSize: Long!
+  partSize: Int
+}
+
+input GeneratePresignedUrlInput {
+  objectKey: String!
+}
+
+input GetAddressByIdInput {
+  addressId: UUID!
+}
+
+input GetBannerByIdInput {
+  id: UUID!
+}
+
+input GetCancellationReasonByIdInput {
+  id: UUID!
+}
+
+input GetCarouselByIdInput {
+  id: UUID!
+}
+
+input GetCityByIdInput {
+  id: UUID!
+}
+
+input GetCustomerByIdInput {
+  customerId: UUID!
+}
+
+input GetDiscountCodeByIdInput {
+  id: UUID!
+}
+
+input GetNearestAddressesInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input GetNeighborhoodByIdInput {
+  id: UUID!
+}
+
+input GetProvinceByIdInput {
+  id: UUID!
+}
+
+input GetServiceCategoryByIdInput {
+  id: UUID!
+}
+
+input GetServiceRequestByIdInput {
+  serviceRequestId: UUID!
+}
+
+input GetServiceSubCategoryByIdInput {
+  id: UUID!
+}
+
+input GetServiceTypeByIdInput {
+  id: UUID!
+}
+
+input GetServiceTypeQuestionByIdInput {
+  id: UUID!
+}
+
+input GetServiceTypeQuestionsByServiceTypeInput {
+  serviceTypeId: UUID!
+}
+
+input GetSpecialistByIdInput {
+  specialistId: UUID!
+}
+
+input IntOperationFilterInput {
+  eq: Int @cost(weight: "10")
+  neq: Int @cost(weight: "10")
+  in: [Int] @cost(weight: "10")
+  nin: [Int] @cost(weight: "10")
+  gt: Int @cost(weight: "10")
+  ngt: Int @cost(weight: "10")
+  gte: Int @cost(weight: "10")
+  ngte: Int @cost(weight: "10")
+  lt: Int @cost(weight: "10")
+  nlt: Int @cost(weight: "10")
+  lte: Int @cost(weight: "10")
+  nlte: Int @cost(weight: "10")
+}
+
+input ListFilterInputTypeOfServiceRequestQnADtoFilterInput {
+  all: ServiceRequestQnADtoFilterInput @cost(weight: "10")
+  none: ServiceRequestQnADtoFilterInput @cost(weight: "10")
+  some: ServiceRequestQnADtoFilterInput @cost(weight: "10")
+  any: Boolean @cost(weight: "10")
+}
+
+input ListFilterInputTypeOfServiceTypeDtoFilterInput {
+  all: ServiceTypeDtoFilterInput @cost(weight: "10")
+  none: ServiceTypeDtoFilterInput @cost(weight: "10")
+  some: ServiceTypeDtoFilterInput @cost(weight: "10")
+  any: Boolean @cost(weight: "10")
+}
+
+input ListStringOperationFilterInput {
+  all: StringOperationFilterInput @cost(weight: "10")
+  none: StringOperationFilterInput @cost(weight: "10")
+  some: StringOperationFilterInput @cost(weight: "10")
+  any: Boolean @cost(weight: "10")
+}
+
+input MarkAsArrivedInput {
+  serviceRequestId: UUID!
+  latitude: Float!
+  longitude: Float!
+}
+
+input NeighborhoodDtoFilterInput {
+  and: [NeighborhoodDtoFilterInput!]
+  or: [NeighborhoodDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+  city: CityDtoFilterInput
+}
+
+input NeighborhoodDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  city: CityDtoSortInput @cost(weight: "10")
+}
+
+input PopularServiceTypeDtoFilterInput {
+  and: [PopularServiceTypeDtoFilterInput!]
+  or: [PopularServiceTypeDtoFilterInput!]
+  requestCount: IntOperationFilterInput
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+  logo: StringOperationFilterInput
+  basePrice: DecimalOperationFilterInput
+  serviceSubCategory: ServiceSubCategoryDtoFilterInput
+  isSpecial: BooleanOperationFilterInput
+}
+
+input PopularServiceTypeDtoSortInput {
+  requestCount: SortEnumType @cost(weight: "10")
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  logo: SortEnumType @cost(weight: "10")
+  basePrice: SortEnumType @cost(weight: "10")
+  serviceSubCategory: ServiceSubCategoryDtoSortInput @cost(weight: "10")
+  isSpecial: SortEnumType @cost(weight: "10")
+}
+
+input ProvinceDtoFilterInput {
+  and: [ProvinceDtoFilterInput!]
+  or: [ProvinceDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+}
+
+input ProvinceDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+}
+
+input QnAInput {
+  questionId: UUID!
+  answers: [String!]!
+}
+
+input QuestionTypeOperationFilterInput {
+  eq: QuestionType @cost(weight: "10")
+  neq: QuestionType @cost(weight: "10")
+  in: [QuestionType!] @cost(weight: "10")
+  nin: [QuestionType!] @cost(weight: "10")
+}
+
+input RateAndReviewDtoFilterInput {
+  and: [RateAndReviewDtoFilterInput!]
+  or: [RateAndReviewDtoFilterInput!]
+  rate: IntOperationFilterInput
+  comment: StringOperationFilterInput
+}
+
+input RateAndReviewDtoSortInput {
+  rate: SortEnumType @cost(weight: "10")
+  comment: SortEnumType @cost(weight: "10")
+}
+
+input RefreshTokenInput {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input RejectServiceRequestInput {
+  serviceRequestId: UUID!
+}
+
+input RemoveDisabledServiceTimeInput {
+  id: UUID!
+}
+
+input RequestOtpInput {
+  phoneNumber: String!
+  userType: UserType!
+}
+
+input ServiceCategoryDtoFilterInput {
+  and: [ServiceCategoryDtoFilterInput!]
+  or: [ServiceCategoryDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+  logo: StringOperationFilterInput
+}
+
+input ServiceCategoryDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  logo: SortEnumType @cost(weight: "10")
+}
+
+input ServiceRequestDtoFilterInput {
+  and: [ServiceRequestDtoFilterInput!]
+  or: [ServiceRequestDtoFilterInput!]
+  id: UuidOperationFilterInput
+  customer: CustomerDtoFilterInput
+  specialist: SpecialistDtoFilterInput
+  address: AddressDtoFilterInput
+  description: StringOperationFilterInput
+  basePrice: DecimalOperationFilterInput
+  discountAmount: DecimalOperationFilterInput
+  finalPrice: DecimalOperationFilterInput
+  status: ServiceRequestStatusOperationFilterInput
+  requestDate: DateTimeOperationFilterInput
+  serviceType: ServiceTypeDtoFilterInput
+  qnAs: ListFilterInputTypeOfServiceRequestQnADtoFilterInput
+  cancellationReason: CancellationReasonDtoFilterInput
+  rateAndReview: RateAndReviewDtoFilterInput
+}
+
+input ServiceRequestDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  customer: CustomerDtoSortInput @cost(weight: "10")
+  specialist: SpecialistDtoSortInput @cost(weight: "10")
+  address: AddressDtoSortInput @cost(weight: "10")
+  description: SortEnumType @cost(weight: "10")
+  basePrice: SortEnumType @cost(weight: "10")
+  discountAmount: SortEnumType @cost(weight: "10")
+  finalPrice: SortEnumType @cost(weight: "10")
+  status: SortEnumType @cost(weight: "10")
+  requestDate: SortEnumType @cost(weight: "10")
+  serviceType: ServiceTypeDtoSortInput @cost(weight: "10")
+  cancellationReason: CancellationReasonDtoSortInput @cost(weight: "10")
+  rateAndReview: RateAndReviewDtoSortInput @cost(weight: "10")
+}
+
+input ServiceRequestQnADtoFilterInput {
+  and: [ServiceRequestQnADtoFilterInput!]
+  or: [ServiceRequestQnADtoFilterInput!]
+  questionText: StringOperationFilterInput
+  answer: StringOperationFilterInput
+}
+
+input ServiceRequestStatusOperationFilterInput {
+  eq: ServiceRequestStatus @cost(weight: "10")
+  neq: ServiceRequestStatus @cost(weight: "10")
+  in: [ServiceRequestStatus!] @cost(weight: "10")
+  nin: [ServiceRequestStatus!] @cost(weight: "10")
+}
+
+input ServiceSubCategoryDtoFilterInput {
+  and: [ServiceSubCategoryDtoFilterInput!]
+  or: [ServiceSubCategoryDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+  logo: StringOperationFilterInput
+  serviceCategory: ServiceCategoryDtoFilterInput
+}
+
+input ServiceSubCategoryDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  logo: SortEnumType @cost(weight: "10")
+  serviceCategory: ServiceCategoryDtoSortInput @cost(weight: "10")
+}
+
+input ServiceTypeDtoFilterInput {
+  and: [ServiceTypeDtoFilterInput!]
+  or: [ServiceTypeDtoFilterInput!]
+  id: UuidOperationFilterInput
+  name: StringOperationFilterInput
+  logo: StringOperationFilterInput
+  basePrice: DecimalOperationFilterInput
+  serviceSubCategory: ServiceSubCategoryDtoFilterInput
+  isSpecial: BooleanOperationFilterInput
+}
+
+input ServiceTypeDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  logo: SortEnumType @cost(weight: "10")
+  basePrice: SortEnumType @cost(weight: "10")
+  serviceSubCategory: ServiceSubCategoryDtoSortInput @cost(weight: "10")
+  isSpecial: SortEnumType @cost(weight: "10")
+}
+
+input ServiceTypeQuestionDtoFilterInput {
+  and: [ServiceTypeQuestionDtoFilterInput!]
+  or: [ServiceTypeQuestionDtoFilterInput!]
+  id: UuidOperationFilterInput
+  text: StringOperationFilterInput
+  options: ListStringOperationFilterInput
+  questionType: QuestionTypeOperationFilterInput
+}
+
+input ServiceTypeQuestionDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  text: SortEnumType @cost(weight: "10")
+  questionType: SortEnumType @cost(weight: "10")
+}
+
+input SetActiveBannerInput {
+  cityId: UUID!
+  bannerId: UUID
+}
+
+input SetActiveCarouselInput {
+  cityId: UUID!
+  carouselId: UUID
+}
+
+input SetLocationAndSpecialtyInput {
+  cityId: UUID!
+  serviceSubCategoryId: UUID!
+  serviceTypeIds: [UUID!]!
+}
+
+input SetPersonalInformationInput {
+  firstName: String!
+  lastName: String!
+  gender: Gender!
+  birthDate: DateTime!
+  nationalCode: String!
+  profileImageUrl: String
+  idCardImageUrl: String
+}
+
+input SetPrimaryAddressInput {
+  addressId: UUID!
+}
+
+input SpecialistDtoFilterInput {
+  and: [SpecialistDtoFilterInput!]
+  or: [SpecialistDtoFilterInput!]
+  id: UuidOperationFilterInput
+  firstName: StringOperationFilterInput
+  lastName: StringOperationFilterInput
+  phoneNumber: StringOperationFilterInput
+  profileImageUrl: StringOperationFilterInput
+  gender: GenderOperationFilterInput
+  rateCount: IntOperationFilterInput
+  averageRating: FloatOperationFilterInput
+  code: StringOperationFilterInput
+}
+
+input SpecialistDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  firstName: SortEnumType @cost(weight: "10")
+  lastName: SortEnumType @cost(weight: "10")
+  phoneNumber: SortEnumType @cost(weight: "10")
+  profileImageUrl: SortEnumType @cost(weight: "10")
+  gender: SortEnumType @cost(weight: "10")
+  rateCount: SortEnumType @cost(weight: "10")
+  averageRating: SortEnumType @cost(weight: "10")
+  code: SortEnumType @cost(weight: "10")
+}
+
+input SpecialistProfileDtoFilterInput {
+  and: [SpecialistProfileDtoFilterInput!]
+  or: [SpecialistProfileDtoFilterInput!]
+  id: UuidOperationFilterInput
+  phoneNumber: StringOperationFilterInput
+  firstName: StringOperationFilterInput
+  lastName: StringOperationFilterInput
+  nationalCode: StringOperationFilterInput
+  profileImageUrl: StringOperationFilterInput
+  gender: GenderOperationFilterInput
+  birthDate: DateTimeOperationFilterInput
+  idCardImageUrl: StringOperationFilterInput
+  rateCount: IntOperationFilterInput
+  averageRating: FloatOperationFilterInput
+  idCardVerificationStatus: VerificationStatusOperationFilterInput
+  specializedDocumentUrls: ListStringOperationFilterInput
+  specializedDocumentsVerificationStatus: VerificationStatusOperationFilterInput
+  identityVerificationVideoUrl: StringOperationFilterInput
+  identityVerificationVideoStatus: VerificationStatusOperationFilterInput
+  serviceSubCategory: ServiceSubCategoryDtoFilterInput
+  serviceTypes: ListFilterInputTypeOfServiceTypeDtoFilterInput
+  city: CityDtoFilterInput
+  daysRegistered: IntOperationFilterInput
+  successfulMissions: IntOperationFilterInput
+}
+
+input SpecialistProfileDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  phoneNumber: SortEnumType @cost(weight: "10")
+  firstName: SortEnumType @cost(weight: "10")
+  lastName: SortEnumType @cost(weight: "10")
+  nationalCode: SortEnumType @cost(weight: "10")
+  profileImageUrl: SortEnumType @cost(weight: "10")
+  gender: SortEnumType @cost(weight: "10")
+  birthDate: SortEnumType @cost(weight: "10")
+  idCardImageUrl: SortEnumType @cost(weight: "10")
+  rateCount: SortEnumType @cost(weight: "10")
+  averageRating: SortEnumType @cost(weight: "10")
+  idCardVerificationStatus: SortEnumType @cost(weight: "10")
+  specializedDocumentsVerificationStatus: SortEnumType @cost(weight: "10")
+  identityVerificationVideoUrl: SortEnumType @cost(weight: "10")
+  identityVerificationVideoStatus: SortEnumType @cost(weight: "10")
+  serviceSubCategory: ServiceSubCategoryDtoSortInput @cost(weight: "10")
+  city: CityDtoSortInput @cost(weight: "10")
+  daysRegistered: SortEnumType @cost(weight: "10")
+  successfulMissions: SortEnumType @cost(weight: "10")
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String @cost(weight: "10")
+  neq: String @cost(weight: "10")
+  contains: String @cost(weight: "20")
+  ncontains: String @cost(weight: "20")
+  in: [String] @cost(weight: "10")
+  nin: [String] @cost(weight: "10")
+  startsWith: String @cost(weight: "20")
+  nstartsWith: String @cost(weight: "20")
+  endsWith: String @cost(weight: "20")
+  nendsWith: String @cost(weight: "20")
+}
+
+input UpdateAddressInput {
+  addressId: UUID!
+  newText: String!
+  newLatitude: Float!
+  newLongitude: Float!
+}
+
+input UpdateBannerInput {
+  id: UUID!
+  title: String!
+  imageUrl: String!
+}
+
+input UpdateCancellationReasonInput {
+  id: UUID!
+  name: String!
+}
+
+input UpdateCarouselInput {
+  id: UUID!
+  title: String!
+  imageUrls: [String!]!
+}
+
+input UpdateCityInput {
+  cityId: UUID!
+  newName: String!
+}
+
+input UpdateIdentityVerificationVideoInput {
+  newVideoUrl: String!
+}
+
+input UpdateNeighborhoodInput {
+  neighborhoodId: UUID!
+  newName: String!
+}
+
+input UpdateProvinceInput {
+  id: UUID!
+  name: String!
+}
+
+input UpdateServiceCategoryInput {
+  serviceCategoryId: UUID!
+  newName: String!
+  newLogo: String!
+}
+
+input UpdateServiceSubCategoryInput {
+  serviceSubCategoryId: UUID!
+  newName: String!
+  newLogo: String!
+}
+
+input UpdateServiceTypeInput {
+  id: UUID!
+  newName: String!
+  newLogo: String!
+  basePrice: Decimal!
+  isSpecial: Boolean!
+}
+
+input UpdateServiceTypeQuestionInput {
+  id: UUID!
+  title: String!
+  isRequired: Boolean!
+  questionType: QuestionType!
+  options: [String!]!
+}
+
+input UpdateSpecializedDocumentsInput {
+  newDocumentUrls: [String!]!
+}
+
+input UpdateUserProfileInput {
+  firstName: String!
+  lastName: String!
+  profileImageUrl: String
+  gender: Gender!
+}
+
+input UuidOperationFilterInput {
+  eq: UUID @cost(weight: "10")
+  neq: UUID @cost(weight: "10")
+  in: [UUID] @cost(weight: "10")
+  nin: [UUID] @cost(weight: "10")
+  gt: UUID @cost(weight: "10")
+  ngt: UUID @cost(weight: "10")
+  gte: UUID @cost(weight: "10")
+  ngte: UUID @cost(weight: "10")
+  lt: UUID @cost(weight: "10")
+  nlt: UUID @cost(weight: "10")
+  lte: UUID @cost(weight: "10")
+  nlte: UUID @cost(weight: "10")
+}
+
+input VerificationStatusOperationFilterInput {
+  eq: VerificationStatus @cost(weight: "10")
+  neq: VerificationStatus @cost(weight: "10")
+  in: [VerificationStatus!] @cost(weight: "10")
+  nin: [VerificationStatus!] @cost(weight: "10")
+}
+
+input VerifyIDCardInput {
+  specialistId: UUID!
+  status: VerificationStatus!
+}
+
+input VerifyIdentityVerificationVideoInput {
+  specialistId: UUID!
+  status: VerificationStatus!
+}
+
+input VerifyOtpInput {
+  phoneNumber: String!
+  otp: String!
+  userType: UserType!
+}
+
+input VerifySpecializedDocumentsInput {
+  specialistId: UUID!
+  status: VerificationStatus!
+}
+
+"Defines when a policy shall be executed."
+enum ApplyPolicy {
+  "Before the resolver was executed."
+  BEFORE_RESOLVER
+  "After the resolver was executed."
+  AFTER_RESOLVER
+  "The policy is applied in the validation step before the execution."
+  VALIDATION
+}
+
+enum Gender {
+  NOT_SET
+  MALE
+  FEMALE
+}
+
+enum LocationType {
+  RESIDENTIAL
+  COMMERCIAL
+  OFFICE
+  VACANT
+}
+
+enum QuestionType {
+  RADIO_BUTTON
+  CHECK_BOX
+}
+
+enum ServiceRequestStatus {
+  PENDING
+  ACCEPTED_BY_SPECIALIST
+  SPECIALIST_ARRIVED_TO_LOCATION
+  CANCELLED
+  PENDING_PAYMENT
+  PAID
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+enum UserType {
+  OWNER
+  ADMIN
+  CUSTOMER
+  SPECIALIST
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION
+
+"The purpose of the `@listSize` directive is to either inform the static analysis about the size of returned lists (if that information is statically available), or to point the analysis to where to find that information."
+directive @listSize("The `assumedSize` argument can be used to statically define the maximum length of a list returned by a field." assumedSize: Int "The `slicingArguments` argument can be used to define which of the field's arguments with numeric type are slicing arguments, so that their value determines the size of the list returned by that field. It may specify a list of multiple slicing arguments." slicingArguments: [String!] "The `slicingArgumentDefaultValue` argument can be used to define a default value for a slicing argument, which is used if the argument is not present in a query." slicingArgumentDefaultValue: Int "The `sizedFields` argument can be used to define that the value of the `assumedSize` argument or of a slicing argument does not affect the size of a list returned by a field itself, but that of a list returned by one of its sub-fields." sizedFields: [String!] "The `requireOneSlicingArgument` argument can be used to inform the static analysis that it should expect that exactly one of the defined slicing arguments is present in a query. If that is not the case (i.e., if none or multiple slicing arguments are present), the static analysis may throw an error." requireOneSlicingArgument: Boolean! = true) on FIELD_DEFINITION
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+scalar Any
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+"The `Decimal` scalar type represents a decimal floating-point number."
+scalar Decimal
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
+
+scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")
