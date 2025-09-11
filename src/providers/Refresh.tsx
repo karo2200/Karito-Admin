@@ -6,7 +6,7 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants';
 import { getCookieStorage, saveCookie } from '@/utils/storage/cookie';
 
 const REFRESH_TOKEN_MUTATION = gql`
-	mutation auth_refreshToken($input: Auth_RefreshTokenInput!) {
+	mutation auth_refreshToken($input: RefreshTokenInput!) {
 		auth_refreshToken(input: $input) {
 			result {
 				accessToken
