@@ -19,7 +19,7 @@ const index: FC<IPageProps> = () => {
 
 	const { data, isSuccess, isError } = useServiceRequest_GetAllQuery(
 		{
-			take: 10,
+			take: 5,
 			skip: 0,
 			order: { requestDate: SortEnumType.Desc },
 		},
@@ -43,10 +43,10 @@ const index: FC<IPageProps> = () => {
 								height: 30,
 								background: '#c7dffa', // nice blue gradient
 								color: '#555', // white text
+								overflow: 'hidden',
 							}}
 						>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تاریخ</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>مشتری </TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>متخصص</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت نهایی</TableCell>
@@ -68,28 +68,17 @@ const index: FC<IPageProps> = () => {
 									key={row.id}
 									sx={{
 										'&:last-child td, &:last-child th': { border: 0 },
-										height: 30,
+										maxHeight: 30,
 									}}
 								>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{convertToJalali(row?.requestDate)}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.customer?.firstName || '' + ' ' + row?.customer?.lastName || ''}
-									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row.address?.neighborhood?.city?.province?.name +
-											'-' +
-											row.address?.neighborhood?.city?.name +
-											'-' +
-											row.address?.neighborhood?.name +
-											'-' +
-											row.address?.text}
-									</TableCell>
+
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.specialist?.firstName || '' + ' ' + row?.specialist?.lastName || ''}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<TableCell scope="row" sx={{ textAlign: 'right', overflow: 'hidden', paddingY: 0, height: 30 }}>
 										{row.serviceType?.name}
 									</TableCell>
 

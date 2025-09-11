@@ -50,6 +50,8 @@ const Index = ({ Mobil }: { Mobil: any }) => {
 				>
 					<CardContent>
 						<Box marginBottom="30px" display="flex" flexDirection="column" alignItems="center">
+							<img src="/icons/logo.jpg" alt="business" draggable="false" width={150} />
+
 							<Typography
 								fontFamily="Vazir"
 								color={COLORS.blue}
