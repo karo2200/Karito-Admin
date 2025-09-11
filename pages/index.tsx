@@ -1,8 +1,8 @@
-import { AdminPage } from '@/components/pages';
+import { LoginPage } from '@/components/pages';
 import Layout from '@/layouts';
 
 const Page: NextPageWithLayout = () => {
-	return <AdminPage />;
+	return <LoginPage />;
 };
 
 Page.getLayout = function getLayout(page) {
