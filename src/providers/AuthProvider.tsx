@@ -143,7 +143,7 @@ export default function AuthProvider({ children }) {
 					dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: true, isLoading: null } });
 				},
 				onError: (err) => {
-					logout();
+					//logout();
 				},
 			}
 		);
