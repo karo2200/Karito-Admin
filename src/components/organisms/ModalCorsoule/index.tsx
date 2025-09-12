@@ -62,9 +62,13 @@ function MyModal({ open, handleClose, name, handleReject, cityId }) {
 					carouselId: data?.BanerId,
 				},
 			},
-			{}
+			{
+				onSuccess: async (res) => {
+					handleClose();
+				},
+				onError: (err) => {},
+			}
 		);
-		handleClose();
 	};
 	return (
 		<Dialog
