@@ -8,7 +8,7 @@ import Pagination from '@/components/organisms/pagination';
 import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
-const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, OnhandleCursel }) => {
+const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, OnhandleCursel, onRefreshItem }) => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -18,14 +18,20 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 	const { mutate: mutateCityDe, isLoading: isLoadingde } = useCity_DeactivateMutation();
 
 	const OnhandelActive = (row) => {
-		if (row.active == false) {
+		console.log(row);
+		if (row.isActive == false) {
 			mutateCity(
 				{
 					input: {
 						cityId: row?.id,
 					},
 				},
-				{}
+				{
+					onSuccess: async (res) => {
+						onRefreshItem();
+					},
+					onError: (err) => {},
+				}
 			);
 		} else {
 			mutateCityDe(
@@ -34,7 +40,12 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 						cityId: row?.id,
 					},
 				},
-				{}
+				{
+					onSuccess: async (res) => {
+						onRefreshItem();
+					},
+					onError: (err) => {},
+				}
 			);
 		}
 	};

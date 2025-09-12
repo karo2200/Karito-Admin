@@ -20,7 +20,7 @@ export function fetcher<TData, TVariables>(query: string, variables?: TVariables
 			refreshTokenManually();
 		} else {
 			// Remove token header if expired or not present
-			graphQLClient.setHeaders({});
+			//graphQLClient.setHeaders({});
 		}
 
 		return await graphQLClient.request(query, variables);

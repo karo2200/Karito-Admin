@@ -29,6 +29,9 @@ const Index: FC<IPageProps> = ({ DataRow, OnhandleEditClick, onRefreshItem }) =>
 					setId(data?.id);
 					setopenCrsoule(true);
 				}}
+				onRefreshItem={() => {
+					onRefreshItem();
+				}}
 			/>
 			<Modal
 				open={open}
