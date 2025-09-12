@@ -37,6 +37,7 @@ COPY --from=builder /app/package*.json ./
 #COPY --from=builder /app/server.js ./server.js
 
 # نصب فقط پکیج‌های production (بدون devDependencies)
+ENV NODE_ENV=production
 RUN npm ci --omit=dev --legacy-peer-deps
 
 # پورت مورد استفاده توسط اپلیکیشن
