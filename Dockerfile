@@ -10,7 +10,8 @@ RUN apk add --no-cache python3 make g++
 # کپی فایل‌های ضروری برای نصب پکیج‌ها و اجرای codegen
 COPY package*.json ./
 COPY codegen.yml ./
-COPY schema.graphql ./  # اگر از schema محلی استفاده می‌کنی
+# اگر از schema محلی استفاده می‌کنی
+COPY schema.graphql ./
 
 # نصب پکیج‌ها (کامل، با devDependencies)
 RUN npm install --force
@@ -23,8 +24,6 @@ RUN npm run generate
 RUN node prebuild
 RUN npm run build
 
----
-
 ### مرحله 2: تصویر نهایی برای اجرا
 FROM node:18-alpine
 
@@ -35,10 +34,10 @@ WORKDIR /app
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/server.js ./server.js
+#COPY --from=builder /app/server.js ./server.js
 
 # نصب فقط پکیج‌های production (بدون devDependencies)
-RUN npm ci --only=production
+RUN npm ci --only=production --legacy-peer-deps
 
 # پورت مورد استفاده توسط اپلیکیشن
 EXPOSE 4500
