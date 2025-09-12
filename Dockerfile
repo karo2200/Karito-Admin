@@ -37,7 +37,7 @@ COPY --from=builder /app/package*.json ./
 #COPY --from=builder /app/server.js ./server.js
 
 # نصب فقط پکیج‌های production (بدون devDependencies)
-RUN npm ci --only=production --legacy-peer-deps
+RUN npm ci --omit=dev --legacy-peer-deps
 
 # پورت مورد استفاده توسط اپلیکیشن
 EXPOSE 4500
