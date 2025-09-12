@@ -14,7 +14,10 @@ import * as S from './styles';
 
 export const PHONE_VALIDATION = /9(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/g;
 const LoginSchema = Yup.object().shape({
-	Mobil: Yup.string().required('موبایل را وارد کنید').matches(PHONE_VALIDATION, 'شماره موبایل معتبر نیست'),
+	Mobil: Yup.string()
+		.required('موبایل را وارد کنید')
+		.matches(PHONE_VALIDATION, 'شماره موبایل معتبر نیست')
+		.max(10, 'شماره موبایل نباید بیشتر از 10 رقم باشد'),
 });
 const Index = ({ getcode }: { getcode: any }) => {
 	const [showerror, setshowerror] = useState(false);
