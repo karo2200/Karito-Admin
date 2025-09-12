@@ -18,7 +18,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 	const { mutate: mutateCityDe, isLoading: isLoadingde } = useCity_DeactivateMutation();
 
 	const OnhandelActive = (row) => {
-		console.log(row);
 		if (row.isActive == false) {
 			mutateCity(
 				{
