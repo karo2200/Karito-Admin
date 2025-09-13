@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import COLORS from '@/theme/colors';
 
-import IconUser from '../../../assets/user';
 import * as S from '../styles';
 
 const Index = () => {
