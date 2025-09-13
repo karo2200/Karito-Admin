@@ -11,6 +11,11 @@
 		"sourceType": "module"
 	},
 	"plugins": ["react", "@typescript-eslint", "simple-import-sort", "unused-imports"],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
 	"rules": {
 		"react/react-in-jsx-scope": "off",
 		"semi": "error",
@@ -24,6 +29,10 @@
 		"unused-imports/no-unused-vars": [
 			"warn",
 			{ "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+		],
+		"@typescript-eslint/no-empty-function": [
+			"off",
+			{ "allow": ["methods", "arrowFunctions"] }
 		]
 	}
 }
