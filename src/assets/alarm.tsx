@@ -8,7 +8,7 @@ const Index = () => {
 			viewBox="0 0 40 30"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
-			xmlnsXlink="http://www.w3.org/1999/xlink"
+			xmlns="http://www.w3.org/1999/xlink"
 		>
 			<rect width="39.6" height="30" fill="url(#pattern0_1497_4150)" />
 			<defs>

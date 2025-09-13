@@ -4,7 +4,6 @@ import { useBanner_GetAllQuery } from 'src/graphql/generated';
 
 import CreateCity from './Create';
 import MidelForm from './MidelForm';
-const rows = [{ name: 'خدمات' }, { name: 'بهداشت' }];
 const Index = () => {
 	const [selectedRow, setSelectedRow] = useState(null);
 	const [load, setLoad] = useState(1);

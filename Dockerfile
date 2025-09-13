@@ -1,16 +1,17 @@
 ### مرحله 1: ساخت پروژه
-FROM node:18 AS builder
+FROM node:18-alpine AS builder
 
 # تنظیم محیط کار
 WORKDIR /app
 
 # نصب ابزارهای مورد نیاز برای build (مثل node-gyp)
-# RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++
 
 # کپی فایل‌های ضروری برای نصب پکیج‌ها و اجرای codegen
 COPY package*.json ./
 COPY codegen.yml ./
-COPY schema.graphql ./  
+# اگر از schema محلی استفاده می‌کنی
+COPY schema.graphql ./
 
 # نصب پکیج‌ها (کامل، با devDependencies)
 RUN npm install --force
@@ -19,12 +20,12 @@ RUN npm install --force
 COPY . .
 
 # اجرای codegen، prebuild، و build نهایی
-# RUN npm run generate
+RUN npm run generate
 RUN node prebuild
 RUN npm run build
 
 ### مرحله 2: تصویر نهایی برای اجرا
-FROM node:18
+FROM node:18-alpine
 
 # تنظیم محیط کار
 WORKDIR /app
@@ -33,10 +34,11 @@ WORKDIR /app
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/server.js ./server.js
+#COPY --from=builder /app/server.js ./server.js
 
 # نصب فقط پکیج‌های production (بدون devDependencies)
-RUN npm ci --only=production
+ENV NODE_ENV=production
+RUN npm ci --omit=dev --legacy-peer-deps
 
 # پورت مورد استفاده توسط اپلیکیشن
 EXPOSE 4500
