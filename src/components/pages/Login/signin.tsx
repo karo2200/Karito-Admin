@@ -12,7 +12,7 @@ import COLORS from '@/theme/colors';
 
 import * as S from './styles';
 
-export const PHONE_VALIDATION = /9(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/g;
+export const PHONE_VALIDATION = /^9\d{9}$/;
 const LoginSchema = Yup.object().shape({
 	Mobil: Yup.string()
 		.required('موبایل را وارد کنید')

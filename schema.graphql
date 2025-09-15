@@ -195,6 +195,11 @@ type ListResponseBaseOfNeighborhoodDto {
   status: Any
 }
 
+type ListResponseBaseOfPaymentDto {
+  result(skip: Int take: Int where: PaymentDtoFilterInput @cost(weight: "10") order: [PaymentDtoSortInput!] @cost(weight: "10")): PaymentDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
+  status: Any
+}
+
 type ListResponseBaseOfPopularServiceTypeDto {
   result(skip: Int take: Int where: PopularServiceTypeDtoFilterInput @cost(weight: "10") order: [PopularServiceTypeDtoSortInput!] @cost(weight: "10")): PopularServiceTypeDtoCollectionSegment @listSize(assumedSize: 2147483647, slicingArguments: [ "take" ], slicingArgumentDefaultValue: 10, sizedFields: [ "items" ], requireOneSlicingArgument: false) @cost(weight: "10")
   status: Any
@@ -247,7 +252,7 @@ type Mutation {
   address_setPrimary(input: SetPrimaryAddressInput!): ResponseBaseOfAddressDto! @cost(weight: "10")
   auth_requestOtp(input: RequestOtpInput!): ResponseBase! @cost(weight: "10")
   auth_verifyOtp(input: VerifyOtpInput!): ResponseBaseOfAuthResult! @cost(weight: "10")
-  auth_refreshToken(input: RefreshTokenInput!): ResponseBaseOfAuthResult! @cost(weight: "10")
+  auth_refreshToken(input: RefreshTokenRequestInput!): ResponseBaseOfAuthResult! @cost(weight: "10")
   banner_create(input: CreateBannerInput!): ResponseBaseOfBannerDto! @cost(weight: "10")
   banner_update(input: UpdateBannerInput!): ResponseBaseOfBannerDto! @cost(weight: "10")
   banner_delete(input: DeleteBannerInput!): ResponseBase! @cost(weight: "10")
@@ -272,6 +277,7 @@ type Mutation {
   neighborhood_create(input: CreateNeighborhoodInput!): ResponseBaseOfNeighborhoodDto! @cost(weight: "10")
   neighborhood_update(input: UpdateNeighborhoodInput!): ResponseBaseOfNeighborhoodDto! @cost(weight: "10")
   neighborhood_delete(input: DeleteNeighborhoodInput!): ResponseBase! @cost(weight: "10")
+  payment_create(input: CreatePaymentInput!): ResponseBaseOfPaymentDto! @cost(weight: "10")
   province_create(input: CreateProvinceInput!): ResponseBaseOfProvinceDto! @cost(weight: "10")
   province_update(input: UpdateProvinceInput!): ResponseBaseOfProvinceDto! @cost(weight: "10")
   province_delete(input: DeleteProvinceInput!): ResponseBase! @cost(weight: "10")
@@ -282,6 +288,8 @@ type Mutation {
   serviceCategory_create(input: CreateServiceCategoryInput!): ResponseBaseOfServiceCategoryDto! @cost(weight: "10")
   serviceCategory_update(input: UpdateServiceCategoryInput!): ResponseBaseOfServiceCategoryDto! @cost(weight: "10")
   serviceCategory_delete(input: DeleteServiceCategoryInput!): ResponseBase! @cost(weight: "10")
+  serviceRequest_applyDiscount(input: ApplyDiscountCodeToServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
+  serviceRequest_removeDiscount(input: RemoveDiscountCodeFromServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
   serviceRequest_create(input: CreateServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
   serviceRequest_accept(input: AcceptServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
   serviceRequest_cancel(input: CancelServiceRequestInput!): ResponseBaseOfServiceRequestDto! @cost(weight: "10")
@@ -321,6 +329,26 @@ type NeighborhoodDtoCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [NeighborhoodDto!]
+  totalCount: Int! @cost(weight: "10")
+}
+
+type PaymentDto {
+  id: UUID!
+  serviceRequest: ServiceRequestDto!
+  discountCode: DiscountCodeDto
+  amount: Decimal!
+  discountAmount: Decimal!
+  finalAmount: Decimal!
+  status: PaymentStatus!
+  paymentUrl: String
+}
+
+"A segment of a collection."
+type PaymentDtoCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [PaymentDto!]
   totalCount: Int! @cost(weight: "10")
 }
 
@@ -379,10 +407,16 @@ type Query {
   discountCode_getById(input: GetDiscountCodeByIdInput!): ResponseBaseOfDiscountCodeDto! @cost(weight: "10")
   neighborhood_getAll: ListResponseBaseOfNeighborhoodDto! @cost(weight: "10")
   neighborhood_getById(input: GetNeighborhoodByIdInput!): ResponseBaseOfNeighborhoodDto! @cost(weight: "10")
+  payment_getById(input: GetPaymentByIdInput!): ResponseBaseOfPaymentDto! @cost(weight: "10")
+  payment_listForServiceRequest(input: GetPaymentsForServiceRequestInput!): ListResponseBaseOfPaymentDto! @cost(weight: "10")
   province_getAll: ListResponseBaseOfProvinceDto! @cost(weight: "10")
   province_getById(input: GetProvinceByIdInput!): ResponseBaseOfProvinceDto! @cost(weight: "10")
   rateAndReview_getByCustomerId(customerId: UUID!): ListResponseBaseOfRateAndReviewDto! @cost(weight: "10")
   rateAndReview_getBySpecialistId(specialistId: UUID!): ListResponseBaseOfRateAndReviewDto! @cost(weight: "10")
+  "Get revenue for the currently authenticated specialist in a given date range."
+  revenue_getMyRevenue(input: GetMyRevenueInput!): ResponseBaseOfSpecialistRevenueDto! @cost(weight: "10")
+  "Admin: get revenue of a specialist in a given date range."
+  revenue_getRevenueBySpecialistId(input: GetSpecialistRevenueByIdInput!): ResponseBaseOfSpecialistRevenueDto! @cost(weight: "10")
   serviceCategory_getAll: ListResponseBaseOfServiceCategoryDto! @cost(weight: "10")
   serviceCategory_getById(input: GetServiceCategoryByIdInput!): ResponseBaseOfServiceCategoryDto! @cost(weight: "10")
   serviceRequest_getAll: ListResponseBaseOfServiceRequestDto! @cost(weight: "10")
@@ -480,6 +514,11 @@ type ResponseBaseOfNeighborhoodDto {
   result: NeighborhoodDto
 }
 
+type ResponseBaseOfPaymentDto {
+  status: Any
+  result: PaymentDto
+}
+
 type ResponseBaseOfProvinceDto {
   status: Any
   result: ProvinceDto
@@ -533,6 +572,11 @@ type ResponseBaseOfServiceTypeQuestionDto {
 type ResponseBaseOfSpecialistProfileDto {
   status: Any
   result: SpecialistProfileDto
+}
+
+type ResponseBaseOfSpecialistRevenueDto {
+  status: Any
+  result: SpecialistRevenueDto
 }
 
 type ResponseBaseOfUserProfileDto {
@@ -692,6 +736,13 @@ type SpecialistProfileDtoCollectionSegment {
   totalCount: Int! @cost(weight: "10")
 }
 
+type SpecialistRevenueDto {
+  specialist: SpecialistDto!
+  totalAmount: Decimal!
+  paymentsCount: Int!
+  payments: [PaymentDto!]!
+}
+
 type UserProfileDto {
   id: UUID!
   phoneNumber: String!
@@ -742,6 +793,11 @@ input AddressDtoSortInput {
   customer: CustomerDtoSortInput @cost(weight: "10")
   neighborhood: NeighborhoodDtoSortInput @cost(weight: "10")
   isPrimary: SortEnumType @cost(weight: "10")
+}
+
+input ApplyDiscountCodeToServiceRequestInput {
+  serviceRequestId: UUID!
+  discountCode: String!
 }
 
 input BannerDtoFilterInput {
@@ -856,6 +912,10 @@ input CreateDiscountCodeInput {
 input CreateNeighborhoodInput {
   name: String!
   cityId: UUID!
+}
+
+input CreatePaymentInput {
+  serviceRequestId: UUID!
 }
 
 input CreateProvinceInput {
@@ -1105,6 +1165,11 @@ input GetDiscountCodeByIdInput {
   id: UUID!
 }
 
+input GetMyRevenueInput {
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
 input GetNearestAddressesInput {
   latitude: Float!
   longitude: Float!
@@ -1112,6 +1177,14 @@ input GetNearestAddressesInput {
 
 input GetNeighborhoodByIdInput {
   id: UUID!
+}
+
+input GetPaymentByIdInput {
+  paymentId: UUID!
+}
+
+input GetPaymentsForServiceRequestInput {
+  serviceRequestId: UUID!
 }
 
 input GetProvinceByIdInput {
@@ -1144,6 +1217,12 @@ input GetServiceTypeQuestionsByServiceTypeInput {
 
 input GetSpecialistByIdInput {
   specialistId: UUID!
+}
+
+input GetSpecialistRevenueByIdInput {
+  specialistId: UUID!
+  startDate: DateTime!
+  endDate: DateTime!
 }
 
 input IntOperationFilterInput {
@@ -1200,6 +1279,37 @@ input NeighborhoodDtoSortInput {
   id: SortEnumType @cost(weight: "10")
   name: SortEnumType @cost(weight: "10")
   city: CityDtoSortInput @cost(weight: "10")
+}
+
+input PaymentDtoFilterInput {
+  and: [PaymentDtoFilterInput!]
+  or: [PaymentDtoFilterInput!]
+  id: UuidOperationFilterInput
+  serviceRequest: ServiceRequestDtoFilterInput
+  discountCode: DiscountCodeDtoFilterInput
+  amount: DecimalOperationFilterInput
+  discountAmount: DecimalOperationFilterInput
+  finalAmount: DecimalOperationFilterInput
+  status: PaymentStatusOperationFilterInput
+  paymentUrl: StringOperationFilterInput
+}
+
+input PaymentDtoSortInput {
+  id: SortEnumType @cost(weight: "10")
+  serviceRequest: ServiceRequestDtoSortInput @cost(weight: "10")
+  discountCode: DiscountCodeDtoSortInput @cost(weight: "10")
+  amount: SortEnumType @cost(weight: "10")
+  discountAmount: SortEnumType @cost(weight: "10")
+  finalAmount: SortEnumType @cost(weight: "10")
+  status: SortEnumType @cost(weight: "10")
+  paymentUrl: SortEnumType @cost(weight: "10")
+}
+
+input PaymentStatusOperationFilterInput {
+  eq: PaymentStatus @cost(weight: "10")
+  neq: PaymentStatus @cost(weight: "10")
+  in: [PaymentStatus!] @cost(weight: "10")
+  nin: [PaymentStatus!] @cost(weight: "10")
 }
 
 input PopularServiceTypeDtoFilterInput {
@@ -1260,7 +1370,7 @@ input RateAndReviewDtoSortInput {
   comment: SortEnumType @cost(weight: "10")
 }
 
-input RefreshTokenInput {
+input RefreshTokenRequestInput {
   accessToken: String!
   refreshToken: String!
 }
@@ -1271,6 +1381,10 @@ input RejectServiceRequestInput {
 
 input RemoveDisabledServiceTimeInput {
   id: UUID!
+}
+
+input RemoveDiscountCodeFromServiceRequestInput {
+  serviceRequestId: UUID!
 }
 
 input RequestOtpInput {
@@ -1657,6 +1771,12 @@ enum LocationType {
   COMMERCIAL
   OFFICE
   VACANT
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
 
 enum QuestionType {

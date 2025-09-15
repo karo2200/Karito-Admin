@@ -1,6 +1,6 @@
-const API_URL = 'http://193.151.152.161:8081/graphql';
-const SUBSCRIPTION_URL = 'http://193.151.152.161:8081/graphql';
-const BLOB_BASE_URL = 'http://193.151.152.161:8081/graphql';
+const API_URL = 'https://qa-api8082.karito.net/graphql';
+const SUBSCRIPTION_URL = 'http://qa-api8082.karito.net/graphql';
+const BLOB_BASE_URL = 'http://qa-api8082.karito.net/graphql';
 const BLOB_URL = '';
 
 const config = {
