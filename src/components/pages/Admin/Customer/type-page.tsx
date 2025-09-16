@@ -12,4 +12,5 @@ export interface IPageProps {
 	OnhandleShow?: (value: any) => void;
 	DataRow?: [];
 	TotalCount?: number;
+	rows?: [];
 }

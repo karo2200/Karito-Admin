@@ -10,4 +10,5 @@ export interface IPageProps {
 	OnhandleCursel?: (value: any) => void;
 	onRefreshItem?: () => void;
 	DataRow?: [];
+	rows?: [];
 }

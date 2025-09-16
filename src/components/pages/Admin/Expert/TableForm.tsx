@@ -80,9 +80,9 @@ const index: FC<IPageProps> = ({
 								</TableCell>
 							</TableRow>
 						) : (
-							rows?.map((row) => (
+							rows?.map((row, index) => (
 								<TableRow
-									key={row.id}
+									key={index}
 									sx={{
 										'&:last-child td, &:last-child th': { border: 0 },
 										height: 30,

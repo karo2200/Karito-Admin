@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useCarousel_CreateMutation, useCarousel_UpdateMutation } from 'src/graphql/generated';
 
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
@@ -12,7 +12,8 @@ const LoginSchema = Yup.object().shape({
 	FilePaths: Yup.array().of(Yup.string().required('تصویر را وارد کنید')).min(1, 'حداقل یک تصویر نیاز است'),
 });
 
-const Index = ({ DataRow, onRefreshItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	const [Empty, setEmpty] = useState(false);
 	const [ListFile, setListFile] = useState([]);
 

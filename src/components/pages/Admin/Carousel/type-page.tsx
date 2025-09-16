@@ -8,5 +8,7 @@ export interface IPageProps {
 	OnhandleEditClick?: (value: any) => void;
 	onRefreshItem?: () => void;
 	OnhandleListDocument?: (value: any) => void;
+	OnhandleDeleteClick?: (value: any) => void;
 	DataRow?: [];
+	rows?: [];
 }

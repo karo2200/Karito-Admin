@@ -8,4 +8,5 @@ export interface IPageProps {
 	OnhandleEditClick?: (value: any) => void;
 	onRefreshItem?: () => void;
 	DataRow?: [];
+	rows?: [];
 }

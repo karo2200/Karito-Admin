@@ -6,7 +6,7 @@ import CreateCity from './Create';
 import MidelForm from './MidelForm';
 const Index = () => {
 	const [selectedRow, setSelectedRow] = useState(null);
-	const [load, setLoad] = useState(1);
+	const [load, setLoad] = useState(0);
 	const [SearchData, setSearchData] = useState('');
 
 	const {
@@ -33,6 +33,11 @@ const Index = () => {
 			setLoad(0);
 		}
 	}, [load, isSuccess, isError]);
+	useEffect(() => {
+		if (SearchData != '' && SearchData != null) {
+			setLoad(1);
+		}
+	}, [SearchData]);
 	return (
 		<>
 			<Box
@@ -49,11 +54,11 @@ const Index = () => {
 				<CreateCity
 					onRefreshItem={() => {
 						setLoad(1);
+						setSelectedRow(null);
 					}}
 					DataRow={selectedRow}
 					onSearchItem={(data) => {
 						setSearchData(data);
-						setLoad(1);
 					}}
 				/>
 			</Box>
@@ -63,6 +68,7 @@ const Index = () => {
 				}}
 				DataRow={CategoryList?.serviceTypes_getAll?.result?.items}
 				OnhandleEditClick={(data) => {
+					console.log(data);
 					setSelectedRow(data);
 				}}
 			/>

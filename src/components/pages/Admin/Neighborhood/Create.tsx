@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
 	useCity_GetAllQuery,
 	useNeighborhood_CreateMutation,
@@ -14,8 +14,10 @@ const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام محله را وارد کنید'),
 	CityId: Yup.string()?.required('شهر را انتخاب کنید'),
 });
-const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 	const [listState, setListState] = useState([]);
+	const [disabled, setdisabled] = useState(false);
 	const { mutate: mutateCity, isLoading: isLoading } = useNeighborhood_CreateMutation();
 	const { mutate: mutateCityUpdate, isLoading: isLoadingUpdate } = useNeighborhood_UpdateMutation();
 	const { data, isFetching, isSuccess, isError } = useCity_GetAllQuery(
@@ -64,12 +66,8 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				Name: DataRow?.name || '',
 				CityId: DataRow?.city?.id || '',
 			});
-		} else
-			reset({
-				id: 0,
-				Name: '',
-				CityId: '',
-			});
+			setdisabled(true);
+		}
 	}, [DataRow, reset]);
 
 	const onSubmit = async (data: typeof defaultValues) => {
@@ -103,6 +101,8 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						DataRow = null;
 						setValue('Name', '');
 						setValue('id', 0);
+						setValue('CityId', data.CityId);
+						setdisabled(false);
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -115,6 +115,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
 				<Grid item xs={12} sm={3}>
 					<SelectField
+						disabled={disabled}
 						name="CityId"
 						options={listState}
 						autoWidth={false}

@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
 	useServiceCategory_GetAllQuery,
 	useServiceSubCategory_GetAllQuery,
@@ -18,7 +18,10 @@ const LoginSchema = Yup.object().shape({
 	CategoryId: Yup.string()?.required('فیلد اجباری است'),
 	price: Yup.number()?.required('فیلد اجباری است'),
 });
-const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
+	console.log('DataRow', DataRow);
+	const [load, setLoad] = useState(0);
 	const [listCategury, setlistCategury] = useState([]);
 	const [Empty, setEmpty] = useState(false);
 	const [disabled, setdisabled] = useState(false);
@@ -44,7 +47,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 					value: cat.id,
 				})) || [];
 			if (newList.length > 0) setlistCategury(newList);
-
+			setCategureyId(newList[0].value);
 			//setlistCategury(newList);
 		}
 	}, [isSuccess, data]);
@@ -59,6 +62,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 		},
 		{
 			keepPreviousData: true,
+			enabled: load === 1,
 		}
 	);
 
@@ -102,7 +106,11 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 			onSearchItem(listSub[0].value);
 		}
 	}, [setValue, listSub]);
-
+	useEffect(() => {
+		if (CategureyId != '' && CategureyId != null) {
+			setLoad(1);
+		}
+	}, [CategureyId]);
 	useEffect(() => {
 		if (DataRow) {
 			reset({
@@ -132,13 +140,12 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				},
 				{
 					onSuccess: async (res) => {
+						setEmpty(true);
 						setValue('serviceCategoryId', data.serviceCategoryId);
 						setValue('Name', '');
 						setValue('FilePath', '');
-
 						setValue('price', 0);
 						setValue('CategoryId', data.CategoryId);
-						setEmpty(true);
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -157,10 +164,10 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				},
 				{
 					onSuccess: async (res) => {
+						setEmpty(true);
 						setValue('serviceCategoryId', data.serviceCategoryId);
 						setValue('Name', '');
 						setValue('FilePath', '');
-						setEmpty(true);
 						setValue('price', 0);
 						setValue('id', 0);
 						setValue('CategoryId', data.CategoryId);
@@ -241,11 +248,11 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
 					<UploadPage
-						name="FilePath"
-						onDrop={(url) => setValue('FilePath', url)}
 						Empty={Empty}
 						OnhandelEmpty={() => setEmpty(false)}
 						Url={getValues('FilePath')}
+						name="FilePath"
+						onDrop={(url) => setValue('FilePath', url)}
 					/>
 					{/*<RHFUploadAvatar name="FilePath" onDrop={handleDrop} />*/}
 				</Grid>

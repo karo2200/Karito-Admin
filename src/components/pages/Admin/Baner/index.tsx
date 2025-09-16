@@ -46,6 +46,7 @@ const Index = () => {
 				<CreateCity
 					onRefreshItem={() => {
 						setLoad(1);
+						setSelectedRow(null);
 					}}
 					DataRow={selectedRow}
 				/>

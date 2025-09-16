@@ -33,7 +33,12 @@ const LoginPage = () => {
 						}}
 					/>
 				) : (
-					<Code Mobil={Mobil} />
+					<Code
+						Mobil={Mobil}
+						getIscode={() => {
+							setisCode(false);
+						}}
+					/>
 				)}
 				<Box sx={{ display: 'flex', width: '100%' }}>
 					<S.Footer>

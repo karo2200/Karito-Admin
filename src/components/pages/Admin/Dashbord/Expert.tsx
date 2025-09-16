@@ -1,10 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SortEnumType, useSpecialist_GetAllQuery } from 'src/graphql/generated';
 
-import { IPageProps } from './type-page';
-
-const index: FC<IPageProps> = () => {
+const index = () => {
 	const [load, setLoad] = useState(1);
 
 	const { data, isSuccess, isError } = useSpecialist_GetAllQuery(

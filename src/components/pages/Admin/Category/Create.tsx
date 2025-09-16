@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
 	useServiceCategory_CreateServiceCategoryMutation,
 	useServiceCategory_UpdateServiceCategoryMutation,
@@ -13,7 +13,8 @@ const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام را وارد کنید'),
 	FilePath: Yup.string()?.required('  تصویر را وارد کنید'),
 });
-const Index = ({ DataRow, onRefreshItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	const [Empty, setEmpty] = useState(false);
 
 	const { mutate: mutateState, isLoading: isLoading } = useServiceCategory_CreateServiceCategoryMutation();

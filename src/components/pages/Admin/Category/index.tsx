@@ -4,7 +4,6 @@ import { useServiceCategory_GetAllQuery } from 'src/graphql/generated';
 
 import CreateCity from './Create';
 import MidelForm from './MidelForm';
-const rows = [{ name: 'خدمات' }, { name: 'بهداشت' }];
 const Index = () => {
 	const [selectedRow, setSelectedRow] = useState(null);
 	const [load, setLoad] = useState(1);
@@ -46,6 +45,7 @@ const Index = () => {
 				<CreateCity
 					onRefreshItem={() => {
 						setLoad(1);
+						setSelectedRow(null);
 					}}
 					DataRow={selectedRow}
 				/>

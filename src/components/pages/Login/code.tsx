@@ -2,7 +2,6 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Card, CardContent, InputAdornment, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useAuth_RequestOtpMutation } from 'src/graphql/generated';
 
 import PersonIcon from '@/assets/person';
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
@@ -14,7 +13,7 @@ import * as S from './styles';
 const LoginSchema = Yup.object().shape({
 	Code: Yup.string()?.required(' کد را وارد کنید'),
 });
-const Index = ({ Mobil }: { Mobil: any }) => {
+const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 	const [showerror, setshowerror] = useState(false);
 	const [loading, setloading] = useState(false);
 
@@ -24,7 +23,6 @@ const Index = ({ Mobil }: { Mobil: any }) => {
 	const defaultValues = {
 		Code: '',
 	};
-	const { mutate: mutate, isLoading: isLoadinglogin } = useAuth_RequestOtpMutation();
 
 	const methods = useForm({
 		resolver: yupResolver(LoginSchema),
@@ -134,6 +132,22 @@ const Index = ({ Mobil }: { Mobil: any }) => {
 							}}
 						>
 							ورود
+						</LoadingButton>
+						<LoadingButton
+							variant="contained"
+							onClick={() => getIscode()}
+							loading={loading}
+							fullWidth
+							sx={{
+								fontSize: '15px',
+								//backgroundImage: 'linear-gradient(to right,#1D5BD2, #4D88F9)',
+								background: '#b8bcc0',
+								color: '#fff',
+								borderRadius: '8px !important',
+								marginTop: '5px',
+							}}
+						>
+							بازگشت
 						</LoadingButton>
 					</CardContent>
 				</Card>

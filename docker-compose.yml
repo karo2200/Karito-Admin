@@ -1,20 +1,10 @@
 services:
-  web-dev:
+  web:
     build: .
     ports:
       - '4500:4500'
     env_file:
-      - .env.dev
+      - .env.${ENV:-dev} # بارگذاری فایل env متناسب با ENV (پیش‌فرض dev)
     environment:
-      - NODE_ENV=dev
-    restart: unless-stopped
-
-  web-qa:
-    build: .
-    ports:
-      - '4600:4500' # توجه کن که پورت میزبان فرق داره
-    env_file:
-      - .env.qa
-    environment:
-      - NODE_ENV=qa
-    restart: unless-stopped
+      - NODE_ENV=${ENV:-dev} # مقدار NODE_ENV از ENV گرفته می‌شود یا dev
+    restart: unless-stopped # ری‌استارت خودکار در صورت توقف غیرمنتظره

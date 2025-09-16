@@ -15,14 +15,7 @@ function convertToJalali(dateString) {
 	const jDate = toJalaali(date);
 	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
 }
-const index: FC<IPageProps> = ({
-	rows,
-	OnhandleEditClick,
-	OnhandleVideo,
-	TotalCount,
-	OnsetRowsPerPage,
-	OnhandleShow,
-}) => {
+const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleShow }) => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [page, setPage] = React.useState(0);
 
@@ -60,9 +53,9 @@ const index: FC<IPageProps> = ({
 								</TableCell>
 							</TableRow>
 						) : (
-							rows?.map((row) => (
+							rows?.map((row, index) => (
 								<TableRow
-									key={row.id}
+									key={index}
 									sx={{
 										'&:last-child td, &:last-child th': { border: 0 },
 										height: 30,
@@ -90,13 +83,13 @@ const index: FC<IPageProps> = ({
 										{row.serviceType?.name}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row.basePrice}
+										{row.basePrice.toLocaleString()}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row.discountAmount}
+										{row.discountAmount.toLocaleString()}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row.finalPrice}
+										{row.finalPrice.toLocaleString()}
 									</TableCell>
 									<TableCell
 										scope="row"

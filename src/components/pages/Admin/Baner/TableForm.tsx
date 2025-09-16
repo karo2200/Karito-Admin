@@ -29,9 +29,9 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{paginatedRows?.map((row) => (
+						{paginatedRows?.map((row, index) => (
 							<TableRow
-								key={row.title}
+								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
 									height: 30,

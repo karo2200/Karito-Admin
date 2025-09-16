@@ -106,7 +106,7 @@ export default function AuthProvider({ children }) {
 								router.push('/Admin');
 								resolve();
 							} else {
-								enqueueSnackbar('Invalid credentials', { variant: 'error' });
+								enqueueSnackbar('کد اشتباه میباشد', { variant: 'error' });
 								dispatch({ type: 'IS_LOADING', payload: { isLoading: null } });
 								reject();
 							}

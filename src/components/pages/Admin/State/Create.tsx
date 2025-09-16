@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useCreateProvinceMutation, useProvince_UpdateMutation } from 'src/graphql/generated';
 
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
@@ -9,7 +9,8 @@ import { FormProvider, TextField } from '@/components/atoms/Form';
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام استان را وارد کنید'),
 });
-const Index = ({ DataRow, onRefreshItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	const { mutate: mutateState, isLoading: isLoading } = useCreateProvinceMutation();
 	const { mutate: mutateStateUp, isLoading: isLoadingUp } = useProvince_UpdateMutation();
 

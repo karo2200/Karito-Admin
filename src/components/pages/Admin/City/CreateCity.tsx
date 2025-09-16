@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useCity_CreateCityMutation, useCity_UpdateCityMutation, useProvincesQuery } from 'src/graphql/generated';
 
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
@@ -10,8 +10,10 @@ const LoginSchema = Yup.object().shape({
 	CityName: Yup.string()?.required(' نام شهر را وارد کنید'),
 	CityId: Yup.string()?.required('استان را انتخاب کنید'),
 });
-const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 	const [listState, setListState] = useState([]);
+	const [disabled, setdisabled] = useState(false);
 	const { mutate: mutateCity, isLoading: isLoading } = useCity_CreateCityMutation();
 	const { mutate: mutateCityUpdate, isLoading: isLoadingUpdate } = useCity_UpdateCityMutation();
 	const { data, isSuccess, isError } = useProvincesQuery(
@@ -56,12 +58,8 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				CityName: DataRow?.name || '',
 				CityId: DataRow?.province?.id || '',
 			});
-		} else
-			reset({
-				id: 0,
-				CityName: '',
-				CityId: '',
-			});
+			setdisabled(true);
+		}
 	}, [DataRow, reset]);
 
 	useEffect(() => {
@@ -102,6 +100,8 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						DataRow = null;
 						setValue('CityName', '');
 						setValue('id', 0);
+						setValue('CityId', data.CityId);
+						setdisabled(false);
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -114,6 +114,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
 					<SelectField
+						disabled={disabled}
 						name="CityId"
 						options={listState}
 						autoWidth={false}

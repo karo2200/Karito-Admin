@@ -4,11 +4,10 @@ import { useServiceSubCategory_GetAllQuery } from 'src/graphql/generated';
 
 import CreateCity from './Create';
 import MidelForm from './MidelForm';
-const rows = [{ name: 'خدمات' }, { name: 'بهداشت' }];
 const Index = () => {
 	const [selectedRow, setSelectedRow] = useState(null);
-	const [load, setLoad] = useState(1);
-	const [SearchData, setSearchData] = useState('');
+	const [load, setLoad] = useState(0);
+	const [SearchData, setSearchData] = useState(null);
 
 	const {
 		data: CategoryList,
@@ -18,7 +17,7 @@ const Index = () => {
 		error,
 	} = useServiceSubCategory_GetAllQuery(
 		{
-			take: 1000,
+			take: 200,
 			skip: 0,
 			where: {
 				serviceCategory: { id: { eq: SearchData } },
@@ -34,6 +33,11 @@ const Index = () => {
 			setLoad(0);
 		}
 	}, [load, isSuccess, isError]);
+	useEffect(() => {
+		if (SearchData != '' && SearchData != null) {
+			setLoad(1);
+		}
+	}, [SearchData]);
 	return (
 		<>
 			<Box
@@ -49,12 +53,12 @@ const Index = () => {
 			>
 				<CreateCity
 					onRefreshItem={() => {
+						setSelectedRow(null);
 						setLoad(1);
 					}}
 					DataRow={selectedRow}
 					onSearchItem={(data) => {
 						setSearchData(data);
-						setLoad(1);
 					}}
 				/>
 			</Box>

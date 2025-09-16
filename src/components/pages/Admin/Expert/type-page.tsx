@@ -13,4 +13,5 @@ export interface IPageProps {
 	DataRow?: [];
 	OnsetRowsPerPage?: (row: number, page: number) => void;
 	TotalCount?: number;
+	rows?: [];
 }

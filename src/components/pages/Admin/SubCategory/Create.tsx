@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
 	useServiceCategory_GetAllQuery,
 	useServiceSubCategory_CreateMutation,
@@ -15,7 +15,8 @@ const LoginSchema = Yup.object().shape({
 	FilePath: Yup.string()?.required('  تصویر را وارد کنید'),
 	serviceCategoryId: Yup.string()?.required('فیلد اجباری است'),
 });
-const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
+import { IPageProps } from './type-page';
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 	const [Empty, setEmpty] = useState(false);
 	const [disabled, setdisabled] = useState(false);
 	const [listCategury, setlistCategury] = useState([]);
@@ -61,7 +62,7 @@ const Index = ({ DataRow, onRefreshItem, onSearchItem }) => {
 	useEffect(() => {
 		if (listCategury?.length > 0) {
 			setValue('serviceCategoryId', listCategury[0].value);
-			//onSearchItem(listCategury[0].value);
+			onSearchItem(listCategury[0].value);
 		}
 	}, [setValue, listCategury]);
 

@@ -32,9 +32,9 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{paginatedRows?.map((row) => (
+						{paginatedRows?.map((row, index) => (
 							<TableRow
-								key={row.name}
+								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
 									height: 30,
@@ -47,7 +47,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 									{row.name}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.basePrice}
+									{row.basePrice.toLocaleString()}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
 									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>

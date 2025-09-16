@@ -1,11 +1,9 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { toJalaali } from 'jalaali-js';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SortEnumType, useServiceRequest_GetAllQuery } from 'src/graphql/generated';
 
 import Statues from '@/components/organisms/Approve';
-
-import { IPageProps } from './type-page';
 
 function convertToJalali(dateString) {
 	if (!dateString) return;
@@ -14,7 +12,7 @@ function convertToJalali(dateString) {
 	const jDate = toJalaali(date);
 	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
 }
-const index: FC<IPageProps> = () => {
+const index = () => {
 	const [load, setLoad] = useState(1);
 
 	const { data, isSuccess, isError } = useServiceRequest_GetAllQuery(
