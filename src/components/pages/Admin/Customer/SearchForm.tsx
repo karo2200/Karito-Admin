@@ -80,9 +80,7 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 				<Grid item xs={12} sm={3}>
 					<TextField required label="کدمشتری" name="Code" placeholder="" fullWidth sx={{ height: '40px' }} />
 				</Grid>
-			</Grid>
-			<Grid container spacing={2} alignItems="center" justifyContent="flex-end" dir="rtl" sx={{ marginTop: '1px' }}>
-				<Grid item xs={12} sm="auto" sx={{ mr: 'auto' }}>
+				<Grid item xs={12} sm={3} sx={{ marginTop: '28px' }}>
 					<LoadingButton
 						variant="contained"
 						onClick={handleSubmit(onSubmit)}

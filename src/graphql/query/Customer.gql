@@ -9,6 +9,7 @@ query customer_getAll($skip: Int, $take: Int, $where: CustomerDtoFilterInput, $o
 				lastName
 				phoneNumber
 				profileImageUrl
+				isBlocked
 			}
 			totalCount
 		}

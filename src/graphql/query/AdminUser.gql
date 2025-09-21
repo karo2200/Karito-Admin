@@ -1,0 +1,30 @@
+mutation admin_create($input: CreateAdminInput!) {
+	admin_create(input: $input) {
+		status
+	}
+}
+
+query admin_getAll($skip: Int, $take: Int, $where: AdminDtoFilterInput, $order: [AdminDtoSortInput!]) {
+	admin_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				firstName
+				code
+				gender
+				id
+				phoneNumber
+				isBlocked
+				lastName
+				profileImageUrl
+			}
+			totalCount
+		}
+		status
+	}
+}
+
+mutation user_setBlockState($input: SetUserBlockStateInput!) {
+	user_setBlockState(input: $input) {
+		status
+	}
+}

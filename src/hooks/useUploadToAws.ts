@@ -1,5 +1,4 @@
-export const MIN_CHUNK_SIZE = 20 * 1024 * 1024; // 20MB
-
+export const MIN_CHUNK_SIZE = 1 * 1024 * 1024; // 1MB
 export type UploadFile = File;
 
 export async function fileUploader(
@@ -9,13 +8,15 @@ export async function fileUploader(
 	completeMultipartUploadFn: (objectKey: string, parts: { ETag: string; PartNumber: number }[]) => Promise<string>
 ): Promise<string> {
 	const size = file.size;
+	//const { enqueueSnackbar } = useSnackbar();
 
 	if (size <= MIN_CHUNK_SIZE) {
 		// Single part upload
 		return uploadSinglePart(file, generatePresignedUrlFn);
 	} else {
+		return '';
 		// Multipart upload
-		return uploadMultiPart(file, size, generatePresignedUrlsFn, completeMultipartUploadFn);
+		//return uploadMultiPart(file, size, generatePresignedUrlsFn, completeMultipartUploadFn);
 	}
 }
 

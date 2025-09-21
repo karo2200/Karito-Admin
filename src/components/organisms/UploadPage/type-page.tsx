@@ -9,4 +9,6 @@ export interface IPageProps {
 	onRefreshItem?: () => void;
 	Empty?: boolean;
 	Url?: string;
+	name?: string;
+	label?: string;
 }

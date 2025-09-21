@@ -14,7 +14,6 @@ const CommonTextField = styled(TextField)({
 	fontSize: 15,
 	'& .MuiOutlinedInput-root': {
 		borderRadius: '2px', // Custom border-radius
-		height: '44px', // Total height of the input container
 		'& input': {
 			padding: '0 14px', // Control vertical padding here
 			height: '100%', // Make sure input fills container
@@ -22,6 +21,7 @@ const CommonTextField = styled(TextField)({
 			textAlign: 'right',
 			fontFamily: 'vazir',
 			fontSize: 13,
+			height: '40px !important', // Total height of the input container
 		},
 	},
 	'& .MuiOutlinedInput-notchedOutline': {
@@ -56,7 +56,7 @@ export default function RHFTextField({ name, label, id, onChanged, ...other }: R
 							<CommonTextField
 								inputProps={{
 									sx: {
-										height: 15,
+										height: '40px',
 										fontFamily: 'Vazir',
 										fontSize: 15,
 										fontWeight: 'bold',

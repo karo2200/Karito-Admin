@@ -43,8 +43,10 @@ query city_getAll($skip: Int, $take: Int, $where: CityDtoFilterInput, $order: [C
 				}
 				activeCarousel {
 					id
-					imageUrls
 					title
+					serviceTypes {
+						banner
+					}
 				}
 			}
 		}

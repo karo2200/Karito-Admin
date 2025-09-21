@@ -1,7 +1,10 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, CardContent, InputAdornment, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth_RequestOtpMutation } from 'src/graphql/generated';
+import { setPageData } from 'src/redux/action';
 
 import PersonIcon from '@/assets/person';
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
@@ -10,15 +13,21 @@ import { useAuth } from '@/providers/AuthProvider';
 import COLORS from '@/theme/colors';
 
 import * as S from './styles';
+
 const LoginSchema = Yup.object().shape({
 	Code: Yup.string()?.required(' کد را وارد کنید'),
 });
-const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
+
+const Index = ({ Mobil, userType }: { Mobil: any }) => {
 	const [showerror, setshowerror] = useState(false);
 	const [loading, setloading] = useState(false);
+	const { mutate: mutate, isLoading: isLoadinglogin } = useAuth_RequestOtpMutation();
+	const dispatch = useDispatch();
+	const pageData = useSelector(({ pageData }: any) => pageData);
+
+	const [timer, setTimer] = useState(120); // 2 دقیقه = 120 ثانیه
 
 	const router = useRouter();
-	//const { Mobil } = router.query;
 
 	const defaultValues = {
 		Code: '',
@@ -34,9 +43,42 @@ const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 	const { isLoading, signInWithEmail } = useAuth();
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		signInWithEmail('+98' + Mobil, data.Code);
+		signInWithEmail('+98' + Mobil, data.Code, userType);
 	};
 
+	// شمارش معکوس تایمر
+	useEffect(() => {
+		dispatch(setPageData({ ...pageData, UserType: userType }));
+
+		if (timer <= 0) return;
+
+		const interval = setInterval(() => {
+			setTimer((prev) => prev - 1);
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [timer]);
+
+	const minutes = Math.floor(timer / 60);
+	const seconds = timer % 60;
+	const SendCode = async () => {
+		await mutate(
+			{
+				input: {
+					phoneNumber: '+98' + Mobil,
+					userType: userType,
+				},
+			},
+			{
+				onSuccess: async (res) => {
+					setTimer(120); // ریست تایمر به 2 دقیقه
+				},
+				onError: (err) => {
+					setshowerror(true);
+				},
+			}
+		);
+	};
 	return (
 		<FormProvider methods={methods}>
 			<S.Content>
@@ -70,7 +112,8 @@ const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 							>
 								ورود به پنل مدیریت
 							</Typography>
-							{showerror ? (
+
+							{showerror && (
 								<Box
 									marginTop="15px"
 									display="flex"
@@ -85,17 +128,16 @@ const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 											textAlign="right"
 											fontFamily="Vazir"
 										>
-											اطلاعات صحیح نیست{' '}
+											اطلاعات صحیح نیست
 										</Typography>
 									</S.cell>
 									<S.cell sx={{ flexBasis: '40px', flexGrow: 0, flexShrink: 0, textAlign: 'center', marginTop: '1px' }}>
 										<S.RemoveIcon />
 									</S.cell>
 								</Box>
-							) : (
-								''
 							)}
 						</Box>
+
 						<Box>
 							<TextField
 								required
@@ -118,6 +160,21 @@ const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 							/>
 						</Box>
 
+						{/* تایمر نمایش */}
+						<Typography
+							fontFamily="Vazir"
+							color={COLORS.black}
+							fontSize="16px"
+							fontWeight="bold"
+							textAlign="center"
+							sx={{ marginBottom: '10px' }}
+						>
+							{timer > 0
+								? `ارسال مجدد کد در ${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+								: 'می‌توانید کد را دوباره ارسال کنید'}
+						</Typography>
+
+						{/* دکمه ورود */}
 						<LoadingButton
 							variant="contained"
 							onClick={handleSubmit(onSubmit)}
@@ -125,7 +182,6 @@ const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 							fullWidth
 							sx={{
 								fontSize: '15px',
-								//backgroundImage: 'linear-gradient(to right,#1D5BD2, #4D88F9)',
 								background: '#88b2e1',
 								color: '#fff',
 								borderRadius: '8px !important',
@@ -133,21 +189,29 @@ const Index = ({ Mobil, getIscode }: { Mobil: any }) => {
 						>
 							ورود
 						</LoadingButton>
+
+						{/* دکمه ارسال مجدد کد (غیرفعال تا وقتی تایمر تمام بشه) */}
 						<LoadingButton
 							variant="contained"
-							onClick={() => getIscode()}
-							loading={loading}
+							onClick={() => {
+								if (timer === 0) {
+									//getIscode();
+									SendCode();
+								}
+							}}
+							disabled={timer > 0}
 							fullWidth
 							sx={{
 								fontSize: '15px',
-								//backgroundImage: 'linear-gradient(to right,#1D5BD2, #4D88F9)',
-								background: '#b8bcc0',
+								background: timer > 0 ? '#ccc' : '#b8bcc0',
 								color: '#fff',
 								borderRadius: '8px !important',
 								marginTop: '5px',
 							}}
 						>
-							بازگشت
+							{timer > 0
+								? `ارسال مجدد غیرفعال (${minutes}:${seconds < 10 ? `0${seconds}` : seconds})`
+								: 'ارسال مجدد کد'}
 						</LoadingButton>
 					</CardContent>
 				</Card>

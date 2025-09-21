@@ -22,23 +22,21 @@ const Container = styled('div')({
 const LoginPage = () => {
 	const [isCode, setisCode] = useState(false);
 	const [Mobil, setMobil] = useState('');
+	const [userType, setuserType] = useState(null);
+
 	return (
 		<GuestGuard>
 			<Container>
 				{!isCode ? (
 					<Signin
-						getcode={(Mobil) => {
+						getcode={(Mobil, userType) => {
 							setisCode(true);
 							setMobil(Mobil);
+							setuserType(userType);
 						}}
 					/>
 				) : (
-					<Code
-						Mobil={Mobil}
-						getIscode={() => {
-							setisCode(false);
-						}}
-					/>
+					<Code Mobil={Mobil} userType={userType} />
 				)}
 				<Box sx={{ display: 'flex', width: '100%' }}>
 					<S.Footer>

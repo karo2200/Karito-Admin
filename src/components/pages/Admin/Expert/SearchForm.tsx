@@ -97,9 +97,7 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 				<Grid item xs={12} sm={3}>
 					<SelectField name="CityId" options={listCity} autoWidth={false} multiple={false} native={false} label="شهر" />
 				</Grid>
-			</Grid>
-			<Grid container spacing={2} alignItems="center" justifyContent="flex-end" dir="rtl" sx={{ marginTop: '1px' }}>
-				<Grid item xs={12} sm="auto" sx={{ mr: 'auto' }}>
+				<Grid item xs={12} sm={3} sx={{ marginTop: '28px' }}>
 					<LoadingButton
 						variant="contained"
 						onClick={handleSubmit(onSubmit)}

@@ -6,12 +6,16 @@ import { useAuth_RequestOtpMutation, UserType } from 'src/graphql/generated';
 
 import PersonIcon from '@/assets/person';
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
-import { FormProvider, TextField } from '@/components/atoms/Form';
+import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
 //import { useAuth } from '@/providers/AuthProvider';
 import COLORS from '@/theme/colors';
 
 import * as S from './styles';
 
+const UserTypes = [
+	{ value: UserType.Admin, option: 'Admin' },
+	{ value: UserType.Owner, option: 'Owner' },
+];
 export const PHONE_VALIDATION = /^9\d{9}$/;
 const LoginSchema = Yup.object().shape({
 	Mobil: Yup.string()
@@ -25,6 +29,7 @@ const Index = ({ getcode }: { getcode: any }) => {
 	const router = useRouter();
 	const defaultValues = {
 		Mobil: '',
+		User: UserType.Admin,
 	};
 	const { mutate: mutate, isLoading: isLoadinglogin } = useAuth_RequestOtpMutation();
 
@@ -43,12 +48,12 @@ const Index = ({ getcode }: { getcode: any }) => {
 			{
 				input: {
 					phoneNumber: '+98' + data.Mobil,
-					userType: UserType.Admin,
+					userType: data.User,
 				},
 			},
 			{
 				onSuccess: async (res) => {
-					getcode(data.Mobil);
+					getcode(data.Mobil, data.User);
 				},
 				onError: (err) => {
 					setshowerror(true);
@@ -115,6 +120,9 @@ const Index = ({ getcode }: { getcode: any }) => {
 							) : (
 								''
 							)}
+						</Box>
+						<Box>
+							<SelectField name="User" options={UserTypes} autoWidth={false} multiple={false} native={false} />
 						</Box>
 						<Box>
 							<TextField

@@ -4,7 +4,6 @@ mutation carousel_create($input: CreateCarouselInput!) {
 		result {
 			id
 			title
-			imageUrls
 		}
 	}
 }
@@ -15,7 +14,6 @@ mutation carousel_update($input: UpdateCarouselInput!) {
 		result {
 			id
 			title
-			imageUrls
 		}
 	}
 }
@@ -30,7 +28,11 @@ query carousel_getAll($skip: Int, $take: Int, $where: CarouselDtoFilterInput, $o
 		result(skip: $skip, take: $take, where: $where, order: $order) {
 			items {
 				id
-				imageUrls
+				serviceTypes {
+					name
+					logo
+					banner
+				}
 				title
 			}
 			totalCount

@@ -17,7 +17,7 @@ export function fetcher<TData, TVariables>(query: string, variables?: TVariables
 		} else if (isTokenExpired(token)) {
 			//const { RefreshToken } = useAuth();
 			//RefreshToken();
-			refreshTokenManually();
+			await refreshTokenManually();
 		} else {
 			// Remove token header if expired or not present
 			//graphQLClient.setHeaders({});

@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 //import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { UserType } from 'src/graphql/generated';
 
 import { useAuth } from '@/providers/AuthProvider';
 import COLORS from '@/theme/colors';
@@ -15,7 +16,10 @@ import ChartIcon from '../../../assets/menu/chart';
 import ChartwIcon from '../../../assets/menu/chart.w';
 import MoneyIcon from '../../../assets/menu/money';
 import MoneywIcon from '../../../assets/menu/money.w';
+import CustomerIcon from '../../../assets/menu/user';
+import UserIcon from '../../../assets/user';
 import * as S from '../styles';
+
 const menuItems = [
 	{
 		text: 'داشبورد',
@@ -29,14 +33,14 @@ const menuItems = [
 		iconW: ChartwIcon,
 		link: '#',
 		subMenu: [
-			{ text: '  استان', link: '/Admin/State' },
-			{ text: '  شهر', link: '/Admin/City' },
-			{ text: '  محله', link: '/Admin/Neighborhood' },
-			{ text: '  بنر', link: '/Admin/Baner' },
-			{ text: '  منوی یک', link: '/Admin/Category' },
-			{ text: '  منوی دو', link: '/Admin/SubCategory' },
-			{ text: '  منوی سه', link: '/Admin/SubSubCategory' },
-			{ text: 'تصاویر چرخشی', link: '/Admin/Carousel' },
+			{ text: '  استان', link: '/Admin/General/State' },
+			{ text: '  شهر', link: '/Admin/General/City' },
+			{ text: '  محله', link: '/Admin/General/Neighborhood' },
+			{ text: '  بنر', link: '/Admin/General/Baner' },
+			{ text: 'Main Category', link: '/Admin/General/Category' },
+			{ text: 'Sub Category', link: '/Admin/General/SubCategory' },
+			{ text: 'Specialized Service', link: '/Admin/General/SubSubCategory' },
+			{ text: 'تصاویر چرخشی', link: '/Admin/General/Carousel' },
 		],
 	},
 	{
@@ -47,8 +51,8 @@ const menuItems = [
 	},
 	{
 		text: 'مشتریان',
-		Icon: CellIcon,
-		iconW: CellIcon,
+		Icon: CustomerIcon,
+		iconW: CustomerIcon,
 		link: '/Admin/Customer',
 	},
 	{
@@ -57,16 +61,24 @@ const menuItems = [
 		iconW: CellwIcon,
 		link: '/Admin/Orders',
 	},
+	{
+		text: 'کاربران',
+		Icon: UserIcon,
+		iconW: UserIcon,
+		link: '/Admin/Users',
+	},
 ];
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const AdminDrawer = ({ toggleCollapse }) => {
 	const router = useRouter();
 	const { logout } = useAuth();
 	const { pathname } = useRouter();
 	const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>({});
+	const pageData = useSelector(({ pageData }: any) => pageData);
 
 	const isMobile = useMediaQuery('(max-width:600px)');
 
@@ -167,92 +179,97 @@ const AdminDrawer = ({ toggleCollapse }) => {
 				<List>
 					{menuItems.map((item) => {
 						const isOpen = openSubmenus[item.text];
-
 						return (
-							<React.Fragment key={item.text}>
-								<ListItem disablePadding sx={{ justifyContent: isCollapsed ? 'center' : 'flex-start' }}>
-									<ListItemButton
-										onClick={() => {
-											if (item.subMenu) {
-												toggleSubmenu(item.text);
-											} else {
-												onhandelmenu(item.link);
-											}
-										}}
-										style={{
-											height: 55,
-											paddingRight: 25,
-											background: pathname.includes(item.link) ? '#D7F2F3' : '',
-											fontFamily: 'Vazir !important',
-											color: '#878686',
-										}}
-									>
-										{item.subMenu && !isCollapsed && (
-											<ListItemIcon sx={{ minWidth: 'auto', marginLeft: 1 }}>
-												{isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-											</ListItemIcon>
-										)}
-										{!isCollapsed && (
-											<ListItemText
-												primary={item.text}
-												style={{ fontFamily: 'Vazir !important' }}
-												sx={{
+							<>
+								{pageData?.UserType === UserType.Admin && item.link === '/Admin/Users' ? (
+									<></>
+								) : (
+									<React.Fragment key={item.text}>
+										<ListItem disablePadding sx={{ justifyContent: isCollapsed ? 'center' : 'flex-start' }}>
+											<ListItemButton
+												onClick={() => {
+													if (item.subMenu) {
+														toggleSubmenu(item.text);
+													} else {
+														onhandelmenu(item.link);
+													}
+												}}
+												style={{
+													height: 55,
+													paddingRight: 25,
+													background: pathname.includes(item.link) ? '#D7F2F3' : '',
 													fontFamily: 'Vazir !important',
 													color: '#878686',
-													textAlign: 'right',
-													fontSize: '18px',
 												}}
-											/>
-										)}
-
-										<ListItemIcon
-											sx={{
-												minWidth: 'auto',
-												marginLeft: isCollapsed ? '0' : '12px',
-												color: '#878686',
-												justifyContent: 'center',
-												display: 'flex',
-												width: 40,
-											}}
-										>
-											<item.Icon />
-										</ListItemIcon>
-									</ListItemButton>
-								</ListItem>
-
-								{/* Render submenu if exists and open */}
-								{item.subMenu && isOpen && !isCollapsed && (
-									<List component="div" disablePadding sx={{ pl: 4 }}>
-										{item.subMenu.map((sub) => (
-											<ListItem
-												key={sub.text}
-												disablePadding
-												onClick={() => onhandelmenu(sub.link)}
-												sx={{ justifyContent: 'flex-start' }}
 											>
-												<ListItemButton
-													style={{
-														height: 40,
-														paddingRight: 25,
-														background: pathname.includes(sub.link) ? '#E0F7FA' : '',
-														fontFamily: 'Vazir !important',
-														color: '#666',
-														fontSize: '16px',
-													}}
-												>
+												{item.subMenu && !isCollapsed && (
+													<ListItemIcon sx={{ minWidth: 'auto', marginLeft: 1 }}>
+														{isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+													</ListItemIcon>
+												)}
+												{!isCollapsed && (
 													<ListItemText
-														primary={sub.text}
+														primary={item.text}
+														style={{ fontFamily: 'Vazir !important' }}
 														sx={{
-															color: '#666',
+															fontFamily: 'Vazir !important',
+															color: '#878686',
 															textAlign: 'right',
+															fontSize: '18px',
 														}}
 													/>
-												</ListItemButton>
-											</ListItem>
-										))}
-									</List>
+												)}
+
+												<ListItemIcon
+													sx={{
+														minWidth: 'auto',
+														marginLeft: isCollapsed ? '0' : '12px',
+														color: '#878686',
+														justifyContent: 'center',
+														display: 'flex',
+														width: 40,
+													}}
+												>
+													<item.Icon />
+												</ListItemIcon>
+											</ListItemButton>
+										</ListItem>
+
+										{/* Render submenu if exists and open */}
+										{item.subMenu && isOpen && !isCollapsed && (
+											<List component="div" disablePadding sx={{ pl: 4 }}>
+												{item.subMenu.map((sub) => (
+													<ListItem
+														key={sub.text}
+														disablePadding
+														onClick={() => onhandelmenu(sub.link)}
+														sx={{ justifyContent: 'flex-start' }}
+													>
+														<ListItemButton
+															style={{
+																height: 40,
+																paddingRight: 25,
+																background: pathname.includes(sub.link) ? '#E0F7FA' : '',
+																fontFamily: 'Vazir !important',
+																color: '#666',
+																fontSize: '16px',
+															}}
+														>
+															<ListItemText
+																primary={sub.text}
+																sx={{
+																	color: '#666',
+																	textAlign: 'right',
+																}}
+															/>
+														</ListItemButton>
+													</ListItem>
+												))}
+											</List>
+										)}
+									</React.Fragment>
 								)}
-							</React.Fragment>
+							</>
 						);
 					})}
 
