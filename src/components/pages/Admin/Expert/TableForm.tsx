@@ -30,7 +30,7 @@ const index: FC<IPageProps> = ({
 	TotalCount,
 }) => {
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
 	// Open modal with image
 	const handleImageClick = (url: string) => {
@@ -54,7 +54,7 @@ const index: FC<IPageProps> = ({
 							}}
 						>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانواادگی</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانوادگی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کارت ملی</TableCell>

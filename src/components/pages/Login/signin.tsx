@@ -6,7 +6,7 @@ import { useAuth_RequestOtpMutation, UserType } from 'src/graphql/generated';
 
 import PersonIcon from '@/assets/person';
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
-import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
+import { FormProvider, TextField } from '@/components/atoms/Form';
 //import { useAuth } from '@/providers/AuthProvider';
 import COLORS from '@/theme/colors';
 
@@ -29,7 +29,6 @@ const Index = ({ getcode }: { getcode: any }) => {
 	const router = useRouter();
 	const defaultValues = {
 		Mobil: '',
-		User: UserType.Admin,
 	};
 	const { mutate: mutate, isLoading: isLoadinglogin } = useAuth_RequestOtpMutation();
 
@@ -48,12 +47,12 @@ const Index = ({ getcode }: { getcode: any }) => {
 			{
 				input: {
 					phoneNumber: '+98' + data.Mobil,
-					userType: data.User,
+					userType: UserType.Admin,
 				},
 			},
 			{
 				onSuccess: async (res) => {
-					getcode(data.Mobil, data.User);
+					getcode(data.Mobil);
 				},
 				onError: (err) => {
 					setshowerror(true);
@@ -121,9 +120,7 @@ const Index = ({ getcode }: { getcode: any }) => {
 								''
 							)}
 						</Box>
-						<Box>
-							<SelectField name="User" options={UserTypes} autoWidth={false} multiple={false} native={false} />
-						</Box>
+
 						<Box>
 							<TextField
 								required

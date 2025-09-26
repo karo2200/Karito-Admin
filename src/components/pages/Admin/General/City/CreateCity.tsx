@@ -62,12 +62,11 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 		}
 	}, [DataRow, reset]);
 
-	useEffect(() => {
+	/*useEffect(() => {
 		if (listState?.length > 0) {
-			setValue('CityId', listState[0].value);
-			onSearchItem(listState[0].value);
+			onSearchItem(null);
 		}
-	}, [setValue, listState]);
+	}, [listState]);*/
 
 	const onSubmit = async (data: typeof defaultValues) => {
 		if (data.id == 0) {

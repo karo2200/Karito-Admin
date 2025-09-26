@@ -3,13 +3,13 @@ import { Box, Card, CardContent, InputAdornment, Typography } from '@mui/materia
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth_RequestOtpMutation } from 'src/graphql/generated';
-import { setPageData } from 'src/redux/action';
+import { useAuth_RequestOtpMutation, UserType } from 'src/graphql/generated';
 
 import PersonIcon from '@/assets/person';
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
 import { FormProvider, TextField } from '@/components/atoms/Form';
 import { useAuth } from '@/providers/AuthProvider';
+import { setPageData } from '@/redux/action';
 import COLORS from '@/theme/colors';
 
 import * as S from './styles';
@@ -18,7 +18,7 @@ const LoginSchema = Yup.object().shape({
 	Code: Yup.string()?.required(' کد را وارد کنید'),
 });
 
-const Index = ({ Mobil, userType }: { Mobil: any }) => {
+const Index = ({ Mobil }: { Mobil: any }) => {
 	const [showerror, setshowerror] = useState(false);
 	const [loading, setloading] = useState(false);
 	const { mutate: mutate, isLoading: isLoadinglogin } = useAuth_RequestOtpMutation();
@@ -43,12 +43,12 @@ const Index = ({ Mobil, userType }: { Mobil: any }) => {
 	const { isLoading, signInWithEmail } = useAuth();
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		signInWithEmail('+98' + Mobil, data.Code, userType);
+		signInWithEmail('+98' + Mobil, data.Code);
 	};
 
 	// شمارش معکوس تایمر
 	useEffect(() => {
-		dispatch(setPageData({ ...pageData, UserType: userType }));
+		dispatch(setPageData({ ...pageData, UserType: UserType.Admin }));
 
 		if (timer <= 0) return;
 
@@ -66,7 +66,7 @@ const Index = ({ Mobil, userType }: { Mobil: any }) => {
 			{
 				input: {
 					phoneNumber: '+98' + Mobil,
-					userType: userType,
+					userType: UserType.Admin,
 				},
 			},
 			{

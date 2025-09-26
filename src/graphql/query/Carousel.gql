@@ -29,9 +29,13 @@ query carousel_getAll($skip: Int, $take: Int, $where: CarouselDtoFilterInput, $o
 			items {
 				id
 				serviceTypes {
+					id
 					name
 					logo
 					banner
+					serviceSubCategory {
+						id
+					}
 				}
 				title
 			}

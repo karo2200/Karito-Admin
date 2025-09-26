@@ -1,0 +1,44 @@
+mutation discountCode_create($input: CreateDiscountCodeInput!) {
+	discountCode_create(input: $input) {
+		status
+	}
+}
+
+mutation discountCode_delete($input: DeleteDiscountCodeInput!) {
+	discountCode_delete(input: $input) {
+		status
+	}
+}
+
+mutation discountCode_activate($input: ActivateDiscountCodeInput!) {
+	discountCode_activate(input: $input) {
+		status
+	}
+}
+
+query discountCode_getAll(
+	$skip: Int
+	$take: Int
+	$where: DiscountCodeDtoFilterInput
+	$order: [DiscountCodeDtoSortInput!]
+) {
+	discountCode_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				amount
+				id
+				code
+				expiryDate
+				isPercentage
+				isActive
+				customerDto {
+					id
+					firstName
+					lastName
+				}
+			}
+			totalCount
+		}
+		status
+	}
+}

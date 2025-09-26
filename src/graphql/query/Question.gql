@@ -1,0 +1,42 @@
+mutation serviceTypeQuestion_create($input: CreateServiceTypeQuestionInput!) {
+	serviceTypeQuestion_create(input: $input) {
+		status
+	}
+}
+
+mutation serviceTypeQuestion_update($input: UpdateServiceTypeQuestionInput!) {
+	serviceTypeQuestion_update(input: $input) {
+		status
+	}
+}
+
+query serviceTypeQuestion_getByServiceType(
+	$input: GetServiceTypeQuestionsByServiceTypeInput!
+	$skip: Int
+	$take: Int
+	$where: ServiceTypeQuestionDtoFilterInput
+	$order: [ServiceTypeQuestionDtoSortInput!]
+) {
+	serviceTypeQuestion_getByServiceType(input: $input) {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				id
+				isRequired
+				options
+				questionType
+				text
+				serviceType {
+					id
+					serviceSubCategory {
+						id
+						serviceCategory {
+							id
+						}
+					}
+				}
+			}
+			totalCount
+		}
+		status
+	}
+}

@@ -13,7 +13,7 @@ const index = () => {
 	const [CityId, setCityId] = useState('');
 	const [load, setLoad] = useState(1);
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const {
 		data: List,
 		isSuccess,

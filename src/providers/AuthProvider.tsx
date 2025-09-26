@@ -6,6 +6,7 @@ import {
 	useAuth_RefreshTokenMutation,
 	useAuth_VerifyOtpMutation,
 	User_GetMyProfileDocument,
+	UserType,
 	useUser_GetMyProfileQuery,
 } from 'src/graphql/generated';
 
@@ -42,7 +43,7 @@ const authReducer = (state, action) => {
 const AuthContext = createContext({
 	...initialState,
 	logout: () => Promise.resolve(),
-	signInWithEmail: (mobil, code, userType) => Promise.resolve(),
+	signInWithEmail: (mobil, code) => Promise.resolve(),
 	RefreshToken: () => Promise.resolve(),
 });
 
@@ -149,7 +150,7 @@ export default function AuthProvider({ children }) {
 	}, []);
 
 	// ✅ SIGN-IN function
-	const signInWithEmail = async (mobil, code, userType) => {
+	const signInWithEmail = async (mobil, code) => {
 		dispatch({ type: 'IS_LOADING', payload: { isLoading: 'SIGN_IN_WITH_EMAIL' } });
 
 		return new Promise<void>((resolve, reject) => {
@@ -157,7 +158,7 @@ export default function AuthProvider({ children }) {
 				{
 					input: {
 						phoneNumber: mobil,
-						userType: userType,
+						userType: UserType.Admin,
 						otp: code,
 					},
 				},

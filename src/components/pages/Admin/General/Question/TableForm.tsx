@@ -1,11 +1,13 @@
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
+import { QuestionType } from 'src/graphql/generated';
 
 import Pagination from '@/components/organisms/pagination';
 import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick }) => {
+	console.log(rows);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -21,14 +23,11 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								color: '#555', // white text
 							}}
 						>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
-
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت</TableCell>
-
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>لوگو</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>بنر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>isSpecial</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سوال</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>آپشن</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نوع سوال</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>اجباری بودن</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
 							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
@@ -38,37 +37,29 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
-									height: 30,
 								}}
 							>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.serviceSubCategory?.name}
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0 }}>
+									{row.text}
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0 }}>
+									{row?.options?.map((data, i) => (
+										<div key={i}>{data}</div>
+									))}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.name}
+									{row.isRequired ? 'اجباری' : 'غیراجباری'}
 								</TableCell>
-								<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.basePrice.toLocaleString()}
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.banner} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, width: 100 }}>
 									<input
-										type="checkbox"
-										checked={row.isSpecial}
+										type={row.questionType == QuestionType.CheckBox ? 'checkbox' : 'radio'}
+										checked={true}
 										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
 									/>
 								</TableCell>
-								<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
+								<TableCell align="left" sx={{ paddingY: 0, width: 120 }}>
 									<IconButton>
 										<S.EditIcons onClick={() => OnhandleEditClick(row)} />
-									</IconButton>
-									<IconButton>
-										<S.DeleteIcons onClick={() => OnhandleDeleteClick(row)} />
 									</IconButton>
 								</TableCell>
 							</TableRow>

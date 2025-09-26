@@ -9,7 +9,7 @@ import COLORS from '@/theme/colors';
 import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, onRefreshItem }) => {
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 	const { mutate, isLoading: isLoading } = useUser_SetBlockStateMutation();
 	const OnhandelActive = (row) => {

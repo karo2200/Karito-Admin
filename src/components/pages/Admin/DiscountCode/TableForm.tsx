@@ -2,28 +2,30 @@ import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
-import { useCity_ActivateMutation, useCity_DeactivateMutation } from 'src/graphql/generated';
+import { useDiscountCode_ActivateMutation } from 'src/graphql/generated';
 
 import Pagination from '@/components/organisms/pagination';
 import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
+function convertToJalali(dateString) {
+	if (!dateString) return;
+	const date = new Date(dateString);
+	if (isNaN(date)) return;
+	const jDate = toJalaali(date);
+	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
+}
 
-const Index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, OnhandleCursel, onRefreshItem }) => {
+const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-	const { mutate: mutateCity } = useCity_ActivateMutation();
-	const { mutate: mutateCityDe } = useCity_DeactivateMutation();
+	const { mutate } = useDiscountCode_ActivateMutation();
 
 	const OnhandelActive = (row) => {
-		if (!row.isActive) {
-			mutateCity({ input: { cityId: row.id } }, { onSuccess: () => onRefreshItem(), onError: () => {} });
-		} else {
-			mutateCityDe({ input: { cityId: row.id } }, { onSuccess: () => onRefreshItem(), onError: () => {} });
-		}
+		mutate({ input: { id: row.id } }, { onSuccess: () => onRefreshItem(), onError: () => {} });
 	};
 
 	return (
@@ -32,37 +34,43 @@ const Index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow sx={{ height: 30, background: '#c7dffa', color: '#555' }}>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>استان</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>بنر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر چرخشی</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد تخفیف</TableCell>
+
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>مشتری</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>عنوان</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}> isPercentage</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تاریخ انقضا</TableCell>
 
 							{/* ستون‌های مربوط به آیکون‌ها */}
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>ویرایش</TableCell>
+							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>حذف</TableCell>
 							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>فعال/غیرفعال</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>مدیریت بنر</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>مدیریت چرخشی</TableCell>
 						</TableRow>
 					</TableHead>
 
 					<TableBody>
 						{paginatedRows?.map((row, index) => (
 							<TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 }, height: 30 }}>
-								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.province?.name}</TableCell>
-								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.name}</TableCell>
+								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.code}</TableCell>
+
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>
-									<img
-										src={row.activeBanner?.imageUrl}
-										style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
-										alt="بنر"
+									{row.customerDto?.firstName + '' + row.customerDto?.lastName}
+								</TableCell>
+								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.title}</TableCell>
+								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.amount.toLocaleString()}</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
+									<input
+										type="checkbox"
+										checked={row.isSpecial}
+										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
 									/>
 								</TableCell>
-								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.activeCarousel?.title}</TableCell>
+								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{convertToJalali(row.expiryDate)}</TableCell>
 
 								{/* آیکون ویرایش */}
 								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleEditClick(row)}>
-										<S.EditIcons />
+									<IconButton>
+										<S.DeleteIcons onClick={() => OnhandleDeleteClick(row)} />
 									</IconButton>
 								</TableCell>
 
@@ -74,20 +82,6 @@ const Index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 										) : (
 											<ToggleOffIcon color="disabled" sx={{ height: '35px ', width: '35px' }} />
 										)}
-									</IconButton>
-								</TableCell>
-
-								{/* آیکون بنر */}
-								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleBaner(row)}>
-										<S.AdIcon />
-									</IconButton>
-								</TableCell>
-
-								{/* آیکون چرخشی */}
-								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleCursel(row)}>
-										<S.ViewCarousel />
 									</IconButton>
 								</TableCell>
 							</TableRow>

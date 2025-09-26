@@ -1,24 +1,27 @@
 import { Box } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useCity_GetAllQuery } from 'src/graphql/generated';
+import { useDiscountCode_GetAllQuery } from 'src/graphql/generated';
 
-import CreateCity from './CreateCity';
+import Create from './Create';
 import MidelForm from './MidelForm';
 
 const Index = () => {
+	const router = useRouter();
+	const { customerName, customerId } = router.query;
+
 	const [load, setLoad] = useState(0);
-	const [SearchData, setSearchData] = useState('');
 	const {
 		data: CityList,
 		isSuccess,
 		isError,
-	} = useCity_GetAllQuery(
+	} = useDiscountCode_GetAllQuery(
 		{
 			take: 1000,
 			skip: 0,
-			where: SearchData
+			where: customerId
 				? {
-						province: { id: { eq: SearchData } },
+						customerDto: { id: { eq: customerId } },
 				  }
 				: undefined,
 		},
@@ -34,10 +37,6 @@ const Index = () => {
 		}
 	}, [load, isSuccess, isError]);
 	const [selectedRow, setSelectedRow] = useState(null);
-
-	useEffect(() => {
-		setLoad(1);
-	}, [SearchData]);
 	return (
 		<>
 			<Box
@@ -51,19 +50,17 @@ const Index = () => {
 					border: '1px solid #00000014',
 				}}
 			>
-				<CreateCity
+				<Create
 					onRefreshItem={() => {
 						setLoad(1);
 						setSelectedRow(null);
 					}}
-					DataRow={selectedRow}
-					onSearchItem={(data) => {
-						setSearchData(data);
-					}}
+					customerName={customerName}
+					customerId={customerId}
 				/>
 			</Box>
 			<MidelForm
-				DataRow={CityList?.city_getAll?.result?.items}
+				DataRow={CityList?.discountCode_getAll?.result?.items}
 				OnhandleEditClick={(data) => {
 					setSelectedRow(data);
 				}}

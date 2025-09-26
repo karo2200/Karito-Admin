@@ -80,7 +80,7 @@ function MyModal({ open, handleClose, data }) {
 				<Grid item xs={12} sm={3}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>{' شهر: ' + data?.city?.name}</Typography>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{'سرویس: ' + data?.serviceTypes[0]?.name}
+						{'سرویس: ' + data?.serviceTypes?.map((data, i) => <div key={i}>{data?.name}</div>)}
 					</Typography>
 				</Grid>
 			</Grid>

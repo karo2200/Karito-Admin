@@ -1,13 +1,16 @@
-import BlockIcon from '@mui/icons-material/Block';
+import DiscountIcon from '@mui/icons-material/Discount';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 
 import Pagination from '@/components/organisms/pagination';
+import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
+	const router = useRouter();
 
 	return (
 		<>
@@ -26,7 +29,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانواگی </TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>موبایل</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصویر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تخفیف</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -54,7 +57,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.lastName}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.phoneNumber}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -64,12 +67,26 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
 										></img>
 									</TableCell>
 									<TableCell align="left" sx={{ paddingY: 0, height: 30 }}>
-										<IconButton title={row.isBlocked ? 'بلاک شده' : 'آزاد'}>
+										<IconButton>
+											<DiscountIcon
+												sx={{ color: COLORS.grey1 }}
+												onClick={() =>
+													router.push({
+														pathname: '/Admin/DiscountCode',
+														query: {
+															customerName: row.firstName + '' + row.lastName,
+															customerId: row.id,
+														},
+													})
+												}
+											/>
+										</IconButton>
+										{/*<IconButton title={row.isBlocked ? 'بلاک شده' : 'آزاد'}>
 											<BlockIcon
 												sx={{ color: row.isBlocked ? COLORS.grey1 : COLORS.red }}
 												onClick={() => OnhandleEditClick(row)}
 											/>
-										</IconButton>
+										</IconButton>*/}
 									</TableCell>
 								</TableRow>
 							))

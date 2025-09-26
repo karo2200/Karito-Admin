@@ -9,7 +9,7 @@ const index = () => {
 	const [Code, setCode] = useState('');
 	const [name, setname] = useState('');
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [load, setLoad] = useState(1);
 
 	const {

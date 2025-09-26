@@ -1,0 +1,35 @@
+mutation cancellationReason_create($input: CreateCancellationReasonInput!) {
+	cancellationReason_create(input: $input) {
+		status
+	}
+}
+
+mutation cancellationReason_update($input: UpdateCancellationReasonInput!) {
+	cancellationReason_update(input: $input) {
+		status
+	}
+}
+
+mutation cancellationReason_delete($input: DeleteCancellationReasonInput!) {
+	cancellationReason_delete(input: $input) {
+		status
+	}
+}
+
+query cancellationReason_getAll(
+	$skip: Int
+	$take: Int
+	$where: CancellationReasonDtoFilterInput
+	$order: [CancellationReasonDtoSortInput!]
+) {
+	cancellationReason_getAll {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				name
+				id
+			}
+			totalCount
+		}
+		status
+	}
+}

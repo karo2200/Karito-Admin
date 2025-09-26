@@ -6,7 +6,7 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 	return (
 		<>
 			<TablePagination
-				rowsPerPageOptions={[5, 10, 25]}
+				rowsPerPageOptions={[10, 20, 30, 40, 50]}
 				component="div"
 				count={Len}
 				rowsPerPage={rowsPerPage}
@@ -27,12 +27,17 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 						color: '#333 !important',
 						fontWeight: '600',
 						fontSize: '14px',
+						fontFamily: 'tahoma',
 					},
 					'.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
 						color: '#555 !important',
+						fontFamily: 'tahoma',
 					},
-					'.MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected': { color: '#555 !important' },
-					'.MuiButtonBase-root': { color: '#555 !important' },
+					'.MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected': {
+						color: '#555 !important',
+						fontFamily: 'tahoma',
+					},
+					'.MuiButtonBase-root': { color: '#555 !important', fontFamily: 'tahoma' },
 					'.MuiTablePagination-select': {
 						borderRadius: '6px',
 						bgcolor: 'white',
@@ -40,10 +45,12 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 						padding: '5px 12px',
 						fontWeight: '500',
 						color: '#555 !important',
+						fontFamily: 'tahoma',
 					},
 
 					'.MuiSelect-icon': {
 						color: '#030202ff !important',
+						fontFamily: 'tahoma !important',
 					},
 					'.MuiTablePagination-actions > button': {
 						color: '#1976d2 !important', // MUI primary blue
@@ -51,6 +58,7 @@ const index: FC<IPageProps> = ({ rowsPerPage, page, Len, OnchangePage, OnsetRows
 							bgcolor: '#e3f2fd',
 							borderRadius: '50%',
 						},
+						fontFamily: 'tahoma',
 					},
 				}}
 			/>

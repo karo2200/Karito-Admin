@@ -1,26 +1,23 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useCity_GetAllQuery } from 'src/graphql/generated';
+import { useCancellationReason_GetAllQuery } from 'src/graphql/generated';
 
-import CreateCity from './CreateCity';
+import CreateCity from './Create';
 import MidelForm from './MidelForm';
-
 const Index = () => {
-	const [load, setLoad] = useState(0);
-	const [SearchData, setSearchData] = useState('');
+	const [selectedRow, setSelectedRow] = useState(null);
+	const [load, setLoad] = useState(1);
+
 	const {
-		data: CityList,
+		data: StateList,
+		isFetching,
 		isSuccess,
 		isError,
-	} = useCity_GetAllQuery(
+		error,
+	} = useCancellationReason_GetAllQuery(
 		{
 			take: 1000,
 			skip: 0,
-			where: SearchData
-				? {
-						province: { id: { eq: SearchData } },
-				  }
-				: undefined,
 		},
 		{
 			keepPreviousData: true,
@@ -33,11 +30,6 @@ const Index = () => {
 			setLoad(0);
 		}
 	}, [load, isSuccess, isError]);
-	const [selectedRow, setSelectedRow] = useState(null);
-
-	useEffect(() => {
-		setLoad(1);
-	}, [SearchData]);
 	return (
 		<>
 			<Box
@@ -57,18 +49,15 @@ const Index = () => {
 						setSelectedRow(null);
 					}}
 					DataRow={selectedRow}
-					onSearchItem={(data) => {
-						setSearchData(data);
-					}}
 				/>
 			</Box>
 			<MidelForm
-				DataRow={CityList?.city_getAll?.result?.items}
-				OnhandleEditClick={(data) => {
-					setSelectedRow(data);
-				}}
 				onRefreshItem={() => {
 					setLoad(1);
+				}}
+				DataRow={StateList?.cancellationReason_getAll?.result?.items}
+				OnhandleEditClick={(data) => {
+					setSelectedRow(data);
 				}}
 			/>
 		</>

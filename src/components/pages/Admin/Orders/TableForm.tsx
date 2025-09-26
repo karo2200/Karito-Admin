@@ -16,7 +16,7 @@ function convertToJalali(dateString) {
 	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
 }
 const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleShow }) => {
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
 
 	return (
@@ -61,7 +61,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										height: 30,
 									}}
 								>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{convertToJalali(row?.requestDate)}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -82,13 +82,13 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.serviceType?.name}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.basePrice.toLocaleString()}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.discountAmount.toLocaleString()}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.finalPrice.toLocaleString()}
 									</TableCell>
 									<TableCell

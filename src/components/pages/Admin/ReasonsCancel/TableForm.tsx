@@ -9,6 +9,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
 	return (
 		<>
 			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
@@ -21,14 +22,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								color: '#555', // white text
 							}}
 						>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
-
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت</TableCell>
-
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>لوگو</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>بنر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>isSpecial</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>دلیل کنسلی</TableCell>
 							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
@@ -42,28 +36,10 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								}}
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.serviceSubCategory?.name}
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.name}
 								</TableCell>
-								<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.basePrice.toLocaleString()}
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.banner} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<input
-										type="checkbox"
-										checked={row.isSpecial}
-										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
-									/>
-								</TableCell>
-								<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
+
+								<TableCell align="left" sx={{ paddingY: 0, height: 30 }}>
 									<IconButton>
 										<S.EditIcons onClick={() => OnhandleEditClick(row)} />
 									</IconButton>

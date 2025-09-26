@@ -21,32 +21,21 @@ const LoginSchema = Yup.object().shape({
 import { IPageProps } from './type-page';
 
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
-	const [selectedServices, setSelectedServices] = useState<string[]>([]); // برای نگهداری serviceCategoryId های هر ردیف
+	const [selectedServices, setSelectedServices] = useState<string[]>([]);
 	const [listSub, setlistSub] = useState([]);
-	const [listSubsub, setlistSubsub] = useState([]);
-	const [listSubsubAll, setListSubsubAll] = useState([]); // کل زیرسرویس‌ها برای فیلتر کردن
+	const [listSubsubAll, setListSubsubAll] = useState([]);
+	const [formInitialized, setFormInitialized] = useState(false);
 
 	const { mutate: mutateState, isLoading } = useCarousel_CreateMutation();
 	const { mutate: mutateCityUpdate, isLoading: isLoadingUpdate } = useCarousel_UpdateMutation();
 
-	// گرفتن همه زیرسرویس‌ها (برای فیلتر دسته‌بندی)
 	const { data: datasub, isSuccess: isSuccesssub } = useServiceSubCategory_GetAllQuery(
-		{
-			skip: 0,
-			take: 1000,
-		},
-		{
-			keepPreviousData: true,
-		}
+		{ skip: 0, take: 1000 },
+		{ keepPreviousData: true }
 	);
 	const { data: dataSubsub, isSuccess: isSuccessSubsub } = useServiceTypes_GetAllQuery(
-		{
-			skip: 0,
-			take: 1000,
-		},
-		{
-			keepPreviousData: true,
-		}
+		{ skip: 0, take: 1000 },
+		{ keepPreviousData: true }
 	);
 
 	useEffect(() => {
@@ -66,7 +55,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 				dataSubsub?.serviceTypes_getAll.result?.items?.map((cat) => ({
 					option: cat.name,
 					value: cat.id,
-					serviceCategoryId: cat.serviceSubCategory?.id, // فرض بر این که چنین فیلدی هست
+					serviceCategoryId: cat.serviceSubCategory?.id,
 				})) || [];
 			setListSubsubAll(newList);
 		}
@@ -74,7 +63,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 
 	const defaultValues = {
 		Name: '',
-		serviceTypeIds: [''], // شروع با یک آیتم خالی
+		serviceTypeIds: [''], // یک ردیف خالی اولیه
 		id: 0,
 	};
 
@@ -87,28 +76,35 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 
 	const serviceTypeIds = watch('serviceTypeIds');
 
+	// مقداردهی اولیه فرم و selectedServices زمانی که DataRow و داده‌های سرویس‌ها آماده شد
 	useEffect(() => {
-		if (DataRow) {
+		if (DataRow?.serviceTypes && listSubsubAll.length > 0 && !formInitialized) {
+			const serviceTypeIdsToSet = DataRow.serviceTypes.map((item) => item.id);
+			const selectedCategories = DataRow.serviceTypes.map((item) => item.serviceSubCategory?.id || '');
+
 			reset({
-				Name: DataRow?.title || '',
-				serviceTypeIds: DataRow?.serviceTypeIds || [''],
-				id: DataRow?.id || 0,
+				Name: DataRow.title || '',
+				serviceTypeIds: serviceTypeIdsToSet.length > 0 ? serviceTypeIdsToSet : [''],
+				id: DataRow.id || 0,
 			});
 
-			// مقداردهی اولیه selectedServices برای دسته‌بندی‌ها
-			// فرض می‌کنیم DataRow شامل serviceCategoryIds مشابه ساختار ما هست
-			if (DataRow?.serviceCategoryIds && DataRow.serviceCategoryIds.length === DataRow.serviceTypeIds.length) {
-				setSelectedServices(DataRow.serviceCategoryIds);
-			} else {
-				setSelectedServices(new Array(DataRow.serviceTypeIds.length).fill(''));
-			}
+			setSelectedServices(
+				selectedCategories.length > 0 ? selectedCategories : new Array(serviceTypeIdsToSet.length).fill('')
+			);
+
+			setFormInitialized(true);
 		}
-	}, [DataRow, reset]);
+	}, [DataRow, listSubsubAll, reset, formInitialized]);
+
+	// اگر فرم مقداردهی نشده، هیچ چیزی نمایش داده نشود (یا می‌تونی spinner بذاری)
+	if (DataRow && !formInitialized) {
+		return null;
+	}
 
 	const onSubmit = async (data: typeof defaultValues) => {
 		const payload = {
 			title: data.Name,
-			serviceTypeIds: data.serviceTypeIds.filter((f) => f), // حذف رشته‌های خالی
+			serviceTypeIds: data.serviceTypeIds.filter((f) => f),
 			id: data.id || undefined,
 		};
 
@@ -119,6 +115,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					onSuccess: () => {
 						reset(defaultValues);
 						setSelectedServices([]);
+						setFormInitialized(false);
 						onRefreshItem();
 					},
 				}
@@ -130,6 +127,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					onSuccess: () => {
 						reset(defaultValues);
 						setSelectedServices([]);
+						setFormInitialized(false);
 						onRefreshItem();
 					},
 				}
@@ -137,13 +135,11 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 		}
 	};
 
-	// اضافه کردن سطر جدید
 	const handleAddUpload = () => {
 		setValue('serviceTypeIds', [...serviceTypeIds, '']);
 		setSelectedServices([...selectedServices, '']);
 	};
 
-	// حذف سطر بر اساس ایندکس
 	const handleRemoveUpload = (index: number) => {
 		const newServiceTypeIds = [...serviceTypeIds];
 		newServiceTypeIds.splice(index, 1);
@@ -154,19 +150,16 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 		setSelectedServices(newSelectedServices);
 	};
 
-	// تغییر دسته‌بندی سطر مشخص
 	const handleSelectServiceCategory = (index: number, value: string) => {
 		const newSelectedServices = [...selectedServices];
 		newSelectedServices[index] = value;
 		setSelectedServices(newSelectedServices);
 
-		// وقتی دسته‌بندی تغییر کرد، مقدار زیرسرویس اون سطر رو پاک کن (یا تنظیم کن روی '')
 		const newServiceTypeIds = [...serviceTypeIds];
 		newServiceTypeIds[index] = '';
 		setValue('serviceTypeIds', newServiceTypeIds);
 	};
 
-	// فیلتر زیرسرویس‌ها بر اساس دسته‌بندی انتخاب شده هر سطر
 	const filteredSubsubs = (index: number) => {
 		const categoryId = selectedServices[index];
 		return listSubsubAll.filter((item) => item.serviceCategoryId === categoryId);
@@ -210,7 +203,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 										}}
 									/>
 								</Grid>
-								{index > 0 ? (
+								{index > 0 && (
 									<Grid item xs={12} sm={2}>
 										<Button
 											variant="outlined"
@@ -222,8 +215,6 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 											حذف
 										</Button>
 									</Grid>
-								) : (
-									''
 								)}
 							</Grid>
 						</React.Fragment>
