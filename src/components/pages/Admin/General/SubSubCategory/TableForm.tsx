@@ -58,6 +58,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
 									<input
+										disabled
 										type="checkbox"
 										checked={row.isSpecial}
 										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}

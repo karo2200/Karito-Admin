@@ -1,13 +1,15 @@
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { toJalaali } from 'jalaali-js';
 import React, { FC } from 'react';
-import { useDiscountCode_ActivateMutation } from 'src/graphql/generated';
+import { useDiscountCode_ActivateMutation, useDiscountCode_DeactivateMutation } from 'src/graphql/generated';
 
 import Pagination from '@/components/organisms/pagination';
 import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
+
 function convertToJalali(dateString) {
 	if (!dateString) return;
 	const date = new Date(dateString);
@@ -23,9 +25,11 @@ const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => 
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
 	const { mutate } = useDiscountCode_ActivateMutation();
+	const { mutate: mutateDe } = useDiscountCode_DeactivateMutation();
 
 	const OnhandelActive = (row) => {
-		mutate({ input: { id: row.id } }, { onSuccess: () => onRefreshItem(), onError: () => {} });
+		if (row.isActive) mutateDe({ input: { id: row.id } }, { onSuccess: () => onRefreshItem(), onError: () => {} });
+		else mutate({ input: { id: row.id } }, { onSuccess: () => onRefreshItem(), onError: () => {} });
 	};
 
 	return (
@@ -54,12 +58,13 @@ const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => 
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.code}</TableCell>
 
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>
-									{row.customerDto?.firstName + '' + row.customerDto?.lastName}
+									{row.customer?.firstName + '' + row.customer?.lastName}
 								</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.title}</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.amount.toLocaleString()}</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
 									<input
+										disabled
 										type="checkbox"
 										checked={row.isSpecial}
 										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}

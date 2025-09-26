@@ -31,7 +31,8 @@ query discountCode_getAll(
 				expiryDate
 				isPercentage
 				isActive
-				customerDto {
+				title
+				customer {
 					id
 					firstName
 					lastName
@@ -39,6 +40,12 @@ query discountCode_getAll(
 			}
 			totalCount
 		}
+		status
+	}
+}
+
+mutation discountCode_deactivate($input: DeactivateDiscountCodeInput!) {
+	discountCode_deactivate(input: $input) {
 		status
 	}
 }

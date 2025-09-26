@@ -35,7 +35,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					onRefreshItem();
 				}}
 				OnhandleDeleteClick={(data) => {
-					setname(data.name);
+					setname(data.code);
 					setId(data.id);
 					setOpen(true);
 				}}

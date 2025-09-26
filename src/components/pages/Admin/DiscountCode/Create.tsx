@@ -79,7 +79,7 @@ const Index: FC<IPageProps> = ({ customerId, onRefreshItem, customerName }) => {
 		<FormProvider methods={methods}>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl" sx={{ padding: 2 }}>
 				<Grid item xs={12} sm={3}>
-					<TextField required name="Name" label="نام مشتری" fullWidth sx={{ height: 40 }} id="Name" />
+					<TextField disabled={true} required name="Name" label="نام مشتری" fullWidth sx={{ height: 40 }} id="Name" />
 				</Grid>
 
 				<Grid item xs={12} sm={3}>

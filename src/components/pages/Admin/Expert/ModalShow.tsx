@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Dialog, Grid, IconButton, Rating, Typography } from '@mui/material';
+import { Checkbox, Dialog, FormControlLabel, Grid, IconButton, Rating, Typography } from '@mui/material';
 import { toJalaali } from 'jalaali-js';
 import React from 'react';
 
@@ -35,6 +35,7 @@ function MyModal({ open, handleClose, data }) {
 					maxWidth: 800,
 					width: '100%',
 					position: 'relative',
+					overflow: 'hidden',
 				},
 			}}
 		>
@@ -79,8 +80,12 @@ function MyModal({ open, handleClose, data }) {
 				</Grid>
 				<Grid item xs={12} sm={3}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>{' شهر: ' + data?.city?.name}</Typography>
+				</Grid>
+				<Grid container spacing={2} sx={{ marginTop: '5px', overflow: 'hidden' }}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{'سرویس: ' + data?.serviceTypes?.map((data, i) => <div key={i}>{data?.name}</div>)}
+						{data?.serviceTypes?.map((item, i) => (
+							<FormControlLabel key={i} control={<Checkbox checked={true} />} label={item?.name} />
+						))}
 					</Typography>
 				</Grid>
 			</Grid>

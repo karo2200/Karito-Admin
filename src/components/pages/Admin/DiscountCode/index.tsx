@@ -8,9 +8,19 @@ import MidelForm from './MidelForm';
 
 const Index = () => {
 	const router = useRouter();
-	const { customerName, customerId } = router.query;
+	const [load, setLoad] = useState(false);
+	const { customerId, customerName } = router.query;
 
-	const [load, setLoad] = useState(0);
+	const [customerIds, setCustomerIds] = useState<string | undefined>(undefined);
+
+	// وقتی router.query آماده شد، مقداردهی کنیم
+	useEffect(() => {
+		if (router.isReady) {
+			if (typeof customerId === 'string') setCustomerIds(customerId);
+			setLoad(true);
+		}
+	}, [router.isReady]);
+
 	const {
 		data: CityList,
 		isSuccess,
@@ -19,29 +29,30 @@ const Index = () => {
 		{
 			take: 1000,
 			skip: 0,
-			where: customerId
+			where: customerIds
 				? {
-						customerDto: { id: { eq: customerId } },
+						customer: { id: { eq: customerIds } },
 				  }
 				: undefined,
 		},
 		{
+			enabled: load && !!customerId,
 			keepPreviousData: true,
-			enabled: load === 1,
 		}
 	);
 
+	const [selectedRow, setSelectedRow] = useState(null);
+
 	useEffect(() => {
-		if (load === 1 && (isSuccess || isError)) {
-			setLoad(0);
+		if (load && (isSuccess || isError)) {
+			setLoad(false);
 		}
 	}, [load, isSuccess, isError]);
-	const [selectedRow, setSelectedRow] = useState(null);
+
 	return (
 		<>
 			<Box
 				sx={{
-					//boxShadow: ' rgb(100 100 111 / 9%) 0px 7px 29px 0px',
 					width: '100%',
 					minHeight: '90px',
 					borderRadius: 2,
@@ -52,7 +63,7 @@ const Index = () => {
 			>
 				<Create
 					onRefreshItem={() => {
-						setLoad(1);
+						setLoad(true);
 						setSelectedRow(null);
 					}}
 					customerName={customerName}
@@ -65,7 +76,7 @@ const Index = () => {
 					setSelectedRow(data);
 				}}
 				onRefreshItem={() => {
-					setLoad(1);
+					setLoad(true);
 				}}
 			/>
 		</>
