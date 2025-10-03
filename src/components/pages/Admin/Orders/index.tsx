@@ -25,10 +25,8 @@ const index = () => {
 				CityId != ''
 					? {
 							address: {
-								neighborhood: {
-									city: {
-										id: { eq: CityId },
-									},
+								city: {
+									id: { eq: CityId },
 								},
 							},
 

@@ -30,6 +30,7 @@ query city_getAll($skip: Int, $take: Int, $where: CityDtoFilterInput, $order: [C
 		result(skip: $skip, take: $take, where: $where, order: $order) {
 			items {
 				id
+				boundary
 				province {
 					id
 					name
@@ -44,9 +45,6 @@ query city_getAll($skip: Int, $take: Int, $where: CityDtoFilterInput, $order: [C
 				activeCarousel {
 					id
 					title
-					serviceTypes {
-						banner
-					}
 				}
 			}
 		}

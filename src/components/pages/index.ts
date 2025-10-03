@@ -6,7 +6,6 @@ export { default as BanerPage } from './Admin/General/Baner';
 export { default as CarouselPage } from './Admin/General/Carousel';
 export { default as CategoryPage } from './Admin/General/Category';
 export { default as CityPage } from './Admin/General/City';
-export { default as NeighborhoodPage } from './Admin/General/Neighborhood';
 export { default as QuestionPage } from './Admin/General/Question';
 export { default as StatePage } from './Admin/General/State';
 export { default as SubCategoryPage } from './Admin/General/SubCategory';

@@ -8,16 +8,16 @@ query serviceRequest_getAll(
 		result(skip: $skip, take: $take, where: $where, order: $order) {
 			items {
 				address {
-					neighborhood {
+					latitude
+					longitude
+					floorNumber
+					buildingNumber
+					city {
 						name
 						id
-						city {
-							province {
-								name
-								id
-							}
-							id
+						province {
 							name
+							id
 						}
 					}
 					text

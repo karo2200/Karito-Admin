@@ -1,3 +1,4 @@
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
@@ -9,7 +10,14 @@ import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
 
-const Index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, OnhandleCursel, onRefreshItem }) => {
+const Index: FC<IPageProps> = ({
+	rows,
+	OnhandleEditClick,
+	OnhandleBaner,
+	OnhandleCursel,
+	onRefreshItem,
+	OnhandleMap,
+}) => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
@@ -38,6 +46,7 @@ const Index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر چرخشی</TableCell>
 
 							{/* ستون‌های مربوط به آیکون‌ها */}
+							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>نقشه</TableCell>
 							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>ویرایش</TableCell>
 							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>فعال/غیرفعال</TableCell>
 							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>مدیریت بنر</TableCell>
@@ -58,7 +67,12 @@ const Index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleBaner, Onhandl
 									/>
 								</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.activeCarousel?.title}</TableCell>
-
+								{/* آیکون نقشه */}
+								<TableCell align="center" sx={{ paddingY: 0 }}>
+									<IconButton onClick={() => OnhandleMap(row?.boundary)}>
+										<LocationOnIcon />
+									</IconButton>
+								</TableCell>
 								{/* آیکون ویرایش */}
 								<TableCell align="center" sx={{ paddingY: 0 }}>
 									<IconButton onClick={() => OnhandleEditClick(row)}>

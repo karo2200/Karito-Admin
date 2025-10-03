@@ -1,9 +1,4 @@
-query specialist_getAll(
-	$skip: Int
-	$take: Int
-	$where: SpecialistProfileDtoFilterInput
-	$order: [SpecialistProfileDtoSortInput!]
-) {
+query specialist_getAll($skip: Int, $take: Int, $where: SpecialistDtoFilterInput, $order: [SpecialistDtoSortInput!]) {
 	specialist_getAll {
 		result(skip: $skip, take: $take, where: $where, order: $order) {
 			items {

@@ -91,11 +91,13 @@ function MyModal({ open, handleClose, data }) {
 					</Typography>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
 						{'آدرس: ' +
-							data?.address?.neighborhood?.city?.province?.name +
+							data?.address?.city?.province?.name +
 							'-' +
-							data?.address?.neighborhood?.city?.name +
-							'-' +
-							data?.address?.neighborhood?.name +
+							data?.address?.city?.name +
+							'- پلاک:' +
+							data?.address?.buildingNumber +
+							'- طبقه:' +
+							data?.address?.floorNumber +
 							'-' +
 							data?.address?.text}
 					</Typography>

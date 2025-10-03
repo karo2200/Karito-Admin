@@ -34,7 +34,6 @@ const menuItems = [
 		subMenu: [
 			{ text: '  استان', link: '/Admin/General/State' },
 			{ text: '  شهر', link: '/Admin/General/City' },
-			{ text: '  محله', link: '/Admin/General/Neighborhood' },
 			{ text: '  بنر', link: '/Admin/General/Baner' },
 			{ text: 'تصاویر چرخشی', link: '/Admin/General/Carousel' },
 		],

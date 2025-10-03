@@ -1,17 +1,28 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
 import { useCity_CreateCityMutation, useCity_UpdateCityMutation, useProvincesQuery } from 'src/graphql/generated';
 
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
 import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
-
+//import Modal from '@/components/organisms/ModalLatlong';
 const LoginSchema = Yup.object().shape({
 	CityName: Yup.string()?.required(' نام شهر را وارد کنید'),
 	CityId: Yup.string()?.required('استان را انتخاب کنید'),
 });
+import dynamic from 'next/dynamic';
+import { useSnackbar } from 'notistack';
+
 import { IPageProps } from './type-page';
+
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
+	const Modal = dynamic(() => import('@/components/organisms/ModalLatlong'), { ssr: false });
+	const { enqueueSnackbar } = useSnackbar();
+
+	const router = useRouter();
+	const [open, setOpen] = useState(false);
+	const [latLong, setlatLong] = useState('');
 	const [listState, setListState] = useState([]);
 	const [disabled, setdisabled] = useState(false);
 	const { mutate: mutateCity, isLoading: isLoading } = useCity_CreateCityMutation();
@@ -58,6 +69,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				CityName: DataRow?.name || '',
 				CityId: DataRow?.province?.id || '',
 			});
+			setlatLong(DataRow.boundary);
 			setdisabled(true);
 		}
 	}, [DataRow, reset]);
@@ -69,84 +81,130 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 	}, [listState]);*/
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		if (data.id == 0) {
-			await mutateCity(
-				{
-					input: {
-						name: data.CityName,
-						provinceId: data.CityId,
+		if (latLong != '') {
+			if (data.id == 0) {
+				await mutateCity(
+					{
+						input: {
+							name: data.CityName,
+							provinceId: data.CityId,
+							wktBoundary: latLong,
+						},
 					},
-				},
-				{
-					onSuccess: async (res) => {
-						setValue('CityName', '');
-						setValue('CityId', data.CityId);
-						onRefreshItem();
+					{
+						onSuccess: async (res) => {
+							if (res?.city_create?.status?.code == 0) {
+								const errorMessage = res?.city_create?.status?.message || 'خطایی رخ داده است';
+								enqueueSnackbar(errorMessage, { variant: 'error' });
+							}
+							setValue('CityName', '');
+							setValue('CityId', data.CityId);
+							onRefreshItem();
+							setlatLong('');
+						},
+						onError: (err) => {
+							enqueueSnackbar('محدوده انتخابی نادرست است', { variant: 'error' });
+						},
+					}
+				);
+			} else
+				await mutateCityUpdate(
+					{
+						input: {
+							newName: data.CityName,
+							cityId: data.id,
+						},
 					},
-					onError: (err) => {},
-				}
-			);
-		} else
-			await mutateCityUpdate(
-				{
-					input: {
-						newName: data.CityName,
-						cityId: data.id,
-					},
-				},
-				{
-					onSuccess: async (res) => {
-						DataRow = null;
-						setValue('CityName', '');
-						setValue('id', 0);
-						setValue('CityId', data.CityId);
-						setdisabled(false);
-						onRefreshItem();
-					},
-					onError: (err) => {},
-				}
-			);
+					{
+						onSuccess: async (res) => {
+							DataRow = null;
+							setValue('CityName', '');
+							setValue('id', 0);
+							setValue('CityId', data.CityId);
+							setdisabled(false);
+							onRefreshItem();
+							setlatLong('');
+						},
+						onError: (err) => {},
+					}
+				);
+		} else enqueueSnackbar('محدوده شهر انتخاب نشده است', { variant: 'error' });
 	};
 
 	return (
-		<FormProvider methods={methods}>
-			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<SelectField
-						disabled={disabled}
-						name="CityId"
-						options={listState}
-						autoWidth={false}
-						multiple={false}
-						native={false}
-						onChanged={(e) => {
-							onSearchItem(e.target.value);
-						}}
-					/>
+		<>
+			<FormProvider methods={methods}>
+				<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
+					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+						<SelectField
+							disabled={disabled}
+							name="CityId"
+							options={listState}
+							autoWidth={false}
+							multiple={false}
+							native={false}
+							onChanged={(e) => {
+								onSearchItem(e.target.value);
+							}}
+						/>
+					</Grid>
+					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+						<TextField required name="CityName" placeholder=" شهر" fullWidth sx={{ height: 40 }} id="CityName" />
+					</Grid>
+					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+						<LoadingButton
+							disabled={disabled}
+							variant="contained"
+							onClick={() => {
+								setOpen(true);
+							}}
+							loading={isLoading || isLoadingUpdate}
+							sx={{
+								fontSize: '15px',
+								background: '#88b2e1',
+								color: '#fff',
+								borderRadius: '8px !important',
+								width: '150px',
+								marginTop: '5px',
+								height: 40,
+							}}
+						>
+							انتخاب محدوده
+						</LoadingButton>
+					</Grid>
+					<Grid item xs={12} sm={3}>
+						<LoadingButton
+							variant="contained"
+							onClick={handleSubmit(onSubmit)}
+							loading={isLoading || isLoadingUpdate}
+							sx={{
+								fontSize: '15px',
+								background: '#88b2e1',
+								color: '#fff',
+								borderRadius: '8px !important',
+								width: '100px',
+								marginTop: '5px',
+								height: 40,
+							}}
+						>
+							ثبت
+						</LoadingButton>
+					</Grid>
 				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<TextField required name="CityName" placeholder=" شهر" fullWidth sx={{ height: 40 }} id="CityName" />
-				</Grid>
-				<Grid item xs={12} sm={3}>
-					<LoadingButton
-						variant="contained"
-						onClick={handleSubmit(onSubmit)}
-						loading={isLoading || isLoadingUpdate}
-						sx={{
-							fontSize: '15px',
-							background: '#88b2e1',
-							color: '#fff',
-							borderRadius: '8px !important',
-							width: '100px',
-							marginTop: '5px',
-							height: 40,
-						}}
-					>
-						ثبت
-					</LoadingButton>
-				</Grid>
-			</Grid>
-		</FormProvider>
+			</FormProvider>
+			<Modal
+				disabled={false}
+				lat={latLong}
+				open={open}
+				handleClose={() => {
+					setOpen(false);
+				}}
+				handleConfirm={(wkt) => {
+					setlatLong(wkt);
+					setOpen(false);
+				}}
+			></Modal>
+		</>
 	);
 };
 

@@ -68,13 +68,15 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										{row?.customer?.firstName || '' + ' ' + row?.customer?.lastName || ''}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row.address?.neighborhood?.city?.province?.name +
+										{row?.address?.city?.province?.name +
 											'-' +
-											row.address?.neighborhood?.city?.name +
+											row?.address?.city?.name +
+											'- پلاک:' +
+											row?.address?.buildingNumber +
+											'- طبقه:' +
+											row?.address?.floorNumber +
 											'-' +
-											row.address?.neighborhood?.name +
-											'-' +
-											row.address?.text}
+											row?.address?.text}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.specialist?.firstName || '' + ' ' + row?.specialist?.lastName || ''}

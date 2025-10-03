@@ -8,6 +8,7 @@ export interface IPageProps {
 	OnhandleEditClick?: (value: any) => void;
 	OnhandleBaner?: (value: any) => void;
 	OnhandleCursel?: (value: any) => void;
+	OnhandleMap?: (value: any) => void;
 	onRefreshItem?: () => void;
 	DataRow?: [];
 	rows?: [];
