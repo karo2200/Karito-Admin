@@ -36,6 +36,7 @@ const menuItems = [
 			{ text: '  شهر', link: '/Admin/General/City' },
 			{ text: '  بنر', link: '/Admin/General/Baner' },
 			{ text: 'تصاویر چرخشی', link: '/Admin/General/Carousel' },
+			{ text: 'ارتباط شهر و سرویس', link: '/Admin/General/CityService' },
 		],
 	},
 	{

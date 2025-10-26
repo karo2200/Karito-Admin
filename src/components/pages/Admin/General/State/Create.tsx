@@ -8,6 +8,10 @@ import { FormProvider, TextField } from '@/components/atoms/Form';
 
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام استان را وارد کنید'),
+	Abbreviation: Yup.string()
+		?.required('  کد را وارد کنید')
+		.matches(/^[A-Za-z0-9]+$/, 'فقط عدد و حروف انگلیسی مجاز است')
+		.max(2, 'تعداد کاراکتر مجاز 2'),
 });
 import { IPageProps } from './type-page';
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
@@ -17,6 +21,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	const defaultValues = {
 		Name: '',
 		id: 0,
+		Abbreviation: '',
 	};
 
 	const methods = useForm({
@@ -31,6 +36,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 			reset({
 				Name: DataRow?.name || '',
 				id: DataRow?.id || '',
+				Abbreviation: DataRow?.abbreviation || '',
 			});
 		}
 	}, [DataRow, reset]);
@@ -41,11 +47,13 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 				{
 					input: {
 						name: data.Name,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
 					onSuccess: async (res) => {
 						setValue('Name', '');
+						setValue('Abbreviation', '');
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -57,11 +65,13 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					input: {
 						name: data.Name,
 						id: data.id,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
 					onSuccess: async (res) => {
 						setValue('Name', '');
+						setValue('Abbreviation', '');
 						setValue('id', 0);
 						onRefreshItem();
 					},
@@ -76,6 +86,9 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
 				<Grid item xs={12} sm={3}>
 					<TextField required name="Name" placeholder="  استان" sx={{ mb: 0, height: '40px' }} id="Name" />
+				</Grid>
+				<Grid item xs={12} sm={3}>
+					<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ mb: 0, height: '40px' }} id="Name" />
 				</Grid>
 				<Grid item xs={12} sm={3}>
 					<LoadingButton

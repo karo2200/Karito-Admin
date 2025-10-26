@@ -1,11 +1,20 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
 import React, { FC, useEffect } from 'react';
-import { useCancellationReason_CreateMutation, useCancellationReason_UpdateMutation } from 'src/graphql/generated';
+import {
+	useCancellationReason_CreateMutation,
+	useCancellationReason_UpdateMutation,
+	UserType,
+} from 'src/graphql/generated';
 
 import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
-import { FormProvider, TextField } from '@/components/atoms/Form';
+import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
 
+const list = [
+	{ option: 'Admin', value: UserType.Admin },
+	{ option: 'Customer', value: UserType.Customer },
+	{ option: 'Specialist', value: UserType.Specialist },
+];
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required('  دلیل را وارد کنید'),
 });
@@ -17,6 +26,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	const defaultValues = {
 		Name: '',
 		id: 0,
+		Targets: list[0].value,
 	};
 
 	const methods = useForm({
@@ -31,6 +41,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 			reset({
 				Name: DataRow?.name || '',
 				id: DataRow?.id || '',
+				Targets: DataRow?.targets || list[0].value,
 			});
 		}
 	}, [DataRow, reset]);
@@ -41,6 +52,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 				{
 					input: {
 						name: data.Name,
+						targets: data.Targets,
 					},
 				},
 				{
@@ -57,6 +69,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					input: {
 						name: data.Name,
 						id: data.id,
+						targets: data.Targets,
 					},
 				},
 				{
@@ -74,6 +87,18 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	return (
 		<FormProvider methods={methods}>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
+				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+					<SelectField
+						name="Targets"
+						options={list}
+						autoWidth={false}
+						multiple={false}
+						native={false}
+						onChanged={(e) => {
+							//onSearchItem(e.target.value);
+						}}
+					/>
+				</Grid>
 				<Grid item xs={12} sm={3}>
 					<TextField required name="Name" placeholder="دلیل" sx={{ mb: 0, height: '40px' }} id="Name" />
 				</Grid>

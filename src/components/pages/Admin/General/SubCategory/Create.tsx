@@ -14,6 +14,10 @@ const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام را وارد کنید'),
 	FilePath: Yup.string()?.required('  تصویر را وارد کنید'),
 	serviceCategoryId: Yup.string()?.required('فیلد اجباری است'),
+	Abbreviation: Yup.string()
+		?.required('  کد را وارد کنید')
+		.matches(/^[A-Za-z0-9]+$/, 'فقط عدد و حروف انگلیسی مجاز است')
+		.max(2, 'تعداد کاراکتر مجاز 2'),
 });
 import { IPageProps } from './type-page';
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
@@ -51,6 +55,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 		FilePath: '',
 		id: 0,
 		serviceCategoryId: '',
+		Abbreviation: '',
 	};
 	const methods = useForm({
 		resolver: yupResolver(LoginSchema),
@@ -72,6 +77,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				FilePath: DataRow?.logo || '',
 				id: DataRow?.id || 0,
 				serviceCategoryId: DataRow?.serviceCategoryId || listCategury[0].value,
+				Abbreviation: DataRow?.abbreviation || '',
 			});
 			setdisabled(true);
 		}
@@ -85,6 +91,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						name: data.Name,
 						logo: data.FilePath,
 						serviceCategoryId: data.serviceCategoryId,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
@@ -93,7 +100,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						setValue('serviceCategoryId', data.serviceCategoryId);
 						setValue('Name', '');
 						setValue('FilePath', '');
-
+						setValue('Abbreviation', '');
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -106,6 +113,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						newName: data.Name,
 						newLogo: data.FilePath,
 						serviceSubCategoryId: data.id,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
@@ -117,6 +125,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						setValue('Name', '');
 						setValue('FilePath', '');
 						setValue('id', 0);
+						setValue('Abbreviation', '');
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -144,7 +153,9 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 					<TextField required name="Name" placeholder="  سرویس" sx={{ height: '40px' }} id="Name" />
 				</Grid>
 
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}></Grid>
+				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+					<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ height: '40px' }} id="Name" />
+				</Grid>
 			</Grid>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl" marginTop="5px">
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>

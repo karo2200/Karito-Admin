@@ -12,6 +12,10 @@ import UploadPage from '@/components/organisms/UploadPage';
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string()?.required(' نام را وارد کنید'),
 	FilePath: Yup.string()?.required('  تصویر را وارد کنید'),
+	Abbreviation: Yup.string()
+		?.required('  کد را وارد کنید')
+		.matches(/^[A-Za-z0-9]+$/, 'فقط عدد و حروف انگلیسی مجاز است')
+		.max(2, 'تعداد کاراکتر مجاز 2'),
 });
 import { IPageProps } from './type-page';
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
@@ -23,6 +27,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 		Name: '',
 		FilePath: '',
 		id: 0,
+		Abbreviation: '',
 	};
 	const methods = useForm({
 		resolver: yupResolver(LoginSchema),
@@ -37,6 +42,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 				Name: DataRow?.name || '',
 				FilePath: DataRow?.logo || '',
 				id: DataRow?.id || 0,
+				Abbreviation: DataRow?.abbreviation || '',
 			});
 		}
 	}, [DataRow, reset]);
@@ -48,6 +54,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 					input: {
 						name: data.Name,
 						logo: data.FilePath,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
@@ -55,7 +62,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 						setEmpty(true);
 						setValue('Name', '');
 						setValue('FilePath', '');
-
+						setValue('Abbreviation', '');
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -68,6 +75,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 						newName: data.Name,
 						newLogo: data.FilePath,
 						serviceCategoryId: data.id,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
@@ -77,6 +85,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 						setValue('Name', '');
 						setValue('FilePath', '');
 						setValue('id', 0);
+						setValue('Abbreviation', '');
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -90,7 +99,9 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
 					<TextField required name="Name" placeholder="  سرویس" sx={{ height: '40px' }} id="Name" />
 				</Grid>
-
+				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+					<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ height: '40px' }} id="Name" />
+				</Grid>
 				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
 					<UploadPage
 						Empty={Empty}

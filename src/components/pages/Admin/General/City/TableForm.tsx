@@ -40,6 +40,8 @@ const Index: FC<IPageProps> = ({
 				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow sx={{ height: 30, background: '#c7dffa', color: '#555' }}>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد</TableCell>
+
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>استان</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>بنر</TableCell>
@@ -57,6 +59,9 @@ const Index: FC<IPageProps> = ({
 					<TableBody>
 						{paginatedRows?.map((row, index) => (
 							<TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 }, height: 30 }}>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{row.abbreviation}
+								</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.province?.name}</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.name}</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>
@@ -69,7 +74,7 @@ const Index: FC<IPageProps> = ({
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.activeCarousel?.title}</TableCell>
 								{/* آیکون نقشه */}
 								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleMap(row?.boundary)}>
+									<IconButton onClick={() => OnhandleMap(row)}>
 										<LocationOnIcon />
 									</IconButton>
 								</TableCell>

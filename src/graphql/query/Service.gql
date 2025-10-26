@@ -38,6 +38,7 @@ query serviceCategory_getAll(
 				id
 				name
 				logo
+				abbreviation
 			}
 			totalCount
 		}

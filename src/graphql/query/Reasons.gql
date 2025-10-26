@@ -27,6 +27,7 @@ query cancellationReason_getAll(
 			items {
 				name
 				id
+				targets
 			}
 			totalCount
 		}

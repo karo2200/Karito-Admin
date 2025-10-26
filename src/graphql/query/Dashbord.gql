@@ -1,0 +1,47 @@
+query stats_getActiveSpecialists($input: StatsRangeInput!) {
+	stats_getActiveSpecialists(input: $input) {
+		status
+		result
+	}
+}
+
+query stats_getTotalRevenue($input: StatsRangeInput!) {
+	stats_getTotalRevenue(input: $input) {
+		status
+		result {
+			totalGross
+			totalPlatformShare
+			totalSpecialistShare
+		}
+	}
+}
+
+query stats_getServiceRequests($input: StatsRangeInput!) {
+	stats_getServiceRequests(input: $input) {
+		status
+		result {
+			totalRequests
+			successfulRequests
+		}
+	}
+}
+
+query stats_getServiceTypeCounts(
+	$input: StatsRangeInput!
+	$skip: Int
+	$take: Int
+	$where: ServiceTypeCountDtoFilterInput
+	$order: [ServiceTypeCountDtoSortInput!]
+) {
+	stats_getServiceTypeCounts(input: $input) {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				count
+				serviceTypeId
+				serviceTypeName
+			}
+			totalCount
+		}
+		status
+	}
+}

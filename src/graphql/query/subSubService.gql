@@ -41,6 +41,7 @@ query serviceTypes_getAll(
 				logo
 				isSpecial
 				banner
+				abbreviation
 				serviceSubCategory {
 					id
 					name

@@ -10,6 +10,10 @@ import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
 const LoginSchema = Yup.object().shape({
 	CityName: Yup.string()?.required(' نام شهر را وارد کنید'),
 	CityId: Yup.string()?.required('استان را انتخاب کنید'),
+	Abbreviation: Yup.string()
+		?.required('  کد را وارد کنید')
+		.matches(/^[A-Za-z0-9]+$/, 'فقط عدد و حروف انگلیسی مجاز است')
+		.max(2, 'تعداد کاراکتر مجاز 2'),
 });
 import dynamic from 'next/dynamic';
 import { useSnackbar } from 'notistack';
@@ -53,6 +57,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 		CityName: '',
 		CityId: '',
 		id: 0,
+		Abbreviation: '',
 	};
 
 	const methods = useForm({
@@ -68,6 +73,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				id: DataRow?.id,
 				CityName: DataRow?.name || '',
 				CityId: DataRow?.province?.id || '',
+				Abbreviation: DataRow?.abbreviation || '',
 			});
 			setlatLong(DataRow.boundary);
 			setdisabled(true);
@@ -89,6 +95,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 							name: data.CityName,
 							provinceId: data.CityId,
 							wktBoundary: latLong,
+							abbreviation: data.Abbreviation,
 						},
 					},
 					{
@@ -113,6 +120,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						input: {
 							newName: data.CityName,
 							cityId: data.id,
+							abbreviation: data.Abbreviation,
 						},
 					},
 					{
@@ -120,6 +128,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 							DataRow = null;
 							setValue('CityName', '');
 							setValue('id', 0);
+							setValue('Abbreviation', '');
 							setValue('CityId', data.CityId);
 							setdisabled(false);
 							onRefreshItem();
@@ -149,7 +158,10 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						/>
 					</Grid>
 					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-						<TextField required name="CityName" placeholder=" شهر" fullWidth sx={{ height: 40 }} id="CityName" />
+						<TextField required name="CityName" placeholder=" شهر" fullWidth sx={{ mb: 0, height: 40 }} id="CityName" />
+					</Grid>
+					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+						<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ mb: 0, height: '40px' }} id="Name" />
 					</Grid>
 					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
 						<LoadingButton

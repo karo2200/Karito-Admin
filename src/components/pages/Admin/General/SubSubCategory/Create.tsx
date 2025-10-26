@@ -18,6 +18,10 @@ const LoginSchema = Yup.object().shape({
 	CategoryId: Yup.string()?.required('فیلد اجباری است'),
 	price: Yup.number()?.required('فیلد اجباری است'),
 	FileBaner: Yup.string()?.required('  بنر را وارد کنید'),
+	Abbreviation: Yup.string()
+		?.required('  کد را وارد کنید')
+		.matches(/^[A-Za-z0-9]+$/, 'فقط عدد و حروف انگلیسی مجاز است')
+		.max(2, 'تعداد کاراکتر مجاز 2'),
 });
 import { IPageProps } from './type-page';
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
@@ -89,6 +93,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 		price: 0,
 		isSpecial: false,
 		FileBaner: '',
+		Abbreviation: '',
 	};
 	const methods = useForm({
 		resolver: yupResolver(LoginSchema),
@@ -124,6 +129,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 				price: DataRow?.basePrice || 0,
 				isSpecial: DataRow?.isSpecial || false,
 				FileBaner: DataRow?.banner || '',
+				Abbreviation: DataRow?.abbreviation || '',
 			});
 			setdisabled(true);
 		}
@@ -140,6 +146,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						basePrice: data.price,
 						isSpecial: data.isSpecial,
 						banner: data.FileBaner,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
@@ -150,6 +157,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						setValue('FilePath', '');
 						setValue('price', 0);
 						setValue('CategoryId', data.CategoryId);
+						setValue('Abbreviation', '');
 						onRefreshItem();
 					},
 					onError: (err) => {},
@@ -165,6 +173,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						id: data.id,
 						isSpecial: data.isSpecial,
 						banner: data.FileBaner,
+						abbreviation: data.Abbreviation,
 					},
 				},
 				{
@@ -176,6 +185,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						setValue('FilePath', '');
 						setValue('price', 0);
 						setValue('id', 0);
+						setValue('Abbreviation', '');
 						setValue('CategoryId', data.CategoryId);
 						setdisabled(false);
 						onRefreshItem();
@@ -228,6 +238,15 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						placeholder="  قیمت"
 						sx={{ height: '40px', width: '234px' }}
 						id="price"
+					/>
+				</Grid>
+				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+					<TextField
+						required
+						name="Abbreviation"
+						placeholder="کد اختصاصی"
+						sx={{ height: '40px', width: '234px' }}
+						id="Name"
 					/>
 				</Grid>
 			</Grid>

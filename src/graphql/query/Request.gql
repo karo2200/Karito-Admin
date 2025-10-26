@@ -7,6 +7,7 @@ query serviceRequest_getAll(
 	serviceRequest_getAll {
 		result(skip: $skip, take: $take, where: $where, order: $order) {
 			items {
+				trackingCode
 				address {
 					latitude
 					longitude
@@ -23,10 +24,7 @@ query serviceRequest_getAll(
 					text
 				}
 				basePrice
-				cancellationReason {
-					id
-					name
-				}
+
 				customer {
 					firstName
 					id

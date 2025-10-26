@@ -30,6 +30,7 @@ query city_getAll($skip: Int, $take: Int, $where: CityDtoFilterInput, $order: [C
 		result(skip: $skip, take: $take, where: $where, order: $order) {
 			items {
 				id
+				abbreviation
 				boundary
 				province {
 					id
@@ -63,6 +64,7 @@ query provinces($skip: Int, $take: Int, $where: ProvinceDtoFilterInput, $order: 
 			items {
 				name
 				id
+				abbreviation
 			}
 		}
 	}
@@ -80,6 +82,39 @@ mutation province_update($input: UpdateProvinceInput!) {
 
 mutation province_delete($input: DeleteProvinceInput!) {
 	province_delete(input: $input) {
+		status
+	}
+}
+
+mutation city_updateBoundary($input: UpdateCityBoundaryInput!) {
+	city_updateBoundary(input: $input) {
+		status
+	}
+}
+
+mutation city_setAvailableServiceTypes($input: SetCityAvailableServiceTypesInput!) {
+	city_setAvailableServiceTypes(input: $input) {
+		status
+	}
+}
+
+query city_getAvailableServiceTypes(
+	$input: GetAvailableServiceTypesForCityInput!
+	$skip: Int
+	$take: Int
+	$where: ServiceTypeDtoFilterInput
+	$order: [ServiceTypeDtoSortInput!]
+) {
+	city_getAvailableServiceTypes(input: $input) {
+		result(skip: $skip, take: $take, where: $where, order: $order) {
+			items {
+				name
+				logo
+				id
+				isSpecial
+			}
+			totalCount
+		}
 		status
 	}
 }

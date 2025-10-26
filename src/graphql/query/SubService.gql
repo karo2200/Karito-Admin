@@ -38,6 +38,7 @@ query serviceSubCategory_getAll(
 				id
 				name
 				logo
+				abbreviation
 				serviceCategory {
 					id
 					name

@@ -67,7 +67,6 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 	const { handleSubmit } = methods;
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		console.log(data);
 		onSearchItem(data?.name, data?.CityId);
 	};
 

@@ -12,6 +12,7 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
+import { toJalaali } from 'jalaali-js';
 import React, { FC, useState } from 'react';
 import { VerificationStatus } from 'src/graphql/generated';
 
@@ -19,6 +20,13 @@ import Pagination from '@/components/organisms/pagination';
 import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
+function convertToJalali(dateString) {
+	if (!dateString) return;
+	const date = new Date(dateString);
+	if (isNaN(date)) return;
+	const jDate = toJalaali(date);
+	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
+}
 const index: FC<IPageProps> = ({
 	rows,
 	OnhandleEditClick,
@@ -53,10 +61,11 @@ const index: FC<IPageProps> = ({
 								color: '#555', // white text
 							}}
 						>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تاریخ</TableCell>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد پرسنلی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانوادگی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کارت ملی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>ویدئو</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>داکیومنت</TableCell>
@@ -89,6 +98,12 @@ const index: FC<IPageProps> = ({
 									}}
 								>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{convertToJalali(row?.registeredAt)}
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{row.code}
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.firstName}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -97,9 +112,7 @@ const index: FC<IPageProps> = ({
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.city?.name}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row.serviceTypes[0]?.name}
-									</TableCell>
+
 									<TableCell
 										scope="row"
 										sx={{ textAlign: 'right', cursor: 'pointer', paddingY: 0, height: 30, width: 100 }}

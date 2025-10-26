@@ -7,7 +7,7 @@ import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import React, { useEffect, useRef, useState } from 'react';
-import { FeatureGroup, MapContainer, Polygon, TileLayer } from 'react-leaflet';
+import { FeatureGroup, MapContainer, Polygon, TileLayer, useMap } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -30,6 +30,20 @@ function parseWKT(wkt) {
 	});
 
 	return coords;
+}
+
+// کامپوننت برای زوم خودکار روی محدوده نقاط
+function FitBounds({ positions }) {
+	const map = useMap();
+
+	useEffect(() => {
+		if (!positions || positions.length === 0) return;
+		const latlngs = positions.map((p) => [p.lat, p.lng]);
+		const bounds = L.latLngBounds(latlngs);
+		map.fitBounds(bounds, { padding: [50, 50] });
+	}, [positions, map]);
+
+	return null;
 }
 
 function MyModal({ open, handleClose, handleConfirm, lat, disabled }) {
@@ -64,7 +78,7 @@ function MyModal({ open, handleClose, handleConfirm, lat, disabled }) {
 	};
 
 	const _onCreated = (e) => {
-		if (disabled) return; // غیرفعال اگر حالت disabled هست
+		if (disabled) return;
 		const layer = e.layer;
 		if (layer?.getLatLngs) {
 			const latlngs = layer.getLatLngs()[0];
@@ -112,11 +126,16 @@ function MyModal({ open, handleClose, handleConfirm, lat, disabled }) {
 			}}
 		>
 			<Box>
-				<MapContainer center={[35.715, 51.307]} zoom={13} style={{ height: '500px', width: '100%' }}>
+				<MapContainer
+					center={[35.715, 51.307]}
+					zoom={13}
+					style={{ height: '500px', width: '100%' }}
+					scrollWheelZoom={true}
+				>
 					<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+					{polygonCoords && <FitBounds positions={polygonCoords} />}
 					<FeatureGroup ref={featureGroupRef}>
 						{polygonCoords && <Polygon positions={polygonCoords} />}
-						{/* اگر disabled بود کنترل‌ها نمایش داده نمیشن */}
 						{!disabled && (
 							<EditControl
 								position="topright"
