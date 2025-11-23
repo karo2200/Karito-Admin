@@ -8,6 +8,7 @@ const Index = () => {
 	const [selectedRow, setSelectedRow] = useState(null);
 	const [load, setLoad] = useState(0);
 	const [SearchData, setSearchData] = useState('');
+	const [openModal, setopenModal] = useState(false);
 
 	const {
 		data: CategoryList,
@@ -60,6 +61,7 @@ const Index = () => {
 					onSearchItem={(data) => {
 						setSearchData(data);
 					}}
+					openModal={openModal}
 				/>
 			</Box>
 			<MidelForm
@@ -68,8 +70,9 @@ const Index = () => {
 				}}
 				DataRow={CategoryList?.serviceTypes_getAll?.result?.items}
 				OnhandleEditClick={(data) => {
-					console.log(data);
 					setSelectedRow(data);
+					setopenModal(false);
+					setTimeout(() => setopenModal(true), 0);
 				}}
 			/>
 		</>

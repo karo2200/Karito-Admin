@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import {
+	UserType,
 	useSpecialist_VerifyIdCardMutation,
 	useSpecialist_VerifyIdentityVerificationVideoMutation,
 	useSpecialist_VerifySpecializedDocumentsMutation,
@@ -8,6 +9,7 @@ import {
 
 import Modal from '@/components/organisms/ModalAccsept';
 import ModalD from '@/components/organisms/ModalDocuments';
+import ModalOTP from '@/components/organisms/ModalOTP';
 
 import ModalS from './ModalShow';
 import TableForm from './TableForm';
@@ -16,6 +18,8 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, Total
 	const [open, setOpen] = useState(false);
 	const [openD, setOpenD] = useState(false);
 	const [openS, setOpenS] = useState(false);
+	const [openOTP, setOpenOTP] = useState(false);
+	const [Mobil, setMobil] = useState('');
 	const [name, setname] = useState('');
 	const [dataShow, setdataShow] = useState(null);
 	const [List, setList] = useState([]);
@@ -109,7 +113,22 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, Total
 				OnsetRowsPerPage={(row, page) => {
 					OnsetRowsPerPage(row, page);
 				}}
+				OnhandleOTP={(row) => {
+					setMobil(row?.phoneNumber);
+					setname(row?.firstName + ' ' + row?.lastName);
+					setOpenOTP(true);
+				}}
 			/>
+			<ModalOTP
+				open={openOTP}
+				name={name}
+				Mobil={Mobil}
+				TypeUser={UserType.Specialist}
+				handleClose={() => {
+					setOpenOTP(false);
+					//onRefreshItem();
+				}}
+			></ModalOTP>
 			<Modal
 				open={open}
 				name={name}

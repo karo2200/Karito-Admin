@@ -22,3 +22,10 @@ mutation auth_refreshToken($input: RefreshTokenRequestInput!) {
 		}
 	}
 }
+
+mutation auth_adminRequestOtpForUser($input: AdminRequestOtpInput!) {
+	auth_adminRequestOtpForUser(input: $input) {
+		status
+		result
+	}
+}

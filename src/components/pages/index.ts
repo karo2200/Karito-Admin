@@ -15,5 +15,6 @@ export { default as OrderPage } from './Admin/Orders';
 export { default as ReasonsCancelPage } from './Admin/ReasonsCancel';
 export { default as UserPage } from './Admin/Users';
 export { default as HomePage } from './Home';
+export { default as LandingPage } from './Landing';
 export { default as LoginPage } from './Login';
 export { default as ForgetPass } from './Login/forgetPass';

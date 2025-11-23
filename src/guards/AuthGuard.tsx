@@ -11,8 +11,7 @@ export default function AuthGuard({ children }: React.PropsWithChildren) {
 
 	useEffect(() => {
 		if (isAuthenticated) return;
-
-		router.push('/login');
+		if (router.pathname != '/Landing') router.push('/login');
 	}, [isAuthenticated]);
 
 	if (!isInitialized) {

@@ -15,10 +15,14 @@ const LoginSchema = Yup.object().shape({
 		.matches(PHONE_VALIDATION, 'شماره موبایل معتبر نیست')
 		.max(10, 'شماره موبایل نباید بیشتر از 10 رقم باشد'),
 });
+import { useSnackbar } from 'notistack';
+import useMutationErrorHandler from 'src/hooks/useMutationErrorHandler';
+
 import { IPageProps } from './type-page';
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 	const { mutate: mutateState, isLoading: isLoading } = useAdmin_CreateMutation();
-
+	const { enqueueSnackbar } = useSnackbar();
+	const mutationErrorHandler = useMutationErrorHandler();
 	const defaultValues = {
 		FirstName: '',
 		LastName: '',
@@ -61,7 +65,9 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem }) => {
 						setValue('Mobil', '');
 						onRefreshItem();
 					},
-					onError: (err) => {},
+					onError: (err) => {
+						mutationErrorHandler(err, 'admin_getAll');
+					},
 				}
 			);
 		}

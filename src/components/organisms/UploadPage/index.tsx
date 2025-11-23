@@ -8,7 +8,7 @@ import {
 import { fileUploader } from 'src/hooks/useUploadToAws';
 
 import { IPageProps } from './type-page';
-const UploadPage: FC<IPageProps> = ({ onDrop, Empty, OnhandelEmpty, Url, name, label }) => {
+const UploadPage: FC<IPageProps> = ({ onDrop, Empty, Url, name, label }) => {
 	const [file, setFile] = useState<File | null>(null);
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null); // <-- for preview image URL
 	const [uploading, setUploading] = useState(false);
@@ -18,28 +18,18 @@ const UploadPage: FC<IPageProps> = ({ onDrop, Empty, OnhandelEmpty, Url, name, l
 	const { mutateAsync: generatePresignedUrlMutate } = useS3_GeneratePresignedUrlMutation();
 	const { mutateAsync: generatePresignedUrlsMutate } = useS3_GeneratePresignedUrlsMutation();
 	const { mutateAsync: completeMultipartUploadMutate } = useS3_CompleteMultipartUploadMutation();
+
 	useEffect(() => {
-		if (Empty) {
-			setPreviewUrl(null);
-			return;
-		}
-	}, [Empty]);
-	useEffect(() => {
-		if (Url != '') {
-			setPreviewUrl(Url);
-			return;
-		}
+		setPreviewUrl(Url || null);
 	}, [Url]);
 
 	useEffect(() => {
-		if (!file) {
-			setPreviewUrl(null);
-			return;
-		}
+		if (!file) return;
+
 		const objectUrl = URL.createObjectURL(file);
 		setPreviewUrl(objectUrl);
 		handleUpload();
-		// Clean up the URL object when file changes or component unmounts
+
 		return () => URL.revokeObjectURL(objectUrl);
 	}, [file]);
 
@@ -97,7 +87,7 @@ const UploadPage: FC<IPageProps> = ({ onDrop, Empty, OnhandelEmpty, Url, name, l
 					type="file"
 					accept="image/*"
 					onChange={(e) => {
-						OnhandelEmpty(false);
+						//OnhandelEmpty(false);
 						setFile(e.target.files ? e.target.files[0] : null);
 					}}
 				/>

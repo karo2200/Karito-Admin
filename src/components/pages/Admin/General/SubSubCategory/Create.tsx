@@ -1,299 +1,157 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
-import {
-	useServiceCategory_GetAllQuery,
-	useServiceSubCategory_GetAllQuery,
-	useServiceType_CreateMutation,
-	useServiceType_UpdateMutation,
-} from 'src/graphql/generated';
+import { useServiceCategory_GetAllQuery, useServiceSubCategory_GetAllQuery } from 'src/graphql/generated';
 
-import { useForm, Yup, yupResolver } from '@/components/atoms/Form';
-import { CheckBox, FormProvider, SelectField, TextField } from '@/components/atoms/Form';
-import UploadPage from '@/components/organisms/UploadPage';
-const LoginSchema = Yup.object().shape({
-	Name: Yup.string()?.required(' نام را وارد کنید'),
-	FilePath: Yup.string()?.required('  لوگو را وارد کنید'),
-	serviceCategoryId: Yup.string()?.required('فیلد اجباری است'),
-	CategoryId: Yup.string()?.required('فیلد اجباری است'),
-	price: Yup.number()?.required('فیلد اجباری است'),
-	FileBaner: Yup.string()?.required('  بنر را وارد کنید'),
-	Abbreviation: Yup.string()
-		?.required('  کد را وارد کنید')
-		.matches(/^[A-Za-z0-9]+$/, 'فقط عدد و حروف انگلیسی مجاز است')
-		.max(2, 'تعداد کاراکتر مجاز 2'),
-});
+import { FormProvider, SelectField, useForm } from '@/components/atoms/Form';
+
+import Modal from './ModalInsert';
 import { IPageProps } from './type-page';
-const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
-	console.log('DataRow', DataRow);
-	const [load, setLoad] = useState(0);
-	const [listCategury, setlistCategury] = useState([]);
-	const [Empty, setEmpty] = useState(false);
-	const [disabled, setdisabled] = useState(false);
-	const [CategureyId, setCategureyId] = useState('');
-	const [listSub, setlistSub] = useState([]);
-	const { mutate: mutateState, isLoading: isLoading } = useServiceType_CreateMutation();
-	const { mutate: mutateCityUpdate, isLoading: isLoadingUpdate } = useServiceType_UpdateMutation();
-	const { data, isSuccess, isError } = useServiceCategory_GetAllQuery(
+
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem, openModal }) => {
+	const [open, setOpen] = useState(false);
+	const [DataRows, setDataRow] = useState<any>(null);
+
+	const [categoryId, setCategoryId] = useState('');
+	const [subCategoryId, setSubCategoryId] = useState('');
+
+	const [categoryList, setCategoryList] = useState([]);
+	const [subCategoryList, setSubCategoryList] = useState([]);
+	const [loadSub, setLoadSub] = useState(false);
+
+	// بارگذاری DataRow
+	useEffect(() => {
+		setDataRow(DataRow);
+	}, [DataRow]);
+
+	useEffect(() => {
+		if (openModal === true) {
+			setOpen(true);
+		}
+	}, [openModal]);
+	// -------------------- Categories --------------------
+	const { data: catData, isSuccess: catSuccess } = useServiceCategory_GetAllQuery(
+		{ skip: 0, take: 1000 },
+		{ keepPreviousData: true }
+	);
+
+	useEffect(() => {
+		if (catSuccess) {
+			const list =
+				catData?.serviceCategory_getAll.result?.items?.map((cat) => ({
+					option: cat.name,
+					value: cat.id,
+				})) || [];
+
+			if (list.length > 0) {
+				setCategoryList(list);
+				setCategoryId(list[0].value); // مقدار اولیه
+			}
+		}
+	}, [catSuccess, catData]);
+
+	// -------------------- SubCategories --------------------
+	const { data: subData, isSuccess: subSuccess } = useServiceSubCategory_GetAllQuery(
 		{
 			skip: 0,
 			take: 1000,
+			where: { serviceCategory: { id: { eq: categoryId } } },
 		},
 		{
 			keepPreviousData: true,
+			enabled: loadSub,
 		}
 	);
 
 	useEffect(() => {
-		if (isSuccess) {
-			const newList =
-				data?.serviceCategory_getAll.result?.items?.map((cat) => ({
-					option: cat.name,
-					value: cat.id,
+		if (subSuccess) {
+			const list =
+				subData?.serviceSubCategory_getAll.result?.items?.map((sub) => ({
+					option: sub.name,
+					value: sub.id,
 				})) || [];
-			if (newList.length > 0) setlistCategury(newList);
-			setCategureyId(newList[0].value);
-			//setlistCategury(newList);
-		}
-	}, [isSuccess, data]);
 
-	const { data: datasub, isSuccess: isSuccesssub } = useServiceSubCategory_GetAllQuery(
-		{
-			skip: 0,
-			take: 1000,
-			where: {
-				serviceCategory: { id: { eq: CategureyId } },
-			},
-		},
-		{
-			keepPreviousData: true,
-			enabled: load === 1,
+			if (list.length > 0) {
+				setSubCategoryList(list);
+				setSubCategoryId(list[0].value); // مقدار اولیه
+				onSearchItem(list[0].value);
+			}
 		}
-	);
+	}, [subSuccess, subData]);
 
+	// لود SubCategory وقتی Category انتخاب شد
 	useEffect(() => {
-		if (isSuccesssub) {
-			const newList =
-				datasub?.serviceSubCategory_getAll.result?.items?.map((cat) => ({
-					option: cat.name,
-					value: cat.id,
-				})) || [];
-			if (newList.length > 0) setlistSub(newList);
+		if (categoryId) setLoadSub(true);
+	}, [categoryId]);
 
-			//setlistCategury(newList);
-		}
-	}, [isSuccesssub, datasub]);
-
-	const defaultValues = {
-		Name: '',
-		FilePath: '',
-		id: 0,
-		serviceCategoryId: '',
-		CategoryId: '',
-		price: 0,
-		isSpecial: false,
-		FileBaner: '',
-		Abbreviation: '',
+	// -------------------- Handlers --------------------
+	const handleCategoryChange = (e: any) => {
+		const val = e.target.value;
+		setCategoryId(val);
+		setSubCategoryId('');
+		setSubCategoryList([]);
+		setLoadSub(true);
+		onSearchItem(val);
 	};
-	const methods = useForm({
-		resolver: yupResolver(LoginSchema),
-		defaultValues,
-	});
 
-	const { handleSubmit, setValue, reset, getValues } = methods;
-
-	useEffect(() => {
-		if (listCategury?.length > 0) {
-			setValue('CategoryId', listCategury[0].value);
-		}
-	}, [setValue, listCategury]);
-	useEffect(() => {
-		if (listSub?.length > 0) {
-			setValue('serviceCategoryId', listSub[0].value);
-			onSearchItem(listSub[0].value);
-		}
-	}, [setValue, listSub]);
-	useEffect(() => {
-		if (CategureyId != '' && CategureyId != null) {
-			setLoad(1);
-		}
-	}, [CategureyId]);
-	useEffect(() => {
-		if (DataRow) {
-			reset({
-				Name: DataRow?.name || '',
-				FilePath: DataRow?.logo || '',
-				id: DataRow?.id || 0,
-				serviceCategoryId: DataRow?.serviceSubCategory?.id || listSub[0].value,
-				CategoryId: DataRow?.serviceSubCategory?.serviceCategory?.id || listCategury[0].value,
-				price: DataRow?.basePrice || 0,
-				isSpecial: DataRow?.isSpecial || false,
-				FileBaner: DataRow?.banner || '',
-				Abbreviation: DataRow?.abbreviation || '',
-			});
-			setdisabled(true);
-		}
-	}, [DataRow, reset]);
-
-	const onSubmit = async (data: typeof defaultValues) => {
-		if (data.id == 0) {
-			await mutateState(
-				{
-					input: {
-						name: data.Name,
-						logo: data.FilePath,
-						serviceSubCategoryId: data.serviceCategoryId,
-						basePrice: data.price,
-						isSpecial: data.isSpecial,
-						banner: data.FileBaner,
-						abbreviation: data.Abbreviation,
-					},
-				},
-				{
-					onSuccess: async (res) => {
-						setEmpty(true);
-						setValue('serviceCategoryId', data.serviceCategoryId);
-						setValue('Name', '');
-						setValue('FilePath', '');
-						setValue('price', 0);
-						setValue('CategoryId', data.CategoryId);
-						setValue('Abbreviation', '');
-						onRefreshItem();
-					},
-					onError: (err) => {},
-				}
-			);
-		} else
-			await mutateCityUpdate(
-				{
-					input: {
-						name: data.Name,
-						logo: data.FilePath,
-						basePrice: data.price,
-						id: data.id,
-						isSpecial: data.isSpecial,
-						banner: data.FileBaner,
-						abbreviation: data.Abbreviation,
-					},
-				},
-				{
-					onSuccess: async (res) => {
-						DataRow = null;
-						setEmpty(true);
-						setValue('serviceCategoryId', data.serviceCategoryId);
-						setValue('Name', '');
-						setValue('FilePath', '');
-						setValue('price', 0);
-						setValue('id', 0);
-						setValue('Abbreviation', '');
-						setValue('CategoryId', data.CategoryId);
-						setdisabled(false);
-						onRefreshItem();
-					},
-					onError: (err) => {},
-				}
-			);
+	const handleSubCategoryChange = (e: any) => {
+		const val = e.target.value;
+		setSubCategoryId(val);
+		onSearchItem(val);
 	};
+
+	// -------------------- Form --------------------
+	const methods = useForm({});
 
 	return (
 		<FormProvider methods={methods}>
-			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<SelectField
-						disabled={disabled}
-						name="CategoryId"
-						options={listCategury}
-						autoWidth={false}
-						multiple={false}
-						native={false}
-						onChanged={(e) => {
-							setCategureyId(e.target.value);
-							onSearchItem(e.target.value);
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<SelectField
-						disabled={disabled}
-						name="serviceCategoryId"
-						options={listSub}
-						autoWidth={false}
-						multiple={false}
-						native={false}
-						onChanged={(e) => {
-							onSearchItem(e.target.value);
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<TextField required name="Name" placeholder="  سرویس" sx={{ height: '40px', width: '234px' }} id="Name" />
+			<Grid container spacing={2} dir="rtl" alignItems="center">
+				{/* Category */}
+				<Grid item xs={12} sm={3}>
+					<SelectField name="CategoryId" options={categoryList} value={categoryId} onChanged={handleCategoryChange} />
 				</Grid>
 
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<TextField
-						fullWidth
-						required
-						type="number"
-						name="price"
-						placeholder="  قیمت"
-						sx={{ height: '40px', width: '234px' }}
-						id="price"
+				{/* SubCategory */}
+				<Grid item xs={12} sm={3}>
+					<SelectField
+						name="SubCategoryId"
+						options={subCategoryList}
+						value={subCategoryId}
+						onChanged={handleSubCategoryChange}
 					/>
 				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<TextField
-						required
-						name="Abbreviation"
-						placeholder="کد اختصاصی"
-						sx={{ height: '40px', width: '234px' }}
-						id="Name"
-					/>
-				</Grid>
-			</Grid>
-			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl" marginTop="5px">
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<UploadPage
-						label="لوگو"
-						Empty={Empty}
-						OnhandelEmpty={() => setEmpty(false)}
-						Url={getValues('FilePath')}
-						name="FilePath"
-						onDrop={(url) => setValue('FilePath', url)}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<UploadPage
-						label="بنر"
-						Empty={Empty}
-						OnhandelEmpty={() => setEmpty(false)}
-						Url={getValues('FileBaner')}
-						name="FileBaner"
-						onDrop={(url) => setValue('FileBaner', url)}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-					<CheckBox name="isSpecial" label="isSpecial" />
-				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+
+				{/* دکمه جدید */}
+				<Grid item xs={12} sm={3}>
 					<LoadingButton
 						variant="contained"
-						onClick={handleSubmit(onSubmit)}
-						loading={isLoading}
+						onClick={() => {
+							setDataRow(null);
+							setOpen(true);
+						}}
 						fullWidth
 						sx={{
-							fontSize: '15px',
-							//backgroundImage: 'linear-gradient(to right,#1D5BD2, #4D88F9)',
+							fontSize: 15,
 							background: '#88b2e1',
 							color: '#fff',
-							borderRadius: '8px !important',
-							width: '100px',
-							marginTop: '5px',
+							borderRadius: '8px',
+							width: 100,
+							marginTop: 1,
 						}}
 					>
-						ثبت
+						جدید
 					</LoadingButton>
 				</Grid>
 			</Grid>
+
+			<Modal
+				open={open}
+				handleClose={() => {
+					setOpen(false);
+					onRefreshItem();
+				}}
+				DataRow={DataRows}
+			/>
 		</FormProvider>
 	);
 };

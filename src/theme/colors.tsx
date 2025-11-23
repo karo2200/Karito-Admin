@@ -1,4 +1,6 @@
 const COLORS = {
+	cancelBg: '#a81c1cff',
+	cancelHover: '#d64242ff',
 	white: '#ffffff',
 	white1: '#f7f7f7',
 	white2: '#f9f9f9',

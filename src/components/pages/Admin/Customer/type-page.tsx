@@ -10,6 +10,7 @@ export interface IPageProps {
 	OnsetRowsPerPage?: (row: number, page: number) => void;
 	OnhandleVideo?: (value: any) => void;
 	OnhandleShow?: (value: any) => void;
+	OnhandleOTP?: (value: any) => void;
 	DataRow?: [];
 	TotalCount?: number;
 	rows?: [];

@@ -1,9 +1,11 @@
 import ArticleIcon from '@mui/icons-material/Article';
+import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { LoadingButton } from '@mui/lab';
 import {
 	Dialog,
 	DialogContent,
+	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -35,6 +37,7 @@ const index: FC<IPageProps> = ({
 	OnhandleListDocument,
 	OnhandleShow,
 	OnsetRowsPerPage,
+	OnhandleOTP,
 	TotalCount,
 }) => {
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -70,6 +73,8 @@ const index: FC<IPageProps> = ({
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>ویدئو</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>داکیومنت</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
+							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>OTP</TableCell>
+
 							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
 								کارت ملی
 							</TableCell>
@@ -147,6 +152,11 @@ const index: FC<IPageProps> = ({
 										onClick={() => OnhandleShow(row)}
 									>
 										<VisibilityIcon sx={{ fontSize: 30, color: COLORS.blue }} />
+									</TableCell>
+									<TableCell align="center" sx={{ paddingY: 0 }}>
+										<IconButton>
+											<PermPhoneMsgIcon onClick={() => OnhandleOTP(row)} />
+										</IconButton>
 									</TableCell>
 									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 										<LoadingButton

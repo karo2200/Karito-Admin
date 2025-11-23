@@ -69,7 +69,7 @@ export default function AuthProvider({ children }) {
 			enqueueSnackbar('Logged out successfully', { variant: 'info' });
 			dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: false } });
 
-			if (router.pathname !== '/login') {
+			if (router.pathname !== '/login' && router.pathname != '/Landing') {
 				router.push('/login');
 			}
 		} catch (error) {

@@ -11,4 +11,7 @@ export interface IPageProps {
 	OnhandleDeleteClick?: (value: any) => void;
 	DataRow?: [];
 	rows?: [];
+	open?: boolean;
+	handleClose: () => void;
+	openModal?: boolean;
 }

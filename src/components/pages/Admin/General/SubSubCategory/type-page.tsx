@@ -9,4 +9,6 @@ export interface IPageProps {
 	onRefreshItem?: () => void;
 	DataRow?: [];
 	rows?: [];
+	open?: boolean;
+	handleClose: () => void;
 }

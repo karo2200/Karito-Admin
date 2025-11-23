@@ -72,7 +72,7 @@ export function useQueryAxios() {
 					resolve(res?.data);
 				})
 				.catch(function (error) {
-					if (error.response.status === 401) router.push('/login');
+					if (error.response.status === 401 && router.pathname != '/Landing') router.push('/login');
 					else enqueueSnackbar(error.response.data, { variant: 'error' });
 				});
 		});

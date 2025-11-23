@@ -1,4 +1,5 @@
 import DiscountIcon from '@mui/icons-material/Discount';
+import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -7,7 +8,7 @@ import Pagination from '@/components/organisms/pagination';
 import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
-const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
+const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP }) => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
 	const router = useRouter();
@@ -29,7 +30,8 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانواگی </TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>موبایل</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصویر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تخفیف</TableCell>
+							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>تخفیف</TableCell>
+							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>OTP</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -66,7 +68,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
 											style={{ width: '50px', height: '50px', border: '1px solid #00000036', borderRadius: '50%' }}
 										></img>
 									</TableCell>
-									<TableCell align="left" sx={{ paddingY: 0, height: 30 }}>
+									<TableCell align="center" sx={{ paddingY: 0 }}>
 										<IconButton>
 											<DiscountIcon
 												sx={{ color: COLORS.grey1 }}
@@ -81,12 +83,11 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage }) => {
 												}
 											/>
 										</IconButton>
-										{/*<IconButton title={row.isBlocked ? 'بلاک شده' : 'آزاد'}>
-											<BlockIcon
-												sx={{ color: row.isBlocked ? COLORS.grey1 : COLORS.red }}
-												onClick={() => OnhandleEditClick(row)}
-											/>
-										</IconButton>*/}
+									</TableCell>
+									<TableCell align="center" sx={{ paddingY: 0 }}>
+										<IconButton>
+											<PermPhoneMsgIcon onClick={() => OnhandleOTP(row)} />
+										</IconButton>
 									</TableCell>
 								</TableRow>
 							))
