@@ -1,12 +1,11 @@
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
 import { useCity_ActivateMutation, useCity_DeactivateMutation } from 'src/graphql/generated';
 
+import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
-import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
 
@@ -40,6 +39,9 @@ const Index: FC<IPageProps> = ({
 				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow sx={{ height: 30, background: '#c7dffa', color: '#555' }}>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+								عملیات
+							</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد</TableCell>
 
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>استان</TableCell>
@@ -48,17 +50,29 @@ const Index: FC<IPageProps> = ({
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر چرخشی</TableCell>
 
 							{/* ستون‌های مربوط به آیکون‌ها */}
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>نقشه</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>ویرایش</TableCell>
 							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>فعال/غیرفعال</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>مدیریت بنر</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>مدیریت چرخشی</TableCell>
 						</TableRow>
 					</TableHead>
 
 					<TableBody>
 						{paginatedRows?.map((row, index) => (
 							<TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 }, height: 30 }}>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandleMap={() => {
+											OnhandleMap(row);
+										}}
+										OnhandelCurser={() => {
+											OnhandleCursel(row);
+										}}
+										OnhandleBanner={() => {
+											OnhandleBaner(row);
+										}}
+									/>
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.abbreviation}
 								</TableCell>
@@ -72,19 +86,6 @@ const Index: FC<IPageProps> = ({
 									/>
 								</TableCell>
 								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{row.activeCarousel?.title}</TableCell>
-								{/* آیکون نقشه */}
-								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleMap(row)}>
-										<LocationOnIcon />
-									</IconButton>
-								</TableCell>
-								{/* آیکون ویرایش */}
-								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleEditClick(row)}>
-										<S.EditIcons />
-									</IconButton>
-								</TableCell>
-
 								{/* آیکون فعال/غیرفعال */}
 								<TableCell align="center" sx={{ paddingY: 0 }}>
 									<IconButton onClick={() => OnhandelActive(row)}>
@@ -93,20 +94,6 @@ const Index: FC<IPageProps> = ({
 										) : (
 											<ToggleOffIcon color="disabled" sx={{ height: '35px ', width: '35px' }} />
 										)}
-									</IconButton>
-								</TableCell>
-
-								{/* آیکون بنر */}
-								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleBaner(row)}>
-										<S.AdIcon />
-									</IconButton>
-								</TableCell>
-
-								{/* آیکون چرخشی */}
-								<TableCell align="center" sx={{ paddingY: 0 }}>
-									<IconButton onClick={() => OnhandleCursel(row)}>
-										<S.ViewCarousel />
 									</IconButton>
 								</TableCell>
 							</TableRow>

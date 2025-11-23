@@ -1,11 +1,10 @@
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { toJalaali } from 'jalaali-js';
 import React, { FC } from 'react';
 
+import Action from '@/components/organisms/Action';
 import Statues from '@/components/organisms/Approve';
 import Pagination from '@/components/organisms/pagination';
-import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
 function convertToJalali(dateString) {
@@ -31,6 +30,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								color: '#555', // white text
 							}}
 						>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>عملیات</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تاریخ</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد </TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>مشتری </TableCell>
@@ -40,7 +40,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تخفیف</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>قیمت نهایی</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
+
 							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
 								وضعیت
 							</TableCell>
@@ -62,6 +62,13 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										height: 30,
 									}}
 								>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										<Action
+											OnhandleShow={() => {
+												OnhandleShow(row);
+											}}
+										/>
+									</TableCell>
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{convertToJalali(row?.requestDate)}
 									</TableCell>
@@ -97,13 +104,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.finalPrice.toLocaleString()}
 									</TableCell>
-									<TableCell
-										scope="row"
-										sx={{ textAlign: 'right', cursor: 'pointer' }}
-										onClick={() => OnhandleShow(row)}
-									>
-										<VisibilityIcon sx={{ fontSize: 30, color: COLORS.blue }} />
-									</TableCell>
+
 									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 										<Statues status={row?.status} />
 									</TableCell>

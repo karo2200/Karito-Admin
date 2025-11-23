@@ -1,8 +1,8 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
 
+import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
-import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, OnhandleListDocument }) => {
@@ -22,11 +22,12 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 								color: '#555', // white text
 							}}
 						>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0, width: '70px' }}>
+								عملیات
+							</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
 
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
-
-							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -38,6 +39,16 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 									height: 30,
 								}}
 							>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandelDelete={() => {
+											OnhandleDeleteClick(row);
+										}}
+									/>
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.title}
 								</TableCell>
@@ -52,15 +63,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 									{row?.serviceTypes?.map((data, i) => (
 										<div key={i}>{data?.name}</div>
 									))}
-								</TableCell>
-
-								<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
-									<IconButton>
-										<S.EditIcons onClick={() => OnhandleEditClick(row)} />
-									</IconButton>
-									<IconButton>
-										<S.DeleteIcons onClick={() => OnhandleDeleteClick(row)} />
-									</IconButton>
 								</TableCell>
 							</TableRow>
 						))}

@@ -1,13 +1,12 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
 import { QuestionType } from 'src/graphql/generated';
 
+import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
-import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
-const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick }) => {
-	console.log(rows);
+const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const paginatedRows = rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -23,12 +22,13 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								color: '#555', // white text
 							}}
 						>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0, width: '70px' }}>
+								عملیات
+							</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سوال</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>آپشن</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نوع سوال</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>اجباری بودن</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
-							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -39,6 +39,13 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 									'&:last-child td, &:last-child th': { border: 0 },
 								}}
 							>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+									/>
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0 }}>
 									{row.text}
 								</TableCell>
@@ -50,18 +57,13 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.isRequired ? 'اجباری' : 'غیراجباری'}
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, width: 100 }}>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0 }}>
 									<input
 										disabled
 										type={row.questionType == QuestionType.CheckBox ? 'checkbox' : 'radio'}
 										checked={true}
 										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
 									/>
-								</TableCell>
-								<TableCell align="left" sx={{ paddingY: 0, width: 120 }}>
-									<IconButton>
-										<S.EditIcons onClick={() => OnhandleEditClick(row)} />
-									</IconButton>
 								</TableCell>
 							</TableRow>
 						))}

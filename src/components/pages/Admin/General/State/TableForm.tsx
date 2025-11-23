@@ -1,8 +1,8 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
 
+import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
-import * as S from '@/components/pages/styles';
 
 import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick }) => {
@@ -22,9 +22,11 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								color: '#555', // white text
 							}}
 						>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0, width: '70px' }}>
+								عملیات
+							</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد </TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>استان</TableCell>
-							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -37,19 +39,20 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								}}
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandelDelete={() => {
+											OnhandleDeleteClick(row);
+										}}
+									/>
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.abbreviation}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.name}
-								</TableCell>
-
-								<TableCell align="left" sx={{ paddingY: 0, height: 30 }}>
-									<IconButton>
-										<S.EditIcons onClick={() => OnhandleEditClick(row)} />
-									</IconButton>
-									<IconButton>
-										<S.DeleteIcons onClick={() => OnhandleDeleteClick(row)} />
-									</IconButton>
 								</TableCell>
 							</TableRow>
 						))}

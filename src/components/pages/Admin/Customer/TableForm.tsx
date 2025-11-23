@@ -1,11 +1,9 @@
-import DiscountIcon from '@mui/icons-material/Discount';
-import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 
+import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
-import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
 const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP }) => {
@@ -25,13 +23,12 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 								color: '#555', // white text
 							}}
 						>
+							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>عملیات</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد مشتری</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانواگی </TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>موبایل</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصویر</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>تخفیف</TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>OTP</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -51,6 +48,22 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 									}}
 								>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										<Action
+											OnhandleOTP={() => {
+												OnhandleOTP(row);
+											}}
+											OnhandelDiscount={() => {
+												router.push({
+													pathname: '/Admin/DiscountCode',
+													query: {
+														customerName: row.firstName + '' + row.lastName,
+														customerId: row.id,
+													},
+												});
+											}}
+										/>
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.code}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -67,27 +80,6 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 											src={row?.profileImageUrl}
 											style={{ width: '50px', height: '50px', border: '1px solid #00000036', borderRadius: '50%' }}
 										></img>
-									</TableCell>
-									<TableCell align="center" sx={{ paddingY: 0 }}>
-										<IconButton>
-											<DiscountIcon
-												sx={{ color: COLORS.grey1 }}
-												onClick={() =>
-													router.push({
-														pathname: '/Admin/DiscountCode',
-														query: {
-															customerName: row.firstName + '' + row.lastName,
-															customerId: row.id,
-														},
-													})
-												}
-											/>
-										</IconButton>
-									</TableCell>
-									<TableCell align="center" sx={{ paddingY: 0 }}>
-										<IconButton>
-											<PermPhoneMsgIcon onClick={() => OnhandleOTP(row)} />
-										</IconButton>
 									</TableCell>
 								</TableRow>
 							))

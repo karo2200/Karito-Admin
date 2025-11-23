@@ -133,7 +133,7 @@ const index: FC<IPageProps> = ({
 									>
 										<img
 											src={row?.idCardImageUrl}
-											style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
+											style={{ maxWidth: '50px', maxHeight: '50px', border: '1px solid #00000036' }}
 											onClick={() => handleImageClick(row?.idCardImageUrl)}
 										></img>
 									</TableCell>
