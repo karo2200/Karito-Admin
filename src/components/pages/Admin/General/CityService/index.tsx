@@ -1,16 +1,13 @@
 import { Box } from '@mui/material';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useCity_GetAvailableServiceTypesQuery } from 'src/graphql/generated';
 
 import CreateCity from './Create';
 import MidelForm from './MidelForm';
-const rows = [{ name: 'خدمات' }, { name: 'بهداشت' }];
 const Index = () => {
 	const [selectedRow, setSelectedRow] = useState(null);
 	const [cityId, setcityId] = useState('');
 	const [load, setLoad] = useState(1);
-	const router = useRouter();
 	const {
 		data: BanerList,
 		isSuccess,

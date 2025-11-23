@@ -1,11 +1,7 @@
-import ArticleIcon from '@mui/icons-material/Article';
-import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { LoadingButton } from '@mui/lab';
 import {
 	Dialog,
 	DialogContent,
-	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -18,8 +14,8 @@ import { toJalaali } from 'jalaali-js';
 import React, { FC, useState } from 'react';
 import { VerificationStatus } from 'src/graphql/generated';
 
+import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
-import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
 function convertToJalali(dateString) {
@@ -64,6 +60,9 @@ const index: FC<IPageProps> = ({
 								color: '#555', // white text
 							}}
 						>
+							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+								عملیات
+							</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تاریخ</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد پرسنلی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
@@ -71,9 +70,6 @@ const index: FC<IPageProps> = ({
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کارت ملی</TableCell>
 							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>ویدئو</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>داکیومنت</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}></TableCell>
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>OTP</TableCell>
 
 							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
 								کارت ملی
@@ -103,6 +99,19 @@ const index: FC<IPageProps> = ({
 									}}
 								>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										<Action
+											OnhandleListDocument={() => {
+												OnhandleListDocument(row);
+											}}
+											OnhandleShow={() => {
+												OnhandleShow(row);
+											}}
+											OnhandleOTP={() => {
+												OnhandleOTP(row);
+											}}
+										/>
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{convertToJalali(row?.registeredAt)}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -123,7 +132,6 @@ const index: FC<IPageProps> = ({
 										sx={{ textAlign: 'right', cursor: 'pointer', paddingY: 0, height: 30, width: 100 }}
 									>
 										<img
-											//src={getFullImageUrl(row.idCardImageUrl)}
 											src={row?.idCardImageUrl}
 											style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
 											onClick={() => handleImageClick(row?.idCardImageUrl)}
@@ -139,25 +147,7 @@ const index: FC<IPageProps> = ({
 											onClick={() => handleImageClick(row?.identityVerificationVideoUrl)}
 										/>
 									</TableCell>
-									<TableCell
-										scope="row"
-										sx={{ textAlign: 'right', cursor: 'pointer' }}
-										onClick={() => OnhandleListDocument(row)}
-									>
-										<ArticleIcon sx={{ fontSize: 30 }} />
-									</TableCell>
-									<TableCell
-										scope="row"
-										sx={{ textAlign: 'right', cursor: 'pointer' }}
-										onClick={() => OnhandleShow(row)}
-									>
-										<VisibilityIcon sx={{ fontSize: 30, color: COLORS.blue }} />
-									</TableCell>
-									<TableCell align="center" sx={{ paddingY: 0 }}>
-										<IconButton>
-											<PermPhoneMsgIcon onClick={() => OnhandleOTP(row)} />
-										</IconButton>
-									</TableCell>
+
 									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 										<LoadingButton
 											variant="contained"
