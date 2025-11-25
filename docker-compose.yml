@@ -7,4 +7,7 @@ services:
       - .env.${ENV:-dev} # بارگذاری فایل env متناسب با ENV (پیش‌فرض dev)
     environment:
       - NODE_ENV=${ENV:-dev} # مقدار NODE_ENV از ENV گرفته می‌شود یا dev
+      - API_URL=${API_URL}
+      - SUBSCRIPTION_URL=${SUBSCRIPTION_URL}
+      - BLOB_BASE_URL=${BLOB_BASE_URL}
     restart: unless-stopped # ری‌استارت خودکار در صورت توقف غیرمنتظره
