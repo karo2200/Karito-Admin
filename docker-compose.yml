@@ -2,9 +2,9 @@ services:
   web:
     build: .
     ports:
-      - '4500:4500'
+      - '4700:4500'
     env_file:
-      - .env.${ENV:-dev} # بارگذاری فایل env متناسب با ENV (پیش‌فرض dev)
+      - .env.${ENV:-prd} # بارگذاری فایل env متناسب با ENV (پیش‌فرض dev)
     environment:
-      - NODE_ENV=${ENV:-dev} # مقدار NODE_ENV از ENV گرفته می‌شود یا dev
+      - NODE_ENV=${ENV:-prd} # مقدار NODE_ENV از ENV گرفته می‌شود یا dev
     restart: unless-stopped # ری‌استارت خودکار در صورت توقف غیرمنتظره
