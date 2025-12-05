@@ -17,16 +17,48 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 					<TableHead>
 						<TableRow
 							sx={{
-								height: 30,
-								background: '#c7dffa', // nice blue gradient
-								color: '#555', // white text
+								height: 45,
+								background: '#d1e6ffff',
+								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
-							<TableCell align="center" sx={{ color: '#555', paddingY: 0, width: '70px' }}>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									width: '70px',
+									whiteSpace: 'nowrap',
+								}}
+							>
 								عملیات
 							</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>بنر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								بنر
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								تصاویر
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -35,10 +67,22 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
-									height: 30,
+									height: 40,
+									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff', // یکی در میون
 								}}
 							>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+								<TableCell
+									scope="row"
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										maxWidth: 150,
+									}}
+								>
 									<Action
 										OnhandleEdit={() => {
 											OnhandleEditClick(row);
@@ -48,7 +92,18 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 										}}
 									/>
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+								<TableCell
+									scope="row"
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										maxWidth: 150,
+									}}
+								>
 									{row.title}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>

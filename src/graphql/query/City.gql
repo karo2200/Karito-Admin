@@ -112,6 +112,10 @@ query city_getAvailableServiceTypes(
 				logo
 				id
 				isSpecial
+				serviceSubCategory {
+					id
+					name
+				}
 			}
 			totalCount
 		}

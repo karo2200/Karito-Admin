@@ -58,6 +58,7 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 		name: '',
 		CityId: '',
 		StateId: '',
+		mobil: '',
 	};
 
 	const methods = useForm({
@@ -67,7 +68,7 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 	const { handleSubmit } = methods;
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		onSearchItem(data?.name, data?.CityId);
+		onSearchItem(data?.name, data?.CityId, data?.mobil);
 	};
 
 	return (
@@ -76,7 +77,9 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 				<Grid item xs={12} sm={3}>
 					<TextField required label="متخصص" name="name" placeholder="متخصص" fullWidth sx={{ height: '40px' }} />
 				</Grid>
-
+				<Grid item xs={12} sm={3}>
+					<TextField required label="موبایل" name="mobil" placeholder="موبایل" fullWidth sx={{ height: '40px' }} />
+				</Grid>
 				<Grid item xs={12} sm={3}>
 					<SelectField
 						name="StateId"

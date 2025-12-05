@@ -19,7 +19,7 @@ export const ContentTag = styled(Box)({
 });
 
 export const font3 = styled(Typography)({
-	fontFamily: 'Amiri',
+	fontFamily: 'Vazir',
 	fontStyle: 'normal',
 	lineHeight: 'normal',
 	color: COLORS.grey2,

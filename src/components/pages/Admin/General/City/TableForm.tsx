@@ -38,25 +38,108 @@ const Index: FC<IPageProps> = ({
 			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
 				<Table aria-label="simple table">
 					<TableHead>
-						<TableRow sx={{ height: 30, background: '#c7dffa', color: '#555' }}>
-							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+						<TableRow sx={{ height: 45, background: '#ddeafdff', boxShadow: '0px 2px 4px rgba(0,0,0,0.08)' }}>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									width: '70px',
+									whiteSpace: 'nowrap',
+								}}
+							>
 								عملیات
 							</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								کد
+							</TableCell>
 
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>استان</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شهر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>بنر</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر چرخشی</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								استان
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								شهر
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								بنر
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								تصاویر چرخشی
+							</TableCell>
 
 							{/* ستون‌های مربوط به آیکون‌ها */}
-							<TableCell sx={{ textAlign: 'center', color: '#555', paddingY: 0 }}>فعال/غیرفعال</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'center',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								فعال/غیرفعال
+							</TableCell>
 						</TableRow>
 					</TableHead>
 
 					<TableBody>
 						{paginatedRows?.map((row, index) => (
-							<TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 }, height: 30 }}>
+							<TableRow
+								key={index}
+								sx={{
+									'&:last-child td, &:last-child th': { border: 0 },
+									height: 40,
+									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
+								}}
+							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									<Action
 										OnhandleEdit={() => {

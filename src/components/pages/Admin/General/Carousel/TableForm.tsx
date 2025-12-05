@@ -17,17 +17,49 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 					<TableHead>
 						<TableRow
 							sx={{
-								height: 30,
-								background: '#c7dffa', // nice blue gradient
-								color: '#555', // white text
+								height: 45,
+								background: '#d1e6ffff',
+								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
-							<TableCell align="center" sx={{ color: '#555', paddingY: 0, width: '70px' }}>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									width: '70px',
+									whiteSpace: 'nowrap',
+								}}
+							>
 								عملیات
 							</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								نام
+							</TableCell>
 
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								سرویس
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -36,7 +68,8 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
-									height: 30,
+									height: 40,
+									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
 								}}
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>

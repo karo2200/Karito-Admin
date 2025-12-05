@@ -136,7 +136,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 	return (
 		<FormProvider methods={methods}>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+				<Grid item xs={12} sm={3}>
 					<SelectField
 						disabled={disabled}
 						name="serviceCategoryId"
@@ -149,16 +149,16 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						}}
 					/>
 				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+				<Grid item xs={12} sm={3}>
 					<TextField required name="Name" placeholder="  سرویس" sx={{ height: '40px' }} id="Name" />
 				</Grid>
 
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+				<Grid item xs={12} sm={3}>
 					<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ height: '40px' }} id="Name" />
 				</Grid>
 			</Grid>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl" marginTop="5px">
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+				<Grid item xs={12} sm={3}>
 					<UploadPage
 						Empty={Empty}
 						OnhandelEmpty={() => setEmpty(false)}
@@ -168,7 +168,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 					/>
 					{/*<RHFUploadAvatar name="FilePath" onDrop={handleDrop} />*/}
 				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+				<Grid item xs={12} sm={3}>
 					<LoadingButton
 						variant="contained"
 						onClick={handleSubmit(onSubmit)}
@@ -187,7 +187,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 						ثبت
 					</LoadingButton>
 				</Grid>
-				<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}></Grid>
+				<Grid item xs={12} sm={3}></Grid>
 			</Grid>
 		</FormProvider>
 	);

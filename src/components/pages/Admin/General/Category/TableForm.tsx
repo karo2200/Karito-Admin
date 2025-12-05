@@ -18,46 +18,128 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 					<TableHead>
 						<TableRow
 							sx={{
-								height: 30,
-								background: '#c7dffa', // nice blue gradient
-								color: '#555', // white text
+								height: 45,
+								background: '#ddeafdff',
+								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
-							<TableCell align="center" sx={{ color: '#555', paddingY: 0, width: '70px' }}>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									width: '70px',
+									whiteSpace: 'nowrap',
+								}}
+							>
 								عملیات
 							</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کد</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>سرویس</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>تصاویر</TableCell>
+
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								کد
+							</TableCell>
+
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								سرویس
+							</TableCell>
+
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: 100,
+								}}
+							>
+								تصاویر
+							</TableCell>
 						</TableRow>
 					</TableHead>
+
 					<TableBody>
 						{paginatedRows?.map((row, index) => (
 							<TableRow
 								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
-									height: 30,
+									height: 40,
+									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff', // یکی در میون
 								}}
 							>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									<Action
-										OnhandleEdit={() => {
-											OnhandleEditClick(row);
-										}}
-										OnhandelDelete={() => {
-											OnhandleDeleteClick(row);
-										}}
-									/>
+								<TableCell
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										maxWidth: 150,
+									}}
+								>
+									<Action OnhandleEdit={() => OnhandleEditClick(row)} OnhandelDelete={() => OnhandleDeleteClick(row)} />
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+
+								<TableCell
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										maxWidth: 120,
+									}}
+								>
 									{row.abbreviation}
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+
+								<TableCell
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										maxWidth: 200,
+									}}
+								>
 									{row.name}
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
+
+								<TableCell
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										width: 100,
+									}}
+								>
+									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }} />
 								</TableCell>
 							</TableRow>
 						))}

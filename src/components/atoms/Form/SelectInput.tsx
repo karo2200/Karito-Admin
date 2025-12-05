@@ -13,6 +13,7 @@ const SelectInput = styled(MSelect)<{ light?: boolean; height?: number }>(({ the
 	fontWeight: 'bold',
 	direction: 'ltr',
 	textAlign: 'end',
+	backgroundColor: '#fff',
 	'.MuiSvgIcon-root ': {
 		fontSize: '25px',
 		left: 0,

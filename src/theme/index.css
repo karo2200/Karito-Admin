@@ -4,9 +4,13 @@ body {
 }
 @font-face {
 	font-family: 'Vazir';
-	src: local('Vazir'), url(./fonts/Vazir-Light-FD-WOL.ttf) format('truetype');
+	src: local('Vazir'), url(./fonts/Vazir.ttf) format('truetype');
 }
-
+/*@font-face {
+	font-family: 'Vazir';
+	src: url('/fonts/Vazir.woff2') format('woff2'), url('/fonts/Vazir.woff') format('woff'),
+		url('/fonts/Vazir.ttf') format('ttf');
+}*/
 .MuiOutlinedInput-notchedOutline,
 .MuiButton-root,
 .MuiCard-root {
@@ -19,4 +23,7 @@ body {
 
 .MuiFormHelperText-root {
 	text-align: right;
+}
+li {
+	text-align: right !important;
 }

@@ -4,8 +4,8 @@ import { Box, Button, Grid } from '@mui/material';
 import { Dialog, DialogTitle, IconButton } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import {
-	useCarousel_UpdateMutation,
 	useCity_GetAllQuery,
+	useCity_GetAvailableServiceTypesQuery,
 	useCity_SetAvailableServiceTypesMutation,
 	useProvincesQuery,
 	useServiceSubCategory_GetAllQuery,
@@ -15,64 +15,53 @@ import {
 import { SelectField, useForm, Yup, yupResolver } from '@/components/atoms/Form';
 import { FormProvider } from '@/components/atoms/Form';
 
-const LoginSchema = Yup.object().shape({
-	CityId: Yup.string().required('شهر را انتخاب کنید'),
-	serviceTypeIds: Yup.array()
-		.of(Yup.string().required(' حداقل یک سرویس انتخاب کنید'))
-		.min(1, 'حداقل یک سرویس نیاز است'),
-});
-
-import COLORS from '@/theme/colors';
-
 import { IPageProps } from './type-page';
 
-const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
+// 🔰 Validation Schema
+const LoginSchema = Yup.object().shape({
+	CityId: Yup.string().required('شهر را انتخاب کنید'),
+	serviceTypeIds: Yup.array().of(Yup.string().required('حداقل یک سرویس انتخاب کنید')).min(1, 'حداقل یک سرویس نیاز است'),
+});
+
+const Index: FC<IPageProps> = ({ handleClose, open }) => {
 	const [selectedServices, setSelectedServices] = useState<string[]>([]);
 	const [listSub, setlistSub] = useState([]);
 	const [listSubsubAll, setListSubsubAll] = useState([]);
-	const [formInitialized, setFormInitialized] = useState(false);
 	const [listState, setListState] = useState([]);
 	const [listCity, setlistCity] = useState([]);
 	const [StateId, setStateId] = useState('');
+	const [cityId, setcityId] = useState('');
+
+	// =================== GraphQL Queries ===================
+	const { data: CityServiceList } = useCity_GetAvailableServiceTypesQuery(
+		{
+			skip: 0,
+			take: 10000,
+			input: { cityId: cityId },
+		},
+		{ keepPreviousData: true }
+	);
+
 	const { mutate: mutateState, isLoading } = useCity_SetAvailableServiceTypesMutation();
-	const { mutate: mutateCityUpdate, isLoading: isLoadingUpdate } = useCarousel_UpdateMutation();
 
 	const { data: datasub, isSuccess: isSuccesssub } = useServiceSubCategory_GetAllQuery(
 		{ skip: 0, take: 1000 },
 		{ keepPreviousData: true }
 	);
+
 	const { data: dataSubsub, isSuccess: isSuccessSubsub } = useServiceTypes_GetAllQuery(
 		{ skip: 0, take: 1000 },
 		{ keepPreviousData: true }
 	);
-	const { data, isSuccess: isSuccessstate } = useProvincesQuery(
-		{
-			skip: 0,
-			take: 1000,
-		},
-		{
-			keepPreviousData: true,
-		}
-	);
+
+	const { data, isSuccess: isSuccessstate } = useProvincesQuery({ skip: 0, take: 1000 }, { keepPreviousData: true });
+
 	const { data: datacity, isSuccess: isSuccesscity } = useCity_GetAllQuery(
 		{ skip: 0, take: 1000, where: { province: { id: { eq: StateId } } } },
-		{
-			keepPreviousData: true,
-		}
+		{ keepPreviousData: true }
 	);
 
-	useEffect(() => {
-		if (isSuccesscity) {
-			const newList =
-				datacity?.city_getAll?.result?.items?.map((page) => ({
-					option: page.name,
-					value: page.id,
-				})) || [];
-
-			setlistCity(newList);
-		}
-	}, [isSuccesscity, datacity]);
-
+	// =================== Load Provinces ===================
 	useEffect(() => {
 		if (isSuccessstate) {
 			const newList =
@@ -80,11 +69,23 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 					option: name,
 					value: id,
 				})) || [];
-
-			if (newList.length > 0) setListState(newList);
+			setListState(newList);
 		}
 	}, [isSuccessstate, data]);
 
+	// =================== Load Cities ===================
+	useEffect(() => {
+		if (isSuccesscity) {
+			const newList =
+				datacity?.city_getAll?.result?.items?.map((page) => ({
+					option: page.name,
+					value: page.id,
+				})) || [];
+			setlistCity(newList);
+		}
+	}, [isSuccesscity, datacity]);
+
+	// =================== Load Sub Categories ===================
 	useEffect(() => {
 		if (isSuccesssub) {
 			const newList =
@@ -96,6 +97,7 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 		}
 	}, [isSuccesssub, datasub]);
 
+	// =================== Load Service Types ===================
 	useEffect(() => {
 		if (isSuccessSubsub) {
 			const newList =
@@ -108,10 +110,11 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 		}
 	}, [isSuccessSubsub, dataSubsub]);
 
+	// =================== React Hook Form ===================
 	const defaultValues = {
 		StateId: '',
 		CityId: '',
-		serviceTypeIds: [''], // یک ردیف خالی اولیه
+		serviceTypeIds: [''],
 	};
 
 	const methods = useForm({
@@ -119,14 +122,31 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 		defaultValues,
 	});
 
-	const { handleSubmit, setValue, reset, watch } = methods;
-
+	const { handleSubmit, setValue, watch } = methods;
 	const serviceTypeIds = watch('serviceTypeIds');
 
-	if (DataRow && !formInitialized) {
-		return null;
-	}
+	// =================== Auto-fill form after city selection ===================
+	useEffect(() => {
+		if (!CityServiceList || !cityId) return;
 
+		const items = CityServiceList.city_getAvailableServiceTypes?.result?.items || [];
+
+		// اگر لیست خالی بود
+		if (items.length === 0) {
+			setSelectedServices([]);
+			setValue('serviceTypeIds', ['']);
+			return;
+		}
+
+		// استخراج category و type
+		const categoryIds = items.map((item) => item.serviceSubCategory?.id || '');
+		const typeIds = items.map((item) => item.id);
+
+		setSelectedServices(categoryIds);
+		setValue('serviceTypeIds', typeIds);
+	}, [CityServiceList, cityId]);
+
+	// =================== Submit ===================
 	const onSubmit = async (data: typeof defaultValues) => {
 		const payload = {
 			cityId: data.CityId,
@@ -137,18 +157,13 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 			{ input: payload },
 			{
 				onSuccess: () => {
-					//reset(defaultValues);
-					setValue('CityId', data.CityId);
-					setValue('StateId', data.StateId);
-					setValue('serviceTypeIds', []);
-					setSelectedServices([]);
-					setFormInitialized(false);
 					handleClose();
 				},
 			}
 		);
 	};
 
+	// =================== Add / Remove Rows ===================
 	const handleAddUpload = () => {
 		setValue('serviceTypeIds', [...serviceTypeIds, '']);
 		setSelectedServices([...selectedServices, '']);
@@ -165,13 +180,13 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 	};
 
 	const handleSelectServiceCategory = (index: number, value: string) => {
-		const newSelectedServices = [...selectedServices];
-		newSelectedServices[index] = value;
-		setSelectedServices(newSelectedServices);
+		const newSelected = [...selectedServices];
+		newSelected[index] = value;
+		setSelectedServices(newSelected);
 
-		const newServiceTypeIds = [...serviceTypeIds];
-		newServiceTypeIds[index] = '';
-		setValue('serviceTypeIds', newServiceTypeIds);
+		const updated = [...serviceTypeIds];
+		updated[index] = '';
+		setValue('serviceTypeIds', updated);
 	};
 
 	const filteredSubsubs = (index: number) => {
@@ -179,6 +194,7 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 		return listSubsubAll.filter((item) => item.serviceCategoryId === categoryId);
 	};
 
+	// =================== Render ===================
 	return (
 		<Dialog
 			open={open}
@@ -193,107 +209,80 @@ const Index: FC<IPageProps> = ({ DataRow, handleClose, open }) => {
 			</IconButton>
 
 			<DialogTitle sx={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>ثبت اطلاعات</DialogTitle>
+
 			<FormProvider methods={methods}>
 				<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
+					{/* استان */}
 					<Grid item xs={12} sm={3}>
 						<SelectField
-							//disabled={disabled}
 							name="StateId"
 							options={listState}
-							autoWidth={false}
-							multiple={false}
-							native={false}
 							onChanged={(e) => {
 								setStateId(e.target.value);
 							}}
 						/>
 					</Grid>
+
+					{/* شهر */}
 					<Grid item xs={12} sm={3}>
-						<SelectField name="CityId" options={listCity} autoWidth={false} multiple={false} native={false} />
+						<SelectField name="CityId" options={listCity} onChanged={(e) => setcityId(e.target.value)} />
 					</Grid>
+
+					{/* دسته / نوع سرویس */}
 					<Grid item xs={12} sm={6} sx={{ marginTop: '20px' }}>
 						{serviceTypeIds.map((value, index) => (
-							<React.Fragment key={index}>
-								<Grid container spacing={2} sx={{ marginTop: '1px' }} alignItems="center">
-									<Grid item xs={12} sm={5}>
-										<SelectField
-											name={`serviceCategory_${index}`}
-											options={listSub}
-											autoWidth={false}
-											multiple={false}
-											native={false}
-											onChanged={(e) => handleSelectServiceCategory(index, e.target.value)}
-											value={selectedServices[index] || ''}
-										/>
-									</Grid>
-
-									<Grid item xs={12} sm={5}>
-										<SelectField
-											name={`serviceTypeIds.${index}`}
-											options={filteredSubsubs(index)}
-											autoWidth={false}
-											multiple={false}
-											native={false}
-											value={serviceTypeIds[index] || ''}
-											onChanged={(e) => {
-												const updated = [...serviceTypeIds];
-												updated[index] = e.target.value;
-												setValue('serviceTypeIds', updated);
-											}}
-										/>
-									</Grid>
-									{index > 0 && (
-										<Grid item xs={12} sm={2}>
-											<Button
-												variant="outlined"
-												color="error"
-												size="small"
-												onClick={() => handleRemoveUpload(index)}
-												sx={{ height: '40px', minWidth: '40px' }}
-											>
-												حذف
-											</Button>
-										</Grid>
-									)}
+							<Grid container spacing={2} key={index} alignItems="center" sx={{ mt: 1 }}>
+								<Grid item xs={12} sm={5}>
+									<SelectField
+										name={`serviceCategory_${index}`}
+										options={listSub}
+										value={selectedServices[index] || ''}
+										onChanged={(e) => handleSelectServiceCategory(index, e.target.value)}
+									/>
 								</Grid>
-							</React.Fragment>
+
+								<Grid item xs={12} sm={5}>
+									<SelectField
+										name={`serviceTypeIds.${index}`}
+										options={filteredSubsubs(index)}
+										value={serviceTypeIds[index] || ''}
+										onChanged={(e) => {
+											const updated = [...serviceTypeIds];
+											updated[index] = e.target.value;
+											setValue('serviceTypeIds', updated);
+										}}
+									/>
+								</Grid>
+
+								{index > 0 && (
+									<Grid item xs={12} sm={2}>
+										<Button variant="outlined" color="error" size="small" onClick={() => handleRemoveUpload(index)}>
+											حذف
+										</Button>
+									</Grid>
+								)}
+							</Grid>
 						))}
 
-						<Button onClick={handleAddUpload} variant="outlined" size="small" sx={{ mt: 1, color: '#000 !important' }}>
+						<Button onClick={handleAddUpload} variant="outlined" sx={{ mt: 1 }}>
 							افزودن +
 						</Button>
 					</Grid>
 
 					{/* دکمه‌ها */}
 					<Grid item xs={12}>
-						<Box
-							sx={{
-								display: 'flex',
-								justifyContent: { xs: 'center', sm: 'space-between' },
-								flexDirection: { xs: 'column-reverse', sm: 'row' },
-								gap: 1,
-							}}
-						>
+						<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 							<LoadingButton
+								sx={{ color: '#fff', width: '100px' }}
 								variant="contained"
 								onClick={handleSubmit(onSubmit)}
-								loading={isLoading || isLoadingUpdate}
-								sx={{ background: '#88b2e1', color: '#fff', minWidth: 120 }}
+								loading={isLoading}
 							>
 								ثبت
 							</LoadingButton>
-							<LoadingButton
-								variant="contained"
-								onClick={handleClose}
-								sx={{
-									background: COLORS.cancelBg,
-									'&:hover': { background: COLORS.cancelHover },
-									color: '#fff',
-									minWidth: 120,
-								}}
-							>
+							<Button sx={{ color: '#fff', width: '100px' }} variant="contained" onClick={handleClose} color="error">
 								بستن
-							</LoadingButton>
+							</Button>
 						</Box>
 					</Grid>
 				</Grid>

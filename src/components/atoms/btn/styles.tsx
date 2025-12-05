@@ -7,7 +7,7 @@ export const AddButton = styled(Button)<{ backgroundColor?: string; colorbtn?: s
 		color: colorbtn || '#000',
 		fontSize: 15,
 		height: 48,
-		fontFamily: 'Amiri',
+		fontFamily: 'Vazir',
 		backgroundColor: backgroundColor || '#fff',
 		width: widthbt,
 		':hover': {

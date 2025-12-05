@@ -84,5 +84,5 @@ export const Li = styled('li')({
 });
 
 export const textMenu = styled(Typography)({
-	fontFamily: 'Amiri',
+	fontFamily: 'Vazir',
 });

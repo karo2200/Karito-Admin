@@ -9,27 +9,17 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/providers/AuthProvider';
 import COLORS from '@/theme/colors';
 
-import CellIcon from '../../../assets/menu/cell';
-import CellwIcon from '../../../assets/menu/cell.w';
-import ChartIcon from '../../../assets/menu/chart';
-import ChartwIcon from '../../../assets/menu/chart.w';
-import MoneyIcon from '../../../assets/menu/money';
-import MoneywIcon from '../../../assets/menu/money.w';
-import CustomerIcon from '../../../assets/menu/user';
-import UserIcon from '../../../assets/user';
 import * as S from '../styles';
 
 const menuItems = [
 	{
 		text: 'داشبورد',
-		Icon: ChartIcon,
-		iconW: ChartwIcon,
+		Icon: '/icons/dashbord.png',
 		link: '/Admin',
 	},
 	{
 		text: 'اطلاعات پایه',
-		Icon: ChartIcon,
-		iconW: ChartwIcon,
+		Icon: '/icons/baseinformation.png',
 		link: '#',
 		subMenu: [
 			{ text: '  استان', link: '/Admin/General/State' },
@@ -41,8 +31,7 @@ const menuItems = [
 	},
 	{
 		text: 'سرویس ها',
-		Icon: ChartIcon,
-		iconW: ChartwIcon,
+		Icon: '/icons/service.png',
 		link: '#',
 		subMenu: [
 			{ text: 'Main Category', link: '/Admin/General/Category' },
@@ -53,20 +42,17 @@ const menuItems = [
 	},
 	{
 		text: 'متخصصان',
-		Icon: MoneyIcon,
-		iconW: MoneywIcon,
+		Icon: '/icons/export.png',
 		link: '/Admin/Expert',
 	},
 	{
 		text: 'مشتریان',
-		Icon: CustomerIcon,
-		iconW: CustomerIcon,
+		Icon: '/icons/users.png',
 		link: '/Admin/Customer',
 	},
 	{
 		text: 'سفارشات',
-		Icon: CellIcon,
-		iconW: CellwIcon,
+		Icon: '/icons/orders.png',
 		link: '#',
 		subMenu: [
 			{ text: 'لیست سفارشات', link: '/Admin/Orders' },
@@ -75,8 +61,7 @@ const menuItems = [
 	},
 	{
 		text: 'کاربران',
-		Icon: UserIcon,
-		iconW: UserIcon,
+		Icon: '/icons/users.png',
 		link: '/Admin/Users',
 	},
 ];
@@ -207,7 +192,7 @@ const AdminDrawer = ({ toggleCollapse }) => {
 											paddingRight: 25,
 											background: pathname.includes(item.link) ? '#D7F2F3' : '',
 											fontFamily: 'Vazir !important',
-											color: '#878686',
+											color: '#000',
 										}}
 									>
 										{item.subMenu && !isCollapsed && (
@@ -221,7 +206,8 @@ const AdminDrawer = ({ toggleCollapse }) => {
 												style={{ fontFamily: 'Vazir !important' }}
 												sx={{
 													fontFamily: 'Vazir !important',
-													color: '#878686',
+													color: '#000',
+
 													textAlign: 'right',
 													fontSize: '18px',
 												}}
@@ -232,13 +218,14 @@ const AdminDrawer = ({ toggleCollapse }) => {
 											sx={{
 												minWidth: 'auto',
 												marginLeft: isCollapsed ? '0' : '12px',
-												color: '#878686',
+												color: '#000',
+
 												justifyContent: 'center',
 												display: 'flex',
-												width: 40,
+												width: 35,
 											}}
 										>
-											<item.Icon />
+											<img src={item.Icon} width="35px" />
 										</ListItemIcon>
 									</ListItemButton>
 								</ListItem>
@@ -259,14 +246,16 @@ const AdminDrawer = ({ toggleCollapse }) => {
 														paddingRight: 25,
 														background: pathname.includes(sub.link) ? '#E0F7FA' : '',
 														fontFamily: 'Vazir !important',
-														color: '#666',
+														color: '#000',
+
 														fontSize: '16px',
 													}}
 												>
 													<ListItemText
 														primary={sub.text}
 														sx={{
-															color: '#666',
+															color: '#000',
+
 															textAlign: 'right',
 														}}
 													/>
@@ -281,7 +270,7 @@ const AdminDrawer = ({ toggleCollapse }) => {
 
 					<ListItem
 						disablePadding
-						sx={{ justifyContent: isCollapsed ? 'center' : 'flex-start', marginTop: '66px' }}
+						sx={{ justifyContent: isCollapsed ? 'center' : 'flex-start', marginTop: '50px' }}
 						onClick={onLogoutClick}
 					>
 						<ListItemButton
@@ -289,12 +278,12 @@ const AdminDrawer = ({ toggleCollapse }) => {
 								height: 55,
 								paddingRight: 25,
 								fontFamily: 'Vazir !important',
-								color: '#878686',
+								color: '#000',
 							}}
 						>
 							<ListItemText
 								primary="خروج"
-								sx={{ fontFamily: 'Vazir', color: '#838A93', textAlign: 'right', fontSize: '15px' }}
+								sx={{ fontFamily: 'Vazir', color: '#000', textAlign: 'right', fontSize: '15px' }}
 							/>
 							<ListItemIcon sx={{ minWidth: 'auto', marginLeft: '12px', color: '#DC5865' }}>
 								<LogoutIcon />

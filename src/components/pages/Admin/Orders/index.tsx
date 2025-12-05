@@ -2,6 +2,8 @@ import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SortEnumType, useServiceRequest_GetAllQuery } from 'src/graphql/generated';
 
+import COLORS from '@/theme/colors';
+
 import MidelForm from './MidelForm';
 import SearchPage from './SearchForm';
 
@@ -62,7 +64,8 @@ const index = () => {
 					borderRadius: 2,
 					marginBottom: 5,
 					padding: 2,
-					border: '1px solid #00000014',
+					backgroundColor: COLORS.grey3,
+					border: '1px solid #c1c1c1a8',
 				}}
 			>
 				<SearchPage

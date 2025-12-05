@@ -2,7 +2,6 @@ const API_URL = 'https://api.karito.net/graphql';
 const SUBSCRIPTION_URL = 'https://api.karito.net/graphql';
 const BLOB_BASE_URL = 'https://api.karito.net/graphql';
 const BLOB_URL = '';
-
 const config = {
 	API_URL,
 	BLOB_URL,

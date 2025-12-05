@@ -2,6 +2,8 @@ import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SortEnumType, useSpecialist_GetAllQuery } from 'src/graphql/generated';
 
+import COLORS from '@/theme/colors';
+
 import MidelForm from './MidelForm';
 import SearchPage from './SearchForm';
 const rows = [
@@ -11,6 +13,7 @@ const rows = [
 const index = () => {
 	const [selectedRow, setSelectedRow] = useState('');
 	const [CityId, setCityId] = useState('');
+	const [mobil, setmobil] = useState('');
 	const [load, setLoad] = useState(1);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
@@ -29,7 +32,10 @@ const index = () => {
 							city: { id: { eq: CityId } },
 							or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }],
 					  }
-					: { or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }] },
+					: {
+							or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }],
+							phoneNumber: { contains: mobil },
+					  },
 		},
 		{
 			keepPreviousData: true,
@@ -52,13 +58,15 @@ const index = () => {
 					borderRadius: 2,
 					marginBottom: 5,
 					padding: 2,
-					border: '1px solid #00000014',
+					backgroundColor: COLORS.grey3,
+					border: '1px solid #c1c1c1a8',
 				}}
 			>
 				<SearchPage
-					onSearchItem={(name, CityId) => {
+					onSearchItem={(name, CityId, mobil) => {
 						setSelectedRow(name);
 						setCityId(CityId);
+						setmobil(mobil);
 						setLoad(1);
 					}}
 				/>

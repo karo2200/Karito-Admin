@@ -30,7 +30,7 @@ const App = (props: AppPropsWithLayout) => {
 		<>
 			<Head>
 				<meta name="viewport" content="initial-scale=1, width=device-width" />
-				<link rel="icon" href="/images/logp.jpg" sizes="any" />
+				<link rel="icon" href="/icons/logo.jpg" sizes="any" />
 			</Head>
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools initialIsOpen={false} />

@@ -64,7 +64,7 @@ const index = () => {
 						>
 							<Typography sx={{ fontSize: '16px', fontWeight: 'bold' }}>وضعیت نمایش</Typography>
 							<SelectField
-								sx={{ width: '150px', borderColor: 'transparent' }}
+								sx={{ width: '150px', borderColor: 'transparent', backgroundColor: 'transparent !important' }}
 								name="Time"
 								options={Time}
 								autoWidth={false}
@@ -91,7 +91,8 @@ const index = () => {
 							borderRadius: 2,
 							marginBottom: 5,
 							padding: 2,
-							border: '1px solid #00000014',
+							backgroundColor: COLORS.grey3,
+							border: '1px solid #c1c1c1a8',
 							overflowY: 'scroll',
 						}}
 					>
@@ -117,7 +118,8 @@ const index = () => {
 							borderRadius: 2,
 							marginBottom: 5,
 							padding: 2,
-							border: '1px solid #00000014',
+							backgroundColor: COLORS.grey3,
+							border: '1px solid #c1c1c1a8',
 							overflow: 'hidden',
 						}}
 					>

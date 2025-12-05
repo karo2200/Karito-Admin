@@ -157,11 +157,11 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem }) => {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-						<TextField required name="CityName" placeholder=" شهر" fullWidth sx={{ mb: 0, height: 40 }} id="CityName" />
+					<Grid item xs={12} sm={3}>
+						<TextField required name="CityName" placeholder=" شهر" sx={{ mb: 0, height: 40 }} id="CityName" />
 					</Grid>
-					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
-						<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ mb: 0, height: '40px' }} id="Name" />
+					<Grid item xs={12} sm={3}>
+						<TextField required name="Abbreviation" placeholder="کد اختصاصی" sx={{ mb: 0, height: 40 }} id="Name" />
 					</Grid>
 					<Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
 						<LoadingButton

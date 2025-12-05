@@ -16,16 +16,41 @@ const index: FC<IPageProps> = ({ rows }) => {
 					<TableHead>
 						<TableRow
 							sx={{
-								height: 30,
-								background: '#c7dffa', // nice blue gradient
-								color: '#555', // white text
+								height: 45,
+								background: '#d1e6ffff',
+								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>عنوان</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								عنوان
+							</TableCell>
 
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>لوگو</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								لوگو
+							</TableCell>
 
-							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}>
+							<TableCell
+								align="left"
+								sx={{ color: '#2a2a2a', fontWeight: 'bold', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
+							>
 								special
 							</TableCell>
 						</TableRow>
@@ -36,7 +61,8 @@ const index: FC<IPageProps> = ({ rows }) => {
 								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
-									height: 30,
+									height: 40,
+									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
 								}}
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>

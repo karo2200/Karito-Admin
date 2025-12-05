@@ -35,15 +35,59 @@ const index: FC<IPageProps> = ({ rows, onRefreshItem }) => {
 					<TableHead>
 						<TableRow
 							sx={{
-								height: 30,
-								background: '#c7dffa', // nice blue gradient
-								color: '#555', // white text
+								height: 45,
+								background: '#d1e6ffff',
+								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>کدکاربری</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>نام خانوادگی</TableCell>
-							<TableCell sx={{ textAlign: 'right', color: '#555', paddingY: 0 }}>شماره همراه</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								کدکاربری
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								نام
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								نام خانوادگی
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								شماره همراه
+							</TableCell>
 							<TableCell align="left" sx={{ color: '#555', paddingY: 0 }}></TableCell>
 						</TableRow>
 					</TableHead>
@@ -53,7 +97,8 @@ const index: FC<IPageProps> = ({ rows, onRefreshItem }) => {
 								key={index}
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
-									height: 30,
+									height: 40,
+									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
 								}}
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>

@@ -2,6 +2,8 @@ import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useBanner_GetAllQuery } from 'src/graphql/generated';
 
+import COLORS from '@/theme/colors';
+
 import CreateCity from './Create';
 import MidelForm from './MidelForm';
 const rows = [{ name: 'خدمات' }, { name: 'بهداشت' }];
@@ -40,7 +42,8 @@ const Index = () => {
 					borderRadius: 2,
 					marginBottom: 5,
 					padding: 2,
-					border: '1px solid #00000014',
+					backgroundColor: COLORS.grey3,
+					border: '1px solid #c1c1c1a8',
 				}}
 			>
 				<CreateCity

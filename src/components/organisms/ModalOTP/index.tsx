@@ -106,7 +106,7 @@ function MyModal({ open, handleClose, name, Mobil, TypeUser }) {
 						sx={{
 							fontSize: '15px',
 							backgroundColor: COLORS.cancelBg,
-							color: '#000',
+							color: '#fff',
 							borderRadius: 2,
 							marginLeft: 1,
 							marginRight: '5px',

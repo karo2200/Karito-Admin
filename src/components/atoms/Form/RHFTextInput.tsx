@@ -12,21 +12,21 @@ type RHFTextFieldType = TextFieldProps & {
 const CommonTextField = styled(TextField)({
 	fontFamily: 'Vazir',
 	fontSize: 15,
+	backgroundColor: '#fff',
 	'& .MuiOutlinedInput-root': {
-		borderRadius: '2px', // Custom border-radius
+		borderRadius: '2px',
 		'& input': {
-			padding: '0 14px', // Control vertical padding here
-			height: '100%', // Make sure input fills container
+			padding: '0 14px',
 			boxSizing: 'border-box',
 			textAlign: 'right',
 			fontFamily: 'vazir',
 			fontSize: 13,
-			height: '40px !important', // Total height of the input container
+			height: '40px !important',
 		},
 	},
 	'& .MuiOutlinedInput-notchedOutline': {
-		borderColor: '#DEE2E6 !important', // change border color if needed
-		borderRadius: '5px', // redundant but safe
+		borderColor: '#DEE2E6 !important',
+		borderRadius: '5px',
 	},
 });
 export default function RHFTextField({ name, label, id, onChanged, ...other }: RHFTextFieldType) {
