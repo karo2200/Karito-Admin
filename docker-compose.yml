@@ -4,7 +4,7 @@ services:
     ports:
       - '4700:4500'
     env_file:
-      - .env.${ENV:-prd} # بارگذاری فایل env متناسب با ENV (پیش‌فرض dev)
+      - .env.${ENV}
     environment:
-      - NODE_ENV=${ENV:-prd} # مقدار NODE_ENV از ENV گرفته می‌شود یا dev
-    restart: unless-stopped # ری‌استارت خودکار در صورت توقف غیرمنتظره
+      NODE_ENV: ${ENV}
+    restart: unless-stopped
