@@ -4,6 +4,18 @@ FROM node:18-alpine AS builder
 # تنظیم محیط کار
 WORKDIR /app
 
+# Build arguments
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_SUBSCRIPTION_URL
+ARG NEXT_PUBLIC_BLOB_BASE_URL
+ARG ENV
+
+# Set environment variables
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_SUBSCRIPTION_URL=$NEXT_PUBLIC_SUBSCRIPTION_URL
+ENV NEXT_PUBLIC_BLOB_BASE_URL=$NEXT_PUBLIC_BLOB_BASE_URL
+ENV ENV=$ENV
+
 # نصب ابزارهای مورد نیاز برای build (مثل node-gyp)
 RUN apk add --no-cache python3 make g++
 
@@ -25,7 +37,7 @@ RUN node prebuild
 RUN npm run build
 
 ### مرحله 2: تصویر نهایی برای اجرا
-FROM node:18-alpine
+FROM node:20-alpine
 
 # تنظیم محیط کار
 WORKDIR /app
