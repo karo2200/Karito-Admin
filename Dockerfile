@@ -1,5 +1,5 @@
 ### مرحله 1: ساخت پروژه
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # تنظیم محیط کار
 WORKDIR /app
