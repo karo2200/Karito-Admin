@@ -213,7 +213,9 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										{convertToJalali(row?.requestDate)}
 									</TableCell>
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.trackingCode}
+										{row?.trackingCode && !['na', 'NA', 'N/A', 'n/a'].includes(row.trackingCode.trim())
+											? row.trackingCode
+											: ''}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.customer?.firstName || row?.customer?.lastName

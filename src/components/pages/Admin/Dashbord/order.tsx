@@ -127,7 +127,9 @@ const index = () => {
 									</TableCell>
 
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{!row?.specialist?.firstName || '' + ' ' + !row?.specialist?.lastName || ''}
+										{row?.specialist?.firstName || row?.specialist?.lastName
+											? `${row?.specialist?.firstName ?? ''} ${row?.specialist?.lastName ?? ''}`.trim()
+											: ''}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', overflow: 'hidden', paddingY: 0, height: 30 }}>
 										{row.serviceType?.name}
