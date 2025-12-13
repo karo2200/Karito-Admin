@@ -101,8 +101,8 @@ const AdminDrawer = ({ toggleCollapse }) => {
 	};
 
 	const toggleCollaps = () => {
-		//toggleCollapse(!isCollapsed);
-		//setIsCollapsed((prev) => !prev);
+		toggleCollapse(!isCollapsed);
+		setIsCollapsed((prev) => !prev);
 	};
 
 	const onLogoutClick = () => {
@@ -125,7 +125,7 @@ const AdminDrawer = ({ toggleCollapse }) => {
 						zIndex: 10,
 						backgroundColor: 'white',
 						borderRadius: '8px',
-						boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+						boxShadow: '0 2px 8px rgba(0,0,0,0.14)',
 						cursor: 'pointer',
 						padding: '8px',
 					}}
@@ -148,8 +148,8 @@ const AdminDrawer = ({ toggleCollapse }) => {
 				{/* Header: show logo and text only when expanded */}
 				<Box
 					marginBottom="50px"
-					paddingTop="16px"
-					paddingRight="16px"
+					paddingTop="14px"
+					paddingRight="14px"
 					display="flex"
 					alignItems="center"
 					justifyContent="space-between"
@@ -248,7 +248,7 @@ const AdminDrawer = ({ toggleCollapse }) => {
 														fontFamily: 'Vazir !important',
 														color: '#000',
 
-														fontSize: '16px',
+														fontSize: '14px',
 													}}
 												>
 													<ListItemText
@@ -281,10 +281,12 @@ const AdminDrawer = ({ toggleCollapse }) => {
 								color: '#000',
 							}}
 						>
-							<ListItemText
-								primary="خروج"
-								sx={{ fontFamily: 'Vazir', color: '#000', textAlign: 'right', fontSize: '15px' }}
-							/>
+							{!isCollapsed && (
+								<ListItemText
+									primary="خروج"
+									sx={{ fontFamily: 'Vazir', color: '#000', textAlign: 'right', fontSize: '14px' }}
+								/>
+							)}
 							<ListItemIcon sx={{ minWidth: 'auto', marginLeft: '12px', color: '#DC5865' }}>
 								<LogoutIcon />
 							</ListItemIcon>

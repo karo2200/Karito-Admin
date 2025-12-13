@@ -13,6 +13,20 @@ const index = () => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [load, setLoad] = useState(1);
+	const [SortItem, setSortItem] = useState('');
+	const [SortIndex, setSortIndex] = useState(SortEnumType.Desc);
+	const order = React.useMemo(() => {
+		switch (SortItem) {
+			case 'D':
+				return { requestDate: SortIndex };
+			case 'P':
+				return { basePrice: SortIndex };
+			case 'DP':
+				return { discountAmount: SortIndex };
+			default:
+				return { finalPrice: SortIndex };
+		}
+	}, [SortIndex]);
 
 	const {
 		data: list,
@@ -22,7 +36,7 @@ const index = () => {
 		{
 			take: rowsPerPage,
 			skip: page * rowsPerPage,
-			order: { requestDate: SortEnumType.Desc },
+			order,
 			where:
 				CityId != ''
 					? {
@@ -85,6 +99,12 @@ const index = () => {
 				OnsetRowsPerPage={(row, page) => {
 					setRowsPerPage(row);
 					setPage(page);
+					setLoad(1);
+				}}
+				Onhandlesort={(data) => {
+					setSortItem(data);
+					setSortIndex(SortEnumType.Desc);
+					if (SortIndex === SortEnumType.Desc) setSortIndex(SortEnumType.Asc);
 					setLoad(1);
 				}}
 			/>

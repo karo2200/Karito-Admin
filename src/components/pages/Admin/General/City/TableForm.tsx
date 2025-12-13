@@ -38,12 +38,12 @@ const Index: FC<IPageProps> = ({
 			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
 				<Table aria-label="simple table">
 					<TableHead>
-						<TableRow sx={{ height: 45, background: '#ddeafdff', boxShadow: '0px 2px 4px rgba(0,0,0,0.08)' }}>
+						<TableRow sx={{ height: 45, background: '#cdd3e28f', boxShadow: '0px 2px 4px rgba(0,0,0,0.08)' }}>
 							<TableCell
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -56,11 +56,11 @@ const Index: FC<IPageProps> = ({
 								align="center"
 								sx={{
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
+									whiteSpace: 'nowrap',
 									paddingY: 0,
 									width: '70px',
-									whiteSpace: 'nowrap',
 								}}
 							>
 								عملیات
@@ -69,7 +69,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -82,7 +82,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -94,7 +94,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -106,7 +106,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -118,7 +118,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -132,7 +132,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									textAlign: 'center',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -150,7 +150,7 @@ const Index: FC<IPageProps> = ({
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
 									height: 40,
-									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
+									backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#ffffff',
 								}}
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>

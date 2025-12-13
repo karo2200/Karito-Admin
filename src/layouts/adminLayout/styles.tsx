@@ -1,8 +1,8 @@
 import { styled } from '@mui/material';
-export const Main = styled('main')({
+export const Main = styled('main')<{ show: boolean }>(({ show }) => ({
 	display: 'grid',
 	width: '100%',
-	gridTemplateColumns: '1fr 270px  ',
+	gridTemplateColumns: show ? '1fr 70px' : '1fr 270px',
 	// columnGap: 16,
 	minHeight: '100%',
 	margin: '0 auto',
@@ -16,7 +16,7 @@ export const Main = styled('main')({
 		display: 'flow-root',
 		gridTemplateColumns: '1fr',
 	},*/
-});
+}));
 export const MainContent = styled('div', {
 	shouldForwardProp: (prop) => prop !== 'show',
 })<{ show: boolean }>(({ show }) => ({

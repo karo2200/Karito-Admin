@@ -10,14 +10,14 @@ interface StatusBoxProps {
 
 const StyledBox = styled(Box)<{ status: StatusType }>(({ status }) => ({
 	width: '100px',
-	height: '40px',
-	borderRadius: '6px',
+	height: '35px',
+	borderRadius: '17px',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
 	fontFamily: 'Vazir',
-	fontWeight: 'bold',
-	fontSize: '14px',
+	fontWeight: '400px',
+	fontSize: '12px',
 	color: '#fff',
 	backgroundColor:
 		status === ServiceRequestStatus?.Pending
@@ -40,7 +40,7 @@ const StyledBox = styled(Box)<{ status: StatusType }>(({ status }) => ({
 export default function StatusBox({ status }: StatusBoxProps) {
 	return (
 		<StyledBox status={status}>
-			<Typography sx={{ fontFamily: 'Vazir', fontWeight: 'bold', fontSize: '14px' }}>
+			<Typography sx={{ fontFamily: 'Vazir', fontWeight: '400px', fontSize: '12px' }}>
 				{status === ServiceRequestStatus?.Pending
 					? 'در انتظار'
 					: status === ServiceRequestStatus?.AcceptedBySpecialist

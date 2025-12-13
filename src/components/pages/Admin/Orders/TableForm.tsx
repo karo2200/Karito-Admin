@@ -1,3 +1,4 @@
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { toJalaali } from 'jalaali-js';
 import React, { FC } from 'react';
@@ -14,10 +15,11 @@ function convertToJalali(dateString) {
 	const jDate = toJalaali(date);
 	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
 }
-const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleShow }) => {
+const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleShow, Onhandlesort }) => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
 
+	console.log(rows);
 	return (
 		<>
 			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
@@ -26,7 +28,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 						<TableRow
 							sx={{
 								height: 45,
-								background: '#d1e6ffff',
+								background: '#cdd3e28f',
 								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
@@ -34,7 +36,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -47,11 +49,12 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
 								}}
+								onClick={() => Onhandlesort('D')}
 							>
 								عملیات
 							</TableCell>
@@ -59,19 +62,22 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('D')}
 							>
 								تاریخ سفارش
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -83,7 +89,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -96,7 +102,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -108,7 +114,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -120,44 +126,53 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('P')}
 							>
 								قیمت
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('DP')}
 							>
 								تخفیف
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('PT')}
 							>
 								قیمت نهایی
+								<SwapVertIcon />
 							</TableCell>
 
 							<TableCell
 								align="center"
 								sx={{
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -181,7 +196,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									sx={{
 										'&:last-child td, &:last-child th': { border: 0 },
 										height: 40,
-										backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
+										backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#ffffff',
 									}}
 								>
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -201,11 +216,15 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										{row?.trackingCode}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.customer?.firstName || '' + ' ' + row?.customer?.lastName || ''}
+										{row?.customer?.firstName || row?.customer?.lastName
+											? `${row?.customer?.firstName ?? ''} ${row?.customer?.lastName ?? ''}`.trim()
+											: ''}
 									</TableCell>
 
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{!row?.specialist?.firstName || '' + ' ' + !row?.specialist?.lastName || ''}
+										{row?.specialist?.firstName || row?.specialist?.lastName
+											? `${row?.specialist?.firstName ?? ''} ${row?.specialist?.lastName ?? ''}`.trim()
+											: ''}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.serviceType?.name}

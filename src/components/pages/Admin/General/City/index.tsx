@@ -44,7 +44,7 @@ const Index = () => {
 		<>
 			<Box
 				sx={{
-					//boxShadow: ' rgb(100 100 111 / 9%) 0px 7px 29px 0px',
+					//boxShadow: 'rgb(100 100 111 / 9%) 1px 0px 25px 4px',
 					width: '100%',
 					minHeight: '90px',
 					borderRadius: 2,
