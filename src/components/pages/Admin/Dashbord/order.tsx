@@ -39,7 +39,7 @@ const index = () => {
 						<TableRow
 							sx={{
 								height: 45,
-								background: '#d1e6ffff',
+								background: '#cdd3e28f',
 								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
@@ -47,7 +47,7 @@ const index = () => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -59,7 +59,7 @@ const index = () => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -71,7 +71,7 @@ const index = () => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -83,7 +83,7 @@ const index = () => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -119,7 +119,7 @@ const index = () => {
 									sx={{
 										'&:last-child td, &:last-child th': { border: 0 },
 										height: 40,
-										backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
+										backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#ffffff',
 									}}
 								>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
@@ -127,7 +127,7 @@ const index = () => {
 									</TableCell>
 
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.specialist?.firstName || '' + ' ' + row?.specialist?.lastName || ''}
+										{!row?.specialist?.firstName || '' + ' ' + !row?.specialist?.lastName || ''}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', overflow: 'hidden', paddingY: 0, height: 30 }}>
 										{row.serviceType?.name}

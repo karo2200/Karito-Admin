@@ -8,7 +8,7 @@ const AdminLayout = ({ children }: React.PropsWithChildren) => {
 	const [show, setShowState] = useState(false);
 
 	return (
-		<S.Main>
+		<S.Main show={show}>
 			<S.MainContent show={show}>
 				<Box>{children}</Box>
 			</S.MainContent>

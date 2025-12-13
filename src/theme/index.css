@@ -27,3 +27,6 @@ body {
 li {
 	text-align: right !important;
 }
+td {
+	font-size: 12px !important;
+}

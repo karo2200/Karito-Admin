@@ -18,10 +18,24 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 						<TableRow
 							sx={{
 								height: 45,
-								background: '#d1e6ffff',
+								background: '#cdd3e28f',
 								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '60px',
+								}}
+							>
+								ردیف
+							</TableCell>
+
 							<TableCell
 								align="center"
 								sx={{
@@ -39,7 +53,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -51,7 +65,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -63,7 +77,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -75,7 +89,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -93,6 +107,9 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 									'&:last-child td, &:last-child th': { border: 0 },
 								}}
 							>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{index + 1}
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									<Action
 										OnhandleEdit={() => {

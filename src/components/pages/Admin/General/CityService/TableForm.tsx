@@ -17,7 +17,7 @@ const index: FC<IPageProps> = ({ rows }) => {
 						<TableRow
 							sx={{
 								height: 45,
-								background: '#d1e6ffff',
+								background: '#cdd3e28f',
 								boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
 							}}
 						>
@@ -25,7 +25,21 @@ const index: FC<IPageProps> = ({ rows }) => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '60px',
+								}}
+							>
+								ردیف
+							</TableCell>
+
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -38,7 +52,7 @@ const index: FC<IPageProps> = ({ rows }) => {
 								sx={{
 									textAlign: 'right',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -62,9 +76,12 @@ const index: FC<IPageProps> = ({ rows }) => {
 								sx={{
 									'&:last-child td, &:last-child th': { border: 0 },
 									height: 40,
-									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
+									backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#ffffff',
 								}}
 							>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{index + 1}
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.name}
 								</TableCell>
