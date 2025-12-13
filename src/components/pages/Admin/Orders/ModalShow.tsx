@@ -59,11 +59,13 @@ function MyModal({ open, handleClose, data }) {
 				</Grid>
 				<Grid item xs={12} sm={4}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{data?.specialist?.firstName + ' ' + data?.specialist?.lastName}
+						{data?.specialist?.firstName || data?.specialist?.lastName
+							? `${data?.specialist?.firstName ?? ''} ${data?.specialist?.lastName ?? ''}`.trim()
+							: ''}
 					</Typography>
 					<Rating name="half-rating-read" defaultValue={data?.averageRating} precision={0.5} readOnly dir="ltr" />
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{'تعداد رای دهندگان: ' + data?.specialist?.rateCount}
+						{'تعداد رای دهندگان: ' + (data?.specialist?.rateCount ?? '0')}
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={4}>
@@ -81,7 +83,9 @@ function MyModal({ open, handleClose, data }) {
 				</Grid>
 				<Grid item xs={12} sm={4}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{data?.customer?.firstName + ' ' + data?.customer?.lastName}
+						{data?.customer?.firstName || data?.customer?.lastName
+							? `${data?.customer?.firstName ?? ''} ${data?.customer?.lastName ?? ''}`.trim()
+							: ''}
 					</Typography>
 					<Typography sx={{ color: COLORS.cancelHover, marginBottom: '5px' }}>مشتری</Typography>
 				</Grid>
