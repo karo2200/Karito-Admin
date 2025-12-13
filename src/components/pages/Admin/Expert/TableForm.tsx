@@ -61,6 +61,19 @@ const index: FC<IPageProps> = ({
 							}}
 						>
 							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '60px',
+								}}
+							>
+								ردیف
+							</TableCell>
+							<TableCell
 								align="center"
 								sx={{
 									color: '#2a2a2a',
@@ -195,6 +208,9 @@ const index: FC<IPageProps> = ({
 										backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
 									}}
 								>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										{index + 1}
+									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										<Action
 											OnhandleListDocument={() => {

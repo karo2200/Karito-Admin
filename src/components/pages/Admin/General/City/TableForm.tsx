@@ -40,6 +40,19 @@ const Index: FC<IPageProps> = ({
 					<TableHead>
 						<TableRow sx={{ height: 45, background: '#ddeafdff', boxShadow: '0px 2px 4px rgba(0,0,0,0.08)' }}>
 							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '60px',
+								}}
+							>
+								ردیف
+							</TableCell>
+							<TableCell
 								align="center"
 								sx={{
 									color: '#2a2a2a',
@@ -140,6 +153,9 @@ const Index: FC<IPageProps> = ({
 									backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
 								}}
 							>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{index + 1}
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									<Action
 										OnhandleEdit={() => {

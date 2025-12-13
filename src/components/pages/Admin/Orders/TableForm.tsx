@@ -38,6 +38,19 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									width: '60px',
+								}}
+							>
+								ردیف
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
 								}}
 							>
 								عملیات
@@ -52,7 +65,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									whiteSpace: 'nowrap',
 								}}
 							>
-								تاریخ
+								تاریخ سفارش
 							</TableCell>
 							<TableCell
 								sx={{
@@ -78,18 +91,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 							>
 								مشتری{' '}
 							</TableCell>
-							<TableCell
-								sx={{
-									textAlign: 'right',
-									color: '#2a2a2a',
-									fontWeight: 'bold',
-									fontSize: '0.9rem',
-									paddingY: 0,
-									whiteSpace: 'nowrap',
-								}}
-							>
-								آدرس
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -151,7 +153,16 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								قیمت نهایی
 							</TableCell>
 
-							<TableCell align="center" sx={{ color: '#555', paddingY: 0 }}>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: 'bold',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
 								وضعیت
 							</TableCell>
 						</TableRow>
@@ -173,6 +184,9 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										backgroundColor: index % 2 === 0 ? '#f7faff' : '#ffffff',
 									}}
 								>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
+										{index + 1}
+									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										<Action
 											OnhandleShow={() => {
@@ -189,19 +203,9 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.customer?.firstName || '' + ' ' + row?.customer?.lastName || ''}
 									</TableCell>
+
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.address?.city?.province?.name +
-											'-' +
-											row?.address?.city?.name +
-											'- پلاک:' +
-											row?.address?.buildingNumber +
-											'- طبقه:' +
-											row?.address?.floorNumber +
-											'-' +
-											row?.address?.text}
-									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.specialist?.firstName || '' + ' ' + row?.specialist?.lastName || ''}
+										{!row?.specialist?.firstName || '' + ' ' + !row?.specialist?.lastName || ''}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.serviceType?.name}

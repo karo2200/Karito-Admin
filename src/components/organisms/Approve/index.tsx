@@ -24,12 +24,16 @@ const StyledBox = styled(Box)<{ status: StatusType }>(({ status }) => ({
 			? '#FFC107'
 			: status === ServiceRequestStatus?.AcceptedBySpecialist
 			? '#87f555ff'
-			: status === ServiceRequestStatus?.Cancelled
+			: status === ServiceRequestStatus?.CancelledByCustomer
 			? '#F44336'
+			: status === ServiceRequestStatus?.CancelledBySpecialist
+			? 'rgba(209, 69, 59, 1)'
 			: status === ServiceRequestStatus?.Paid
 			? '#4CAF50'
 			: status === ServiceRequestStatus?.PendingPayment
 			? '#5956faff'
+			: status === ServiceRequestStatus?.SettledWithSpecialist
+			? '#56fa95ff'
 			: '#f89008ff',
 }));
 
@@ -41,12 +45,16 @@ export default function StatusBox({ status }: StatusBoxProps) {
 					? 'در انتظار'
 					: status === ServiceRequestStatus?.AcceptedBySpecialist
 					? 'تایید متخصص'
-					: status === ServiceRequestStatus?.Cancelled
-					? 'انصراف'
+					: status === ServiceRequestStatus?.CancelledByCustomer
+					? 'انصراف مشتری'
+					: status === ServiceRequestStatus?.CancelledBySpecialist
+					? 'انصراف متخصص'
 					: status === ServiceRequestStatus?.Paid
 					? 'پرداخت شده'
 					: status === ServiceRequestStatus?.PendingPayment
 					? 'مرحله پرداخت'
+					: status === ServiceRequestStatus?.SettledWithSpecialist
+					? 'توافق متخصص'
 					: 'متخصص رسیده'}
 			</Typography>
 		</StyledBox>
