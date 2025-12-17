@@ -4,4 +4,4 @@ const index = fs.readFileSync(`./config/index.${env}.js`, 'utf8');
 
 console.log(`Writing config file in ${env} mode`);
 
-fs.writeFileSync('./config/index.js', index);
+// fs.writeFileSync('./config/index.js', index);

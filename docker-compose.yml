@@ -1,10 +1,20 @@
+name: karito-admin-panel-${ENV}
 services:
   web:
-    build: .
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${API_URL}
+        NEXT_PUBLIC_SUBSCRIPTION_URL: ${SUBSCRIPTION_URL}
+        NEXT_PUBLIC_BLOB_BASE_URL: ${BLOB_BASE_URL}
+        ENV: ${ENV}
+    container_name: karito-admin-panel-${ENV}
     ports:
-      - '4700:4500'
-    env_file:
-      - .env.${ENV}
+      - '${PORT}:4500'
     environment:
       NODE_ENV: ${ENV}
+      NEXT_PUBLIC_API_URL: ${API_URL}
+      NEXT_PUBLIC_SUBSCRIPTION_URL: ${SUBSCRIPTION_URL}
+      NEXT_PUBLIC_BLOB_BASE_URL: ${BLOB_BASE_URL}
     restart: unless-stopped
