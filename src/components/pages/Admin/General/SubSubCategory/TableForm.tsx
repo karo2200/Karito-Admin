@@ -1,5 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { FC } from 'react';
+import { Gender } from 'src/graphql/generated';
 
 import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
@@ -38,7 +39,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								align="center"
 								sx={{
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -83,6 +84,18 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								}}
 							>
 								سرویس
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+								}}
+							>
+								جنسیت
 							</TableCell>
 							<TableCell
 								sx={{
@@ -166,6 +179,9 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.name}
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{row.fixedGender == Gender.Female ? 'زن' : row.fixedGender == Gender.Male ? 'مرد' : 'انتخاب نشده'}
 								</TableCell>
 								<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.basePrice.toLocaleString()}

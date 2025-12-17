@@ -6,7 +6,7 @@ import { useDiscountCode_CreateMutation } from 'src/graphql/generated';
 import { CheckBox, useForm, Yup, yupResolver } from '@/components/atoms/Form';
 import { FormProvider, TextField } from '@/components/atoms/Form';
 import RHFDatePicker from '@/components/atoms/Form/RHFDatepiker';
-import Convert from '@/utils/convert'; // حتما این فایل کمکت میکنه به تبدیل تاریخ شمسی به میلادی
+import Convert from '@/utils/convert';
 
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string().required('نام مشتری را وارد کنید'),

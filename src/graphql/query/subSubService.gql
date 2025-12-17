@@ -42,6 +42,7 @@ query serviceTypes_getAll(
 				isSpecial
 				banner
 				abbreviation
+				fixedGender
 				serviceSubCategory {
 					id
 					name

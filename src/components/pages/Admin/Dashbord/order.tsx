@@ -1,17 +1,9 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { toJalaali } from 'jalaali-js';
 import React, { useEffect, useState } from 'react';
 import { SortEnumType, useServiceRequest_GetAllQuery } from 'src/graphql/generated';
 
 import Statues from '@/components/organisms/Approve';
-
-function convertToJalali(dateString) {
-	if (!dateString) return;
-	const date = new Date(dateString);
-	if (isNaN(date)) return;
-	const jDate = toJalaali(date);
-	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-}
+import Convert from '@/utils/convert';
 const index = () => {
 	const [load, setLoad] = useState(1);
 
@@ -95,7 +87,7 @@ const index = () => {
 								align="center"
 								sx={{
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400px',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -123,7 +115,7 @@ const index = () => {
 									}}
 								>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{convertToJalali(row?.requestDate)}
+										{Convert.convertToJalali(row?.requestDate)}
 									</TableCell>
 
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>

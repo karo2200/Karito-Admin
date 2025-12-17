@@ -1,8 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Dialog, Grid, IconButton, Rating, Typography } from '@mui/material';
-import { toJalaali } from 'jalaali-js';
 import React from 'react';
 
+import Convert from '@/utils/convert';
 const COLORS = {
 	black: '#000',
 	primary: '#1D5BD2',
@@ -13,15 +13,9 @@ const COLORS = {
 	cancelHover: '#d64242ff',
 	textcolor: '#00143fd6',
 };
-function convertToJalali(dateString) {
-	if (!dateString) return;
-	const date = new Date(dateString);
-	if (isNaN(date)) return;
-	const jDate = toJalaali(date);
-	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-}
+
 function MyModal({ open, handleClose, data }) {
-	console.log(data);
+	console.log('rey:', data);
 	return (
 		<Dialog
 			open={open}
@@ -70,10 +64,16 @@ function MyModal({ open, handleClose, data }) {
 				</Grid>
 				<Grid item xs={12} sm={4}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{' موبایل : ' + data?.specialist?.phoneNumber}
+						{' موبایل : ' + (data?.specialist?.phoneNumber ?? '')}
 					</Typography>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
 						{'سرویس: ' + data?.serviceType?.name}
+					</Typography>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'تاریخ تایید سفارش توسط متخصص:' + (Convert.convertToJalali(data?.assignedAt) ?? '')}
+					</Typography>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'تاریخ رسیدن متخصص به محل:' + (Convert.convertToJalali(data?.arrivedAt) ?? '')}
 					</Typography>
 				</Grid>
 			</Grid>
@@ -91,7 +91,7 @@ function MyModal({ open, handleClose, data }) {
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{' موبایل : ' + data?.customer?.phoneNumber}
+						{' موبایل : ' + (data?.customer?.phoneNumber ?? '')}
 					</Typography>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
 						{'آدرس: ' +
@@ -104,6 +104,33 @@ function MyModal({ open, handleClose, data }) {
 							data?.address?.floorNumber +
 							'-' +
 							data?.address?.text}
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid container spacing={2} sx={{ marginTop: '5px', borderBottom: '1px solid #DEE2E6' }}>
+				<Grid item xs={12} sm={4}>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'تاریخ سفارش :' + (Convert.convertToJalali(data?.createdAt) ?? '')}
+					</Typography>
+				</Grid>
+				<Grid item xs={12} sm={4}>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'تاریخ تکمیل سفارش :' + (Convert.convertToJalali(data?.completedAt) ?? '')}
+					</Typography>
+				</Grid>
+				<Grid item xs={12} sm={4}>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'تاریخ لغو سفارش :' + (Convert.convertToJalali(data?.cancelledAt) ?? '')}
+					</Typography>
+				</Grid>
+				<Grid item xs={12} sm={4}>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'کد سفارش :' + (data?.trackingCode ?? '')}
+					</Typography>
+				</Grid>
+				<Grid item xs={12} sm={4}>
+					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
+						{'شماره سفارش :' + (data?.orderNumber ?? '')}
 					</Typography>
 				</Grid>
 			</Grid>

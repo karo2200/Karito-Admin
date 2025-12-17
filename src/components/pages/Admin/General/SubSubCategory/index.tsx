@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useServiceTypes_GetAllQuery } from 'src/graphql/generated';
+import { SortEnumType, useServiceTypes_GetAllQuery } from 'src/graphql/generated';
 
 import COLORS from '@/theme/colors';
 
@@ -25,6 +25,7 @@ const Index = () => {
 			where: {
 				serviceSubCategory: { id: { eq: SearchData } },
 			},
+			order: { id: SortEnumType.Desc },
 		},
 		{
 			keepPreviousData: true,

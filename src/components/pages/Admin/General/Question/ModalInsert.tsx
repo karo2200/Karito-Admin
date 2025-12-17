@@ -1,7 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
-import { Box, Dialog, DialogTitle, IconButton, Typography } from '@mui/material';
-import { Button, Grid } from '@mui/material';
+import { Box, Button, Dialog, DialogTitle, Grid, IconButton, Typography } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
 import {
@@ -13,18 +12,30 @@ import {
 	useServiceTypes_GetAllQuery,
 } from 'src/graphql/generated';
 
-import { CheckBox, useForm, Yup, yupResolver } from '@/components/atoms/Form';
-import { FormProvider, SelectField, TextField } from '@/components/atoms/Form';
+import { CheckBox, FormProvider, SelectField, TextField, useForm, Yup, yupResolver } from '@/components/atoms/Form';
 import COLORS from '@/theme/colors';
 
+/* ===========================
+	Schema
+=========================== */
 const LoginSchema = Yup.object().shape({
 	Title: Yup.string().required('عنوان سوال را وارد کنید'),
 	CategoryId: Yup.string().required('فیلد اجباری است'),
 	serviceCategoryId: Yup.string().required('فیلد اجباری است'),
 	serviceSubCategoryId: Yup.string().required('فیلد اجباری است'),
-	options: Yup.array().of(Yup.string().required('گزینه نباید خالی باشد')).min(1, 'حداقل یک گزینه لازم است'),
+	options: Yup.array()
+		.of(
+			Yup.object().shape({
+				text: Yup.string().required('گزینه نباید خالی باشد'),
+				price: Yup.number().typeError('قیمت باید عدد باشد').min(0, 'قیمت نامعتبر است').required('قیمت اجباری است'),
+			})
+		)
+		.min(1, 'حداقل یک گزینه لازم است'),
 });
 
+/* ===========================
+	Constants
+=========================== */
 const QuestionTypes = [
 	{ value: QuestionType.CheckBox, option: 'CheckBox' },
 	{ value: QuestionType.RadioButton, option: 'Radio' },
@@ -32,13 +43,13 @@ const QuestionTypes = [
 
 const defaultValues = {
 	Title: '',
+	CategoryId: '',
+	serviceCategoryId: '',
 	serviceSubCategoryId: '',
 	id: 0,
-	serviceCategoryId: '',
-	CategoryId: '',
 	questionType: QuestionType.CheckBox,
 	isRequired: false,
-	options: [''],
+	options: [{ text: '', price: 0 }],
 };
 
 interface IPageProps {
@@ -47,28 +58,37 @@ interface IPageProps {
 	handleClose: () => void;
 }
 
+/* ===========================
+	Component
+=========================== */
 const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
-	const [listCategory, setListCategory] = useState([]);
-	const [categoryId, setCategoryId] = useState('');
-
-	const [listSub, setListSub] = useState([]);
-	const [subId, setSubId] = useState('');
-
-	const [listServiceType, setListServiceType] = useState([]);
-	const [serviceTypeId, setServiceTypeId] = useState('');
+	const [listCategory, setListCategory] = useState<any[]>([]);
+	const [listSub, setListSub] = useState<any[]>([]);
+	const [listServiceType, setListServiceType] = useState<any[]>([]);
 
 	const { mutate: mutateCreate, isLoading: isLoadingCreate } = useServiceTypeQuestion_CreateMutation();
 	const { mutate: mutateUpdate, isLoading: isLoadingUpdate } = useServiceTypeQuestion_UpdateMutation();
 
-	const { data: catData, isSuccess: catSuccess } = useServiceCategory_GetAllQuery(
-		{ skip: 0, take: 1000 },
-		{ keepPreviousData: true }
-	);
-	const methods = useForm({ resolver: yupResolver(LoginSchema), defaultValues });
-	const { handleSubmit, setValue, reset, control } = methods;
-	const { fields, append, remove } = useFieldArray({ control, name: 'options' });
+	const methods = useForm({
+		resolver: yupResolver(LoginSchema),
+		defaultValues,
+	});
 
-	// ---------------- Load Categories ----------------
+	const { handleSubmit, setValue, reset, control, watch } = methods;
+
+	const categoryId = watch('CategoryId');
+	const subCategoryId = watch('serviceCategoryId');
+
+	const { fields, append, remove } = useFieldArray({
+		control,
+		name: 'options',
+	});
+
+	/* ===========================
+		Load Categories
+	=========================== */
+	const { data: catData, isSuccess: catSuccess } = useServiceCategory_GetAllQuery({ skip: 0, take: 1000 });
+
 	useEffect(() => {
 		if (catSuccess) {
 			const categories =
@@ -76,17 +96,28 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 					option: cat.name,
 					value: cat.id,
 				})) || [];
+
 			setListCategory(categories);
 
-			const selectedCategory = DataRow?.serviceType?.serviceSubCategory?.serviceCategory?.id || categories[0]?.value;
-			setCategoryId(selectedCategory);
-			setValue('CategoryId', selectedCategory);
+			if (!DataRow && categories.length) {
+				setValue('CategoryId', categories[0].value, {
+					shouldValidate: true,
+				});
+			}
 		}
 	}, [catSuccess, catData, DataRow, setValue]);
 
-	// ---------------- Load SubCategories ----------------
+	/* ===========================
+		Load SubCategories
+	=========================== */
 	const { data: subData, isSuccess: subSuccess } = useServiceSubCategory_GetAllQuery(
-		{ skip: 0, take: 1000, where: { serviceCategory: { id: { eq: categoryId } } } },
+		{
+			skip: 0,
+			take: 1000,
+			where: {
+				serviceCategory: { id: { eq: categoryId } },
+			},
+		},
 		{ enabled: !!categoryId }
 	);
 
@@ -97,18 +128,31 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 					option: s.name,
 					value: s.id,
 				})) || [];
+
 			setListSub(subs);
 
-			const selectedSub = DataRow?.serviceType?.serviceSubCategory?.id || subs[0]?.value;
-			setSubId(selectedSub);
-			setValue('serviceCategoryId', selectedSub);
+			if (!DataRow && subs.length) {
+				setValue('serviceCategoryId', subs[0].value, {
+					shouldValidate: true,
+				});
+			}
 		}
 	}, [subSuccess, subData, DataRow, setValue]);
 
-	// ---------------- Load ServiceTypes ----------------
+	/* ===========================
+		Load ServiceTypes
+	=========================== */
 	const { data: typeData, isSuccess: typeSuccess } = useServiceTypes_GetAllQuery(
-		{ skip: 0, take: 1000, where: { serviceSubCategory: { id: { eq: subId } } } },
-		{ enabled: !!subId }
+		{
+			skip: 0,
+			take: 1000,
+			where: {
+				serviceSubCategory: {
+					id: { eq: subCategoryId },
+				},
+			},
+		},
+		{ enabled: !!subCategoryId }
 	);
 
 	useEffect(() => {
@@ -118,63 +162,51 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 					option: t.name,
 					value: t.id,
 				})) || [];
+
 			setListServiceType(types);
 
-			const selectedType = DataRow?.serviceType?.id || types[0]?.value;
-			setServiceTypeId(selectedType);
-			setValue('serviceSubCategoryId', selectedType);
+			if (!DataRow && types.length) {
+				setValue('serviceSubCategoryId', types[0].value, {
+					shouldValidate: true,
+				});
+			}
 		}
 	}, [typeSuccess, typeData, DataRow, setValue]);
 
-	// ---------------- Load/Edit Data ----------------
+	/* ===========================
+		Edit Mode
+	=========================== */
 	useEffect(() => {
 		if (DataRow) {
 			reset({
-				Title: DataRow?.text || '',
-				options: Array.isArray(DataRow?.options) ? DataRow.options : DataRow?.options?.split(','),
-				isRequired: DataRow?.isRequired || false,
-				questionType: DataRow?.questionType || QuestionType.CheckBox,
-				serviceSubCategoryId: DataRow?.serviceType?.id,
-				id: DataRow?.id,
-				serviceCategoryId: DataRow?.serviceType?.serviceSubCategory?.id,
-				CategoryId: DataRow?.serviceType?.serviceSubCategory?.serviceCategory?.id,
+				Title: DataRow.text,
+				options: DataRow.options,
+				isRequired: DataRow.isRequired,
+				questionType: DataRow.questionType,
+				serviceSubCategoryId: DataRow.serviceType?.id,
+				serviceCategoryId: DataRow.serviceType?.serviceSubCategory?.id,
+				CategoryId: DataRow.serviceType?.serviceSubCategory?.serviceCategory?.id,
+				id: DataRow.id,
 			});
-		} else {
-			reset(defaultValues);
 		}
 	}, [DataRow, reset]);
 
-	// ---------------- Handlers ----------------
-	const handleCategoryChange = (e: any) => {
-		const val = e.target.value;
-		setCategoryId(val);
-		setSubId('');
-		setServiceTypeId('');
-		setValue('CategoryId', val);
-	};
+	/* ===========================
+		Submit
+	=========================== */
+	const onSubmit = (data: any) => {
+		const payload = {
+			title: data.Title,
+			options: data.options,
+			isRequired: data.isRequired,
+			questionType: data.questionType,
+		};
 
-	const handleSubChange = (e: any) => {
-		const val = e.target.value;
-		setSubId(val);
-		setServiceTypeId('');
-		setValue('serviceCategoryId', val);
-	};
-
-	const handleServiceTypeChange = (e: any) => {
-		const val = e.target.value;
-		setServiceTypeId(val);
-		setValue('serviceSubCategoryId', val);
-	};
-
-	const onSubmit = (data) => {
 		if (data.id === 0) {
 			mutateCreate(
 				{
 					input: {
-						title: data.Title,
-						options: data.options,
-						isRequired: data.isRequired,
-						questionType: data.questionType,
+						...payload,
 						serviceTypeId: data.serviceSubCategoryId,
 					},
 				},
@@ -183,6 +215,9 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 						reset(defaultValues);
 						handleClose();
 					},
+					onError: (err) => {
+						console.error(err);
+					},
 				}
 			);
 		} else {
@@ -190,10 +225,7 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 				{
 					input: {
 						id: data.id,
-						title: data.Title,
-						options: data.options,
-						isRequired: data.isRequired,
-						questionType: data.questionType,
+						...payload,
 					},
 				},
 				{
@@ -201,12 +233,17 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 						reset(defaultValues);
 						handleClose();
 					},
+					onError: (err) => {
+						console.error(err);
+					},
 				}
 			);
 		}
 	};
 
-	// ---------------- UI ----------------
+	/* ===========================
+		UI
+	=========================== */
 	return (
 		<Dialog
 			open={open}
@@ -214,88 +251,82 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 			dir="rtl"
 			fullWidth
 			maxWidth="md"
-			PaperProps={{ sx: { borderRadius: 3, padding: 3 } }}
+			PaperProps={{ sx: { borderRadius: 3, p: 3 } }}
 		>
-			<IconButton onClick={handleClose} sx={{ position: 'absolute', left: 10, top: 10, color: '#555' }}>
+			<IconButton onClick={handleClose} sx={{ position: 'absolute', left: 10, top: 10 }}>
 				<CloseIcon />
 			</IconButton>
 
-			<DialogTitle sx={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>ثبت اطلاعات</DialogTitle>
+			<DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>ثبت اطلاعات</DialogTitle>
 
 			<FormProvider methods={methods}>
 				<Grid container spacing={2}>
-					{/* DropDown سه سطحی */}
 					<Grid item xs={12} sm={4}>
-						<SelectField
-							disabled={!!DataRow}
-							name="CategoryId"
-							options={listCategory}
-							value={categoryId}
-							onChanged={handleCategoryChange}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={4}>
-						<SelectField
-							name="serviceCategoryId"
-							options={listSub}
-							value={subId}
-							onChanged={handleSubChange}
-							disabled={!!DataRow}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={4}>
-						<SelectField
-							name="serviceSubCategoryId"
-							options={listServiceType}
-							value={serviceTypeId}
-							onChanged={handleServiceTypeChange}
-							disabled={!!DataRow}
-						/>
+						<SelectField name="CategoryId" options={listCategory} disabled={!!DataRow} />
 					</Grid>
 
-					{/* عنوان سوال */}
+					<Grid item xs={12} sm={4}>
+						<SelectField name="serviceCategoryId" options={listSub} disabled={!!DataRow} />
+					</Grid>
+
+					<Grid item xs={12} sm={4}>
+						<SelectField name="serviceSubCategoryId" options={listServiceType} disabled={!!DataRow} />
+					</Grid>
+
 					<Grid item xs={12}>
 						<TextField name="Title" label="عنوان سوال" fullWidth />
 					</Grid>
 
-					{/* نوع و اجباری */}
 					<Grid item xs={6}>
 						<Typography sx={{ mb: 1 }}>نوع سوال</Typography>
 						<SelectField name="questionType" options={QuestionTypes} />
 					</Grid>
+
 					<Grid item xs={6}>
 						<CheckBox name="isRequired" label="اجباری بودن پاسخ" />
 					</Grid>
 
-					{/* گزینه‌ها */}
 					<Grid item xs={12}>
 						<Typography sx={{ mb: 1 }}>گزینه‌ها</Typography>
+
 						{fields.map((field, index) => (
-							<Box key={field.id} sx={{ display: 'flex', mb: 1, flexDirection: { xs: 'column', sm: 'row' } }}>
-								<TextField name={`options.${index}`} fullWidth placeholder={`گزینه ${index + 1}`} />
-								<Button
-									disabled={fields.length === 1}
-									variant="outlined"
-									color="error"
-									sx={{ ml: { sm: 1 }, mt: { xs: 1, sm: 0 } }}
-									onClick={() => remove(index)}
-								>
+							<Box
+								key={field.id}
+								sx={{
+									display: 'flex',
+									gap: 1,
+									mb: 1,
+									flexDirection: {
+										xs: 'column',
+										sm: 'row',
+									},
+								}}
+							>
+								<TextField name={`options.${index}.text`} fullWidth placeholder={`گزینه ${index + 1}`} />
+
+								<TextField
+									name={`options.${index}.price`}
+									type="number"
+									placeholder="قیمت"
+									sx={{ width: { sm: 150 } }}
+								/>
+
+								<Button variant="outlined" color="error" disabled={fields.length === 1} onClick={() => remove(index)}>
 									حذف
 								</Button>
 							</Box>
 						))}
-						<Button variant="outlined" onClick={() => append('')} sx={{ mt: 1 }}>
+
+						<Button variant="outlined" onClick={() => append({ text: '', price: 0 })}>
 							+ افزودن گزینه
 						</Button>
 					</Grid>
 
-					{/* دکمه‌ها */}
 					<Grid item xs={12}>
 						<Box
 							sx={{
 								display: 'flex',
 								justifyContent: 'space-between',
-								flexDirection: { xs: 'column-reverse', sm: 'row' },
 								gap: 1,
 							}}
 						>
@@ -303,17 +334,18 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 								variant="contained"
 								onClick={handleSubmit(onSubmit)}
 								loading={isLoadingCreate || isLoadingUpdate}
-								sx={{ background: '#88b2e1', minWidth: 120, color: '#fff' }}
+								sx={{ background: '#88b2e1', color: '#fff', minWidth: 120 }}
 							>
 								ثبت
 							</LoadingButton>
+
 							<LoadingButton
 								variant="contained"
 								onClick={handleClose}
 								sx={{
-									color: '#fff',
 									background: COLORS.cancelBg,
 									'&:hover': { background: COLORS.cancelHover },
+									color: '#fff',
 									minWidth: 120,
 								}}
 							>

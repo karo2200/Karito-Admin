@@ -25,7 +25,7 @@ export const MainContent = styled('div', {
 	scrollbarWidth: 'none',
 	overflowY: 'auto',
 	overflowX: 'hidden',
-	padding: 30,
+	padding: '10px 30px',
 	'@media(max-width:600px)': {
 		maxWidth: '100vw',
 	},

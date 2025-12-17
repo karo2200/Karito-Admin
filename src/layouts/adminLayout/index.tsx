@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import Admindrawer from './drawer';
 import * as S from './styles';
-
+//import UserInfo from './UserInfo';
 const AdminLayout = ({ children }: React.PropsWithChildren) => {
 	const [show, setShowState] = useState(false);
 

@@ -1,7 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Checkbox, Dialog, FormControlLabel, Grid, IconButton, Rating, Typography } from '@mui/material';
-import { toJalaali } from 'jalaali-js';
 import React from 'react';
+
+import Convert from '@/utils/convert';
 
 const COLORS = {
 	black: '#000',
@@ -13,15 +14,7 @@ const COLORS = {
 	cancelHover: '#d64242ff',
 	textcolor: '#00143fd6',
 };
-function convertToJalali(dateString) {
-	if (!dateString) return;
-	const date = new Date(dateString);
-	if (isNaN(date)) return;
-	const jDate = toJalaali(date);
-	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-}
 function MyModal({ open, handleClose, data }) {
-	console.log(data);
 	return (
 		<Dialog
 			open={open}
@@ -69,7 +62,7 @@ function MyModal({ open, handleClose, data }) {
 				</Grid>
 				<Grid item xs={12} sm={3}>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
-						{' تاریخ تولد : ' + convertToJalali(data?.birthDate)}
+						{' تاریخ تولد : ' + Convert.convertToJalali(data?.birthDate)}
 					</Typography>
 					<Typography sx={{ color: COLORS.textcolor, marginBottom: '5px' }}>
 						{'کد ملی : ' + data?.nationalCode}

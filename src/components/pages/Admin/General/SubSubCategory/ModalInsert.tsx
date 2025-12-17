@@ -3,6 +3,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Dialog, DialogTitle, Grid, IconButton } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import {
+	Gender,
 	useServiceCategory_GetAllQuery,
 	useServiceSubCategory_GetAllQuery,
 	useServiceType_CreateMutation,
@@ -15,7 +16,11 @@ import UploadPage from '@/components/organisms/UploadPage';
 import COLORS from '@/theme/colors';
 
 import { IPageProps } from './type-page';
-
+const GenderList = [
+	{ value: Gender.NotSet, option: 'انتخاب نشده' },
+	{ value: Gender.Male, option: 'مرد' },
+	{ value: Gender.Female, option: 'زن' },
+];
 const LoginSchema = Yup.object().shape({
 	Name: Yup.string().required('نام را وارد کنید'),
 	FilePath: Yup.string().required('لوگو را وارد کنید'),
@@ -77,6 +82,7 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 		isSpecial: false,
 		FileBaner: '',
 		Abbreviation: '',
+		GenderItem: GenderList[0].value,
 	};
 
 	const methods = useForm({ resolver: yupResolver(LoginSchema), defaultValues });
@@ -102,6 +108,7 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 				price: DataRow?.basePrice || 0,
 				isSpecial: DataRow?.isSpecial || false,
 				Abbreviation: DataRow?.abbreviation || '',
+				GenderItem: DataRow?.fixedGender || GenderList[0].value,
 			});
 		else reset(defaultValues);
 	}, [DataRow]);
@@ -118,6 +125,7 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 						isSpecial: data.isSpecial,
 						banner: data.FileBaner,
 						abbreviation: data.Abbreviation,
+						fixedGender: data.GenderItem,
 					},
 				},
 				{
@@ -140,6 +148,7 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 						isSpecial: data.isSpecial,
 						banner: data.FileBaner,
 						abbreviation: data.Abbreviation,
+						fixedGender: data.GenderItem,
 					},
 				},
 				{
@@ -195,7 +204,9 @@ const Index: FC<IPageProps> = ({ DataRow, open, handleClose }) => {
 					<Grid item xs={12} sm={4}>
 						<TextField fullWidth required name="Abbreviation" placeholder="کد اختصاصی" />
 					</Grid>
-
+					<Grid item xs={12} sm={4}>
+						<SelectField name="GenderItem" options={GenderList} />
+					</Grid>
 					{/* آپلود */}
 					<Grid item xs={12} sm={4}>
 						<UploadPage

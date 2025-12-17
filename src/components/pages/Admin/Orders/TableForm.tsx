@@ -1,25 +1,18 @@
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { toJalaali } from 'jalaali-js';
 import React, { FC } from 'react';
 
 import Action from '@/components/organisms/Action';
 import Statues from '@/components/organisms/Approve';
 import Pagination from '@/components/organisms/pagination';
+import Convert from '@/utils/convert';
 
 import { IPageProps } from './type-page';
-function convertToJalali(dateString) {
-	if (!dateString) return;
-	const date = new Date(dateString);
-	if (isNaN(date)) return;
-	const jDate = toJalaali(date);
-	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-}
+
 const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleShow, Onhandlesort }) => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
 
-	console.log(rows);
 	return (
 		<>
 			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
@@ -40,7 +33,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
-									width: '60px',
+									width: '40px',
 								}}
 							>
 								ردیف
@@ -53,8 +46,8 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									width: '60px',
 								}}
-								onClick={() => Onhandlesort('D')}
 							>
 								عملیات
 							</TableCell>
@@ -83,7 +76,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									whiteSpace: 'nowrap',
 								}}
 							>
-								کد{' '}
+								شماره سفارش
 							</TableCell>
 							<TableCell
 								sx={{
@@ -167,7 +160,66 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 								قیمت نهایی
 								<SwapVertIcon />
 							</TableCell>
-
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									cursor: 'pointer',
+								}}
+								onClick={() => Onhandlesort('DM')}
+							>
+								تاریخ تایید سفارش توسط متخصص
+								<SwapVertIcon />
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									cursor: 'pointer',
+								}}
+								onClick={() => Onhandlesort('DMR')}
+							>
+								تاریخ رسیدن متخصص به محل
+								<SwapVertIcon />
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									cursor: 'pointer',
+								}}
+								onClick={() => Onhandlesort('DR')}
+							>
+								تاریخ لغو
+								<SwapVertIcon />
+							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									cursor: 'pointer',
+								}}
+								onClick={() => Onhandlesort('DCO')}
+							>
+								تاریخ تکمیل سفارش
+								<SwapVertIcon />
+							</TableCell>
 							<TableCell
 								align="center"
 								sx={{
@@ -210,12 +262,14 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 										/>
 									</TableCell>
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
-										{convertToJalali(row?.requestDate)}
+										{Convert.convertToJalali(row?.createdAt)}
 									</TableCell>
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
-										{row?.trackingCode && !['na', 'NA', 'N/A', 'n/a'].includes(row.trackingCode.trim())
+										{
+											/*row?.trackingCode && !['na', 'NA', 'N/A', 'n/a'].includes(row.trackingCode.trim())
 											? row.trackingCode
-											: ''}
+											: ''*/ row.orderNumber
+										}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.customer?.firstName || row?.customer?.lastName
@@ -240,7 +294,18 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.finalPrice.toLocaleString()}
 									</TableCell>
-
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
+										{Convert.convertToJalali(row?.assignedAt)}
+									</TableCell>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
+										{Convert.convertToJalali(row?.arrivedAt)}
+									</TableCell>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
+										{Convert.convertToJalali(row?.cancelledAt)}
+									</TableCell>
+									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
+										{Convert.convertToJalali(row?.completedAt)}
+									</TableCell>
 									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 										<Statues status={row?.status} />
 									</TableCell>
@@ -251,8 +316,8 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 				</Table>
 			</TableContainer>
 			<Pagination
-				Len={TotalCount || 1}
-				rowsPerPage={rowsPerPage || 5}
+				Len={TotalCount ?? 1}
+				rowsPerPage={rowsPerPage || 10}
 				page={page}
 				OnchangePage={(newPage) => {
 					setPage(newPage);

@@ -13,10 +13,8 @@ const Index = () => {
 	const [openModal, setopenModal] = useState(false);
 	const {
 		data: CategoryList,
-		isFetching,
 		isSuccess,
 		isError,
-		error,
 	} = useServiceTypeQuestion_GetByServiceTypeQuery(
 		{
 			take: 1000,

@@ -39,7 +39,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								align="center"
 								sx={{
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',

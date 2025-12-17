@@ -1,22 +1,76 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SortEnumType, useSpecialist_GetAllQuery } from 'src/graphql/generated';
 
 import COLORS from '@/theme/colors';
 
 import MidelForm from './MidelForm';
 import SearchPage from './SearchForm';
-const rows = [
-	{ name: 'Ice cream', calories: 200, fat: 10, carbs: 30, protein: 4, active: true },
-	{ name: 'Cake', calories: 250, fat: 15, carbs: 35, protein: 5, active: false },
-];
+type SortKey = 'D' | 'F' | 'L';
+
 const index = () => {
-	const [selectedRow, setSelectedRow] = useState('');
-	const [CityId, setCityId] = useState('');
-	const [mobil, setmobil] = useState('');
+	const [value, setValue] = useState('');
+	const [valueend, setvalueend] = useState('');
+	const [cell, setCell] = useState<
+		'firstName' | 'lastName' | 'code' | 'phoneNumber' | 'registeredAt' | 'city' | 'state'
+	>('firstName');
 	const [load, setLoad] = useState(1);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
+	const [sort, setSort] = useState<{ key: SortKey; direction: SortEnumType }>({
+		key: 'D',
+		direction: SortEnumType.Desc,
+	});
+
+	const order = useMemo(() => {
+		const map: Record<SortKey, any> = {
+			D: { registeredAt: sort.direction },
+			F: { firstName: sort.direction },
+			L: { lastName: sort.direction },
+		};
+		return map[sort.key];
+	}, [sort]);
+	const getWhereByCell = () => {
+		if (!value) return {};
+		switch (cell) {
+			case 'firstName':
+				return {
+					firstName: { contains: value },
+				};
+			case 'lastName':
+				return {
+					lastName: { contains: value },
+				};
+
+			case 'code':
+				return {
+					code: { eq: value },
+				};
+			case 'phoneNumber':
+				return {
+					phoneNumber: { contains: value },
+				};
+			case 'city':
+				return {
+					city: { name: { contains: value } },
+				};
+			case 'state':
+				return {
+					city: { province: { name: { contains: value } } },
+				};
+			case 'registeredAt':
+				return {
+					registeredAt: {
+						gte: value,
+						lte: valueend,
+					},
+				};
+
+			default:
+				return {};
+		}
+	};
+
 	const {
 		data: List,
 		isSuccess,
@@ -25,17 +79,10 @@ const index = () => {
 		{
 			take: rowsPerPage,
 			skip: page * rowsPerPage,
-			order: { id: SortEnumType.Desc },
-			where:
-				CityId != '' && CityId != '0'
-					? {
-							city: { id: { eq: CityId } },
-							or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }],
-					  }
-					: {
-							or: [{ lastName: { contains: selectedRow } }, { firstName: { contains: selectedRow } }],
-							phoneNumber: { contains: mobil },
-					  },
+			order,
+			where: {
+				...getWhereByCell(),
+			},
 		},
 		{
 			keepPreviousData: true,
@@ -47,7 +94,14 @@ const index = () => {
 			setLoad(0);
 		}
 	}, [load, isSuccess, isError]);
-
+	const handleSort = (key: SortKey) => {
+		setSort((prev) => ({
+			key,
+			direction: prev.key === key && prev.direction === SortEnumType.Desc ? SortEnumType.Asc : SortEnumType.Desc,
+		}));
+		setPage(0);
+		setLoad(1);
+	};
 	return (
 		<>
 			<Box
@@ -63,10 +117,10 @@ const index = () => {
 				}}
 			>
 				<SearchPage
-					onSearchItem={(name, CityId, mobil) => {
-						setSelectedRow(name);
-						setCityId(CityId);
-						setmobil(mobil);
+					onSearchItem={(search, cell, end) => {
+						setValue(search);
+						setvalueend(end);
+						setCell(cell);
 						setLoad(1);
 					}}
 				/>
@@ -81,6 +135,7 @@ const index = () => {
 					setPage(page);
 					setLoad(1);
 				}}
+				Onhandlesort={handleSort}
 			/>
 		</>
 	);

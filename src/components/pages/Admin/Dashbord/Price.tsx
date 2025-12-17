@@ -5,7 +5,6 @@ import { useStats_GetTotalRevenueQuery } from 'src/graphql/generated';
 import COLORS from '@/theme/colors';
 
 const index = ({ StartDate, EndDate }) => {
-	console.log(StartDate, EndDate);
 	const [load, setLoad] = useState(1);
 
 	const { data, isSuccess, isError } = useStats_GetTotalRevenueQuery(

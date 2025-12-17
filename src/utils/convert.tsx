@@ -1,3 +1,4 @@
+import { toJalaali } from 'jalaali-js';
 import * as shamsi from 'shamsi-date-converter';
 
 class Convert {
@@ -12,6 +13,27 @@ class Convert {
 			customDay = day.toString().length === 1 ? `0${day}` : day;
 
 		return `${customYear}-${customMonth}-${customDay === '00' ? '01' : customDay}`;
+	}
+	static convertToJalali(dateString) {
+		if (!dateString) return;
+		const date = new Date(dateString);
+		if (isNaN(date)) return;
+		const jDate = toJalaali(date);
+		return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
+	}
+	static TimeZoneStart(Date) {
+		const input = Date;
+		const [y, m, d] = input.split('/').map(Number);
+		const IRAN_OFFSET_MIN = 210;
+		const start = new Date(Date.UTC(y, m - 1, d, 0, 0 - IRAN_OFFSET_MIN));
+		return start.toISOString();
+	}
+	static TimeZoneEnd(Date) {
+		const input = Date;
+		const [y, m, d] = input.split('/').map(Number);
+		const IRAN_OFFSET_MIN = 210;
+		const end = new Date(Date.UTC(y, m - 1, d, 23, 59 - IRAN_OFFSET_MIN));
+		return end.toISOString();
 	}
 	static convertoLowerCase(value?: string): string {
 		if (value != undefined) {

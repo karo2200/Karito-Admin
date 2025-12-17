@@ -14,7 +14,7 @@ import ModalOTP from '@/components/organisms/ModalOTP';
 import ModalS from './ModalShow';
 import TableForm from './TableForm';
 import { IPageProps } from './type-page';
-const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, TotalCount }) => {
+const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, TotalCount, Onhandlesort }) => {
 	const [open, setOpen] = useState(false);
 	const [openD, setOpenD] = useState(false);
 	const [openS, setOpenS] = useState(false);
@@ -83,6 +83,8 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, Total
 		<>
 			<TableForm
 				rows={DataRow}
+				TotalCount={TotalCount}
+				Onhandlesort={Onhandlesort}
 				OnhandleEditClick={(data) => {
 					setname(data.lastName);
 					setid(data.id);

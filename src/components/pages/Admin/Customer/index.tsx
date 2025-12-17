@@ -8,12 +8,35 @@ import MidelForm from './MidelForm';
 import SearchPage from './SearchForm';
 
 const index = () => {
-	const [Code, setCode] = useState('');
-	const [name, setname] = useState('');
+	const [value, setValue] = useState('');
+	const [cell, setCell] = useState<'firstName' | 'lastName' | 'code' | 'phoneNumber'>('firstName');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [load, setLoad] = useState(1);
+	const getWhereByCell = () => {
+		if (!value) return {};
+		switch (cell) {
+			case 'firstName':
+				return {
+					firstName: { contains: value },
+				};
+			case 'lastName':
+				return {
+					lastName: { contains: value },
+				};
 
+			case 'code':
+				return {
+					code: { eq: value },
+				};
+			case 'phoneNumber':
+				return {
+					phoneNumber: { contains: value },
+				};
+			default:
+				return {};
+		}
+	};
 	const {
 		data: list,
 		isSuccess,
@@ -24,8 +47,7 @@ const index = () => {
 			skip: page * rowsPerPage,
 			order: { id: SortEnumType.Desc },
 			where: {
-				code: { contains: Code },
-				or: [{ firstName: { contains: name } }, { lastName: { contains: name } }],
+				...getWhereByCell(),
 			},
 		},
 		{
@@ -55,9 +77,9 @@ const index = () => {
 				}}
 			>
 				<SearchPage
-					onSearchItem={(name, Code) => {
-						setname(name);
-						setCode(Code);
+					onSearchItem={(search, cell) => {
+						setValue(search);
+						setCell(cell);
 						setLoad(1);
 					}}
 				/>

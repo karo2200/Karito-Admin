@@ -1,23 +1,14 @@
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { toJalaali } from 'jalaali-js';
 import React, { FC } from 'react';
 import { useDiscountCode_ActivateMutation, useDiscountCode_DeactivateMutation } from 'src/graphql/generated';
 
 import Pagination from '@/components/organisms/pagination';
 import * as S from '@/components/pages/styles';
+import Convert from '@/utils/convert';
 
 import { IPageProps } from './type-page';
-
-function convertToJalali(dateString) {
-	if (!dateString) return;
-	const date = new Date(dateString);
-	if (isNaN(date)) return;
-	const jDate = toJalaali(date);
-	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-}
-
 const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
@@ -131,7 +122,7 @@ const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => 
 								sx={{
 									textAlign: 'center',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -143,7 +134,7 @@ const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => 
 								sx={{
 									textAlign: 'center',
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -182,7 +173,9 @@ const Index: FC<IPageProps> = ({ rows, OnhandleDeleteClick, onRefreshItem }) => 
 										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
 									/>
 								</TableCell>
-								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>{convertToJalali(row.expiryDate)}</TableCell>
+								<TableCell sx={{ textAlign: 'right', paddingY: 0 }}>
+									{Convert.convertToJalali(row.expiryDate)}
+								</TableCell>
 
 								{/* آیکون ویرایش */}
 								<TableCell align="center" sx={{ paddingY: 0 }}>

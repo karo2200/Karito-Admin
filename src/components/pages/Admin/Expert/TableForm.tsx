@@ -1,3 +1,4 @@
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { LoadingButton } from '@mui/lab';
 import {
 	Dialog,
@@ -10,21 +11,14 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
-import { toJalaali } from 'jalaali-js';
 import React, { FC, useState } from 'react';
 import { VerificationStatus } from 'src/graphql/generated';
 
 import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
+import Convert from '@/utils/convert';
 
 import { IPageProps } from './type-page';
-function convertToJalali(dateString) {
-	if (!dateString) return;
-	const date = new Date(dateString);
-	if (isNaN(date)) return;
-	const jDate = toJalaali(date);
-	return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-}
 const index: FC<IPageProps> = ({
 	rows,
 	OnhandleEditClick,
@@ -34,6 +28,7 @@ const index: FC<IPageProps> = ({
 	OnhandleShow,
 	OnsetRowsPerPage,
 	OnhandleOTP,
+	Onhandlesort,
 	TotalCount,
 }) => {
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -94,9 +89,12 @@ const index: FC<IPageProps> = ({
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('D')}
 							>
 								تاریخ
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
@@ -118,12 +116,16 @@ const index: FC<IPageProps> = ({
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('F')}
 							>
 								نام
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
+									cursor: 'pointer',
 									textAlign: 'right',
 									color: '#2a2a2a',
 									fontWeight: '400px',
@@ -131,8 +133,10 @@ const index: FC<IPageProps> = ({
 									paddingY: 0,
 									whiteSpace: 'nowrap',
 								}}
+								onClick={() => Onhandlesort('L')}
 							>
 								نام خانوادگی
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
@@ -173,19 +177,19 @@ const index: FC<IPageProps> = ({
 
 							<TableCell
 								align="center"
-								sx={{ color: '#2a2a2a', fontWeight: 'bold', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
+								sx={{ color: '#2a2a2a', fontWeight: '400', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
 							>
 								کارت ملی
 							</TableCell>
 							<TableCell
 								align="center"
-								sx={{ color: '#2a2a2a', fontWeight: 'bold', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
+								sx={{ color: '#2a2a2a', fontWeight: '400', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
 							>
 								ویدئو
 							</TableCell>
 							<TableCell
 								align="center"
-								sx={{ color: '#2a2a2a', fontWeight: 'bold', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
+								sx={{ color: '#2a2a2a', fontWeight: '400', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
 							>
 								داکیومنت
 							</TableCell>
@@ -225,7 +229,7 @@ const index: FC<IPageProps> = ({
 										/>
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										{convertToJalali(row?.registeredAt)}
+										{Convert.convertToJalali(row?.registeredAt)}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row.code}

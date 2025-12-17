@@ -63,7 +63,7 @@ const index: FC<IPageProps> = ({ rows }) => {
 
 							<TableCell
 								align="left"
-								sx={{ color: '#2a2a2a', fontWeight: 'bold', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
+								sx={{ color: '#2a2a2a', fontWeight: '400', fontSize: '0.9rem', paddingY: 0, whiteSpace: 'nowrap' }}
 							>
 								special
 							</TableCell>

@@ -4,7 +4,7 @@ export type RowTable = {
 };
 export interface IPageProps {
 	setData?(setState: (data: any) => any): void;
-	onSearchItem?: (name: string, CityId: string) => void;
+	onSearchItem?: (name?: any, cell?: string) => void;
 	OnhandleEditClick?: (value: any) => void;
 	OnhandleDocument?: (value: any) => void;
 	OnsetRowsPerPage?: (row: number, page: number) => void;

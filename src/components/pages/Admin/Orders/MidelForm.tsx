@@ -3,31 +3,27 @@ import React, { FC, useState } from 'react';
 import ModalS from './ModalShow';
 import TableForm from './TableForm';
 import { IPageProps } from './type-page';
-const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, TotalCount, Onhandlesort }) => {
-	const [openS, setOpenS] = useState(false);
-	const [dataShow, setdataShow] = useState(null);
-	const [List, setList] = useState([]);
+
+const MidelForm: FC<IPageProps> = ({ DataRow, OnsetRowsPerPage, TotalCount, Onhandlesort }) => {
+	const [openModal, setOpenModal] = useState(false);
+	const [dataShow, setDataShow] = useState<any>(null);
 
 	return (
 		<>
 			<TableForm
 				rows={DataRow}
-				OnsetRowsPerPage={(row, page) => {
-					OnsetRowsPerPage(row, page);
-				}}
+				OnsetRowsPerPage={OnsetRowsPerPage}
 				OnhandleShow={(data) => {
-					setdataShow(data);
-					setOpenS(true);
+					setDataShow(data);
+					setOpenModal(true);
 				}}
 				TotalCount={TotalCount}
-				Onhandlesort={(data) => {
-					Onhandlesort(data);
-				}}
+				Onhandlesort={Onhandlesort}
 			/>
 
-			<ModalS data={List} open={openS} data={dataShow} handleClose={() => setOpenS(false)}></ModalS>
+			<ModalS data={dataShow} open={openModal} handleClose={() => setOpenModal(false)} />
 		</>
 	);
 };
 
-export default Index;
+export default MidelForm;

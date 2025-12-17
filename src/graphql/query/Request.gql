@@ -36,7 +36,12 @@ query serviceRequest_getAll(
 				discountAmount
 				finalPrice
 				id
-
+				createdAt
+				arrivedAt
+				assignedAt
+				cancelledAt
+				completedAt
+				orderNumber
 				requestDate
 				status
 				specialist {

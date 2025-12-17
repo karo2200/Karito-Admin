@@ -40,7 +40,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 								align="center"
 								sx={{
 									color: '#2a2a2a',
-									fontWeight: 'bold',
+									fontWeight: '400',
 									fontSize: '0.9rem',
 									paddingY: 0,
 									whiteSpace: 'nowrap',
@@ -122,7 +122,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick }) => {
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0 }}>
 									{row?.options?.map((data, i) => (
-										<div key={i}>{data}</div>
+										<div key={i}>{data.text + ' قیمت: ' + data.price}</div>
 									))}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>

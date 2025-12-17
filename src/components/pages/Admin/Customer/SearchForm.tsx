@@ -1,62 +1,21 @@
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
-import { useRouter } from 'next/router';
-import React, { FC, useEffect, useState } from 'react';
-import { useQueryAxios } from 'src/components/pages/Query';
-import { useCity_GetAllQuery, useProvincesQuery } from 'src/graphql/generated';
+import React, { FC } from 'react';
 
-import { useForm } from '@/components/atoms/Form';
+import { SelectField, useForm } from '@/components/atoms/Form';
 import { FormProvider, TextField } from '@/components/atoms/Form';
 
 import { IPageProps } from './type-page';
+const celllist = [
+	{ value: 'firstName', option: 'نام' },
+	{ value: 'lastName', option: 'نام خانوادگی' },
+	{ value: 'code', option: 'کد پرسنلی' },
+	{ value: 'phoneNumber', option: 'موبایل' },
+];
 const Index: FC<IPageProps> = ({ onSearchItem }) => {
-	const [listState, setListState] = useState([]);
-	const [listCity, setListCity] = useState([]);
-	const [SelectState, SetSelectState] = useState('');
-
-	const { data, isSuccess, isError } = useProvincesQuery(
-		{ skip: 0, take: 1000 },
-		{
-			keepPreviousData: true,
-		}
-	);
-	const { data: DataCity, isSuccess: isSuccessCity } = useCity_GetAllQuery(
-		{ skip: 0, take: 1000, where: { province: { id: { eq: SelectState } } } },
-		{
-			keepPreviousData: true,
-			enabled: SelectState != '',
-		}
-	);
-	useEffect(() => {
-		if (isSuccessCity) {
-			const newList =
-				DataCity?.city_getAll?.result?.items?.map(({ name, id }) => ({
-					option: name,
-					value: id,
-				})) || [];
-
-			setListCity(newList);
-		}
-	}, [isSuccessCity, DataCity]);
-
-	useEffect(() => {
-		if (isSuccess) {
-			const newList =
-				data?.province_getAll?.result?.items?.map(({ name, id }) => ({
-					option: name,
-					value: id,
-				})) || [];
-
-			if (newList.length > 0) setListState(newList);
-		}
-	}, [isSuccess, data]);
-
-	const [loading, setloading] = useState(false);
-	const router = useRouter();
-	const { Signin } = useQueryAxios();
 	const defaultValues = {
 		name: '',
-		Code: '',
+		cell: celllist[0].value,
 	};
 
 	const methods = useForm({
@@ -66,19 +25,17 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 	const { handleSubmit } = methods;
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		console.log(data);
-		onSearchItem(data?.name, data?.Code);
+		onSearchItem(data?.name, data?.cell);
 	};
 
 	return (
 		<FormProvider methods={methods}>
 			<Grid container spacing={2} alignItems="center" justifyContent="flex-start" dir="rtl">
 				<Grid item xs={12} sm={3}>
-					<TextField required label="نام/ نام خانوادگی" name="name" placeholder="" fullWidth sx={{ height: '40px' }} />
+					<TextField required label="جستجو" name="name" placeholder="" fullWidth sx={{ height: '40px' }} />
 				</Grid>
-
 				<Grid item xs={12} sm={3}>
-					<TextField required label="کدمشتری" name="Code" placeholder="" fullWidth sx={{ height: '40px' }} />
+					<SelectField name="cell" options={celllist} label="ستون" autoWidth={false} multiple={false} native={false} />
 				</Grid>
 				<Grid item xs={12} sm={3} sx={{ marginTop: '28px' }}>
 					<LoadingButton
