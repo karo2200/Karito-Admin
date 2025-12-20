@@ -35,19 +35,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								ردیف
 							</TableCell>
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400px',
-									fontSize: '0.9rem',
-									paddingY: 0,
-									whiteSpace: 'nowrap',
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -72,6 +60,19 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								دلیل کنسلی
 							</TableCell>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -87,6 +88,13 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{index + 1}
 								</TableCell>
+
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{row.targets}
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									{row.name}
+								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									<Action
 										OnhandleEdit={() => {
@@ -96,12 +104,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 											OnhandleDeleteClick(row);
 										}}
 									/>
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.targets}
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									{row.name}
 								</TableCell>
 							</TableRow>
 						))}

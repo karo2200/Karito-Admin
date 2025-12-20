@@ -33,14 +33,16 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 	const { handleSubmit } = methods;
 
 	const onSubmit = async (data: typeof defaultValues) => {
-		if (value != 'registeredAt') onSearchItem(data?.name, data?.cell);
+		if (data?.cell != 'registeredAt') onSearchItem(data?.name, data?.cell);
 		else {
 			try {
 				const dates = Convert.convertShamsitomiladi(data?.Date);
 				const start = Convert.TimeZoneStart(dates);
-				const end = Convert.TimeZoneStart(dates);
-				onSearchItem(start, data?.cell, end);
-			} catch {
+				const end = Convert.addOneDay(dates);
+				const end1 = Convert.TimeZoneStart(end);
+				onSearchItem(start, data?.cell, end1);
+			} catch (e) {
+				console.log('e', e);
 				onSearchItem('', '');
 			}
 		}

@@ -3,31 +3,30 @@ import { Grid } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import { useCity_GetAllQuery, useProvincesQuery } from 'src/graphql/generated';
 
-import { SelectField, useForm } from '@/components/atoms/Form';
-import { FormProvider } from '@/components/atoms/Form';
+import { FormProvider, SelectField, useForm } from '@/components/atoms/Form';
 
 import Modal from './ModalInsert';
 import { IPageProps } from './type-page';
 
 const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem, openModal }) => {
-	/* -----------------------  STATES  ----------------------- */
+	/* ----------------------- STATES ----------------------- */
 	const [open, setOpen] = useState(false);
-	const [stateId, setStateId] = useState('');
+	const [stateId, setStateId] = useState<string>('');
 
-	const [listStates, setListStates] = useState([]);
-	const [listCities, setListCities] = useState([]);
+	const [listStates, setListStates] = useState<any[]>([]);
+	const [listCities, setListCities] = useState<any[]>([]);
 
-	/* -----------------------  FORM  ----------------------- */
-	const defaultValues = {
-		StateId: '',
-		CityId: '',
-	};
-
+	/* ----------------------- FORM ----------------------- */
 	const methods = useForm({
-		defaultValues,
+		defaultValues: {
+			StateId: '',
+			CityId: '',
+		},
 	});
 
-	/* -----------------------  QUERIES  ----------------------- */
+	const { setValue } = methods;
+
+	/* ----------------------- QUERIES ----------------------- */
 	const { data: provinceData, isSuccess: stateLoaded } = useProvincesQuery(
 		{ skip: 0, take: 1000 },
 		{ keepPreviousData: true }
@@ -37,43 +36,74 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem, openModal
 		{
 			skip: 0,
 			take: 1000,
-			where: { province: { id: { eq: stateId } } },
+			where: stateId ? { province: { id: { eq: stateId } } } : undefined,
 		},
-		{ keepPreviousData: true }
+		{
+			keepPreviousData: true,
+			enabled: !!stateId, // ⭐ فقط وقتی استان داریم
+		}
 	);
 
-	/* -----------------------  MAPPING EFFECTS  ----------------------- */
+	/* ----------------------- EFFECTS ----------------------- */
+
+	// استان‌ها
 	useEffect(() => {
 		if (!stateLoaded) return;
+
 		const mapped =
 			provinceData?.province_getAll?.result?.items?.map(({ id, name }) => ({
 				value: id,
 				option: name,
 			})) || [];
-		setListStates(mapped);
-	}, [stateLoaded, provinceData]);
 
+		setListStates(mapped);
+
+		// ⭐ انتخاب پیش‌فرض اولین استان
+		if (mapped.length > 0) {
+			setValue('StateId', mapped[0].value);
+			setStateId(mapped[0].value);
+		}
+	}, [stateLoaded, provinceData, setValue]);
+
+	// شهرها
 	useEffect(() => {
 		if (!cityLoaded) return;
+
 		const mapped =
 			cityData?.city_getAll?.result?.items?.map(({ id, name }) => ({
 				value: id,
 				option: name,
 			})) || [];
+
 		setListCities(mapped);
-	}, [cityLoaded, cityData]);
-	/* -----------------------  MODAL AUTO OPEN  ----------------------- */
+
+		// ⭐ انتخاب پیش‌فرض اولین شهر
+		if (mapped.length > 0) {
+			setValue('CityId', mapped[0].value);
+			onSearchItem(mapped[0].value);
+		}
+	}, [cityLoaded, cityData, setValue, onSearchItem]);
+
+	// باز شدن مودال
 	useEffect(() => {
 		if (openModal) setOpen(true);
 	}, [openModal]);
 
-	/* ================================================================== */
+	/* ----------------------- RENDER ----------------------- */
 	return (
 		<FormProvider methods={methods}>
 			<Grid container spacing={2} dir="rtl" alignItems="center">
 				{/* استان */}
 				<Grid item xs={12} sm={3}>
-					<SelectField name="StateId" options={listStates} onChanged={(e) => setStateId(e.target.value)} />
+					<SelectField
+						name="StateId"
+						options={listStates}
+						onChanged={(e) => {
+							const value = e.target.value;
+							setStateId(value);
+							setValue('CityId', ''); // ریست شهر
+						}}
+					/>
 				</Grid>
 
 				{/* شهر */}
@@ -85,9 +115,7 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, onSearchItem, openModal
 				<Grid item xs={12} sm={3}>
 					<LoadingButton
 						variant="contained"
-						onClick={() => {
-							setOpen(true);
-						}}
+						onClick={() => setOpen(true)}
 						sx={{
 							background: '#88b2e1',
 							color: '#fff',

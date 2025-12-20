@@ -35,19 +35,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								ردیف
 							</TableCell>
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400',
-									fontSize: '0.9rem',
-									paddingY: 0,
-									whiteSpace: 'nowrap',
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -146,6 +134,19 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								isSpecial
 							</TableCell>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -161,16 +162,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{index + 1}
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									<Action
-										OnhandleEdit={() => {
-											OnhandleEditClick(row);
-										}}
-										OnhandelDelete={() => {
-											OnhandleDeleteClick(row);
-										}}
-									/>
-								</TableCell>
+
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.abbreviation}
 								</TableCell>
@@ -198,6 +190,16 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 										type="checkbox"
 										checked={row.isSpecial}
 										style={{ width: '25px', height: '25px', border: '1px solid #DEE2E6' }}
+									/>
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandelDelete={() => {
+											OnhandleDeleteClick(row);
+										}}
 									/>
 								</TableCell>
 							</TableRow>

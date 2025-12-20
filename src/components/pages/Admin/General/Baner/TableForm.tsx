@@ -35,20 +35,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								ردیف
 							</TableCell>
-
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400px',
-									fontSize: '0.9rem',
-									whiteSpace: 'nowrap',
-									paddingY: 0,
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -73,6 +59,19 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								تصاویر
 							</TableCell>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									whiteSpace: 'nowrap',
+									paddingY: 0,
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -87,6 +86,27 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{index + 1}
+								</TableCell>
+
+								<TableCell
+									scope="row"
+									sx={{
+										textAlign: 'right',
+										paddingY: 0,
+										height: 40,
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										maxWidth: 150,
+									}}
+								>
+									{row.title}
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
+									<img
+										src={row.imageUrl}
+										style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
+									></img>
 								</TableCell>
 								<TableCell
 									scope="row"
@@ -108,26 +128,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 											OnhandleDeleteClick(row);
 										}}
 									/>
-								</TableCell>
-								<TableCell
-									scope="row"
-									sx={{
-										textAlign: 'right',
-										paddingY: 0,
-										height: 40,
-										whiteSpace: 'nowrap',
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										maxWidth: 150,
-									}}
-								>
-									{row.title}
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
-									<img
-										src={row.imageUrl}
-										style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}
-									></img>
 								</TableCell>
 							</TableRow>
 						))}

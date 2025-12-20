@@ -51,9 +51,10 @@ const Index: FC<IPageProps> = ({ onSearchItem }) => {
 			try {
 				const dates = Convert.convertShamsitomiladi(data?.Date);
 				const start = Convert.TimeZoneStart(dates);
-				const end = Convert.TimeZoneStart(dates);
-				onSearchItem(start, data?.cell, end);
-			} catch {
+				const end = Convert.addOneDay(dates);
+				const end1 = Convert.TimeZoneStart(end);
+				onSearchItem(start, data?.cell, end1);
+			} catch (e) {
 				onSearchItem('', '');
 			}
 		}

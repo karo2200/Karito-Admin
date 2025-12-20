@@ -38,19 +38,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 							>
 								ردیف
 							</TableCell>
-							<TableCell
-								sx={{
-									textAlign: 'right',
-									color: '#2a2a2a',
-									fontWeight: '400px',
-									fontSize: '0.9rem',
-									paddingY: 0,
-									whiteSpace: 'nowrap',
-									width: '60px',
-								}}
-							>
-								عملیات
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -232,6 +220,19 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 							>
 								وضعیت
 							</TableCell>
+							<TableCell
+								sx={{
+									textAlign: 'right',
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '60px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -254,13 +255,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{index + 1}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										<Action
-											OnhandleShow={() => {
-												OnhandleShow(row);
-											}}
-										/>
-									</TableCell>
+
 									<TableCell scope="row" sx={{ fontFamily: 'Tahoma', textAlign: 'right', paddingY: 0, height: 30 }}>
 										{Convert.convertToJalali(row?.createdAt)}
 									</TableCell>
@@ -308,6 +303,13 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleSho
 									</TableCell>
 									<TableCell align="left" sx={{ paddingY: 0, height: 30, width: 120 }}>
 										<Statues status={row?.status} />
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										<Action
+											OnhandleShow={() => {
+												OnhandleShow(row);
+											}}
+										/>
 									</TableCell>
 								</TableRow>
 							))

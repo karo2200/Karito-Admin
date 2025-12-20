@@ -1,5 +1,6 @@
 import AdUnitsRoundedIcon from '@mui/icons-material/AdUnitsRounded';
 import ArticleIcon from '@mui/icons-material/Article';
+import BlockIcon from '@mui/icons-material/Block';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DiscountIcon from '@mui/icons-material/Discount';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,6 +11,8 @@ import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { IconButton, Menu } from '@mui/material';
 import React, { FC } from 'react';
+
+import COLORS from '@/theme/colors';
 
 import * as S from './action.style';
 
@@ -23,6 +26,8 @@ const Action: FC<{
 	OnhandleEdit?(): void;
 	OnhandelCurser?(): void;
 	OnhandelDelete?(): void;
+	OnhandelBlack?(): void;
+	Bluck?: boolean;
 }> = ({
 	OnhandleShow,
 	OnhandleListDocument,
@@ -33,6 +38,8 @@ const Action: FC<{
 	OnhandleEdit,
 	OnhandelCurser,
 	OnhandelDelete,
+	OnhandelBlack,
+	Bluck,
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -53,6 +60,7 @@ const Action: FC<{
 		isEdit = typeof OnhandleEdit === 'function',
 		isCurser = typeof OnhandelCurser === 'function',
 		isDelete = typeof OnhandelDelete === 'function',
+		isBlack = typeof OnhandelBlack === 'function',
 		isOTP = typeof OnhandleOTP === 'function';
 
 	return (
@@ -174,6 +182,17 @@ const Action: FC<{
 						}}
 					>
 						<DeleteIcon sx={{ color: 'red' }} /> <span style={{ marginLeft: '10px', color: 'red' }}>حذف</span>
+					</S.MenuItem>
+				)}
+				{isBlack && (
+					<S.MenuItem
+						onClick={() => {
+							OnhandelBlack();
+							handleClose();
+						}}
+					>
+						<BlockIcon sx={{ color: Bluck ? COLORS.grey1 : COLORS.red }} />
+						<span style={{ marginLeft: '10px' }}>{Bluck ? 'آزادکردن' : 'بلاک کردن'} </span>
 					</S.MenuItem>
 				)}
 			</Menu>

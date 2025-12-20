@@ -12,7 +12,7 @@ import {
 	TableRow,
 } from '@mui/material';
 import React, { FC, useState } from 'react';
-import { VerificationStatus } from 'src/graphql/generated';
+import { useUser_SetBlockStateMutation, VerificationStatus } from 'src/graphql/generated';
 
 import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
@@ -29,6 +29,7 @@ const index: FC<IPageProps> = ({
 	OnsetRowsPerPage,
 	OnhandleOTP,
 	Onhandlesort,
+	onRefreshItem,
 	TotalCount,
 }) => {
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -42,6 +43,24 @@ const index: FC<IPageProps> = ({
 	// Close modal
 	const handleCloseModal = () => {
 		setSelectedImage(null);
+	};
+
+	const { mutate, isLoading: isLoading } = useUser_SetBlockStateMutation();
+	const OnhandelBlack = (row) => {
+		mutate(
+			{
+				input: {
+					userId: row?.id,
+					isBlocked: !row.isBlocked,
+				},
+			},
+			{
+				onSuccess: async (res) => {
+					onRefreshItem();
+				},
+				onError: (err) => {},
+			}
+		);
 	};
 	return (
 		<>
@@ -68,19 +87,7 @@ const index: FC<IPageProps> = ({
 							>
 								ردیف
 							</TableCell>
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400px',
-									fontSize: '0.9rem',
-									whiteSpace: 'nowrap',
-									paddingY: 0,
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -193,6 +200,19 @@ const index: FC<IPageProps> = ({
 							>
 								داکیومنت
 							</TableCell>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									whiteSpace: 'nowrap',
+									paddingY: 0,
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -215,19 +235,7 @@ const index: FC<IPageProps> = ({
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{index + 1}
 									</TableCell>
-									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										<Action
-											OnhandleListDocument={() => {
-												OnhandleListDocument(row);
-											}}
-											OnhandleShow={() => {
-												OnhandleShow(row);
-											}}
-											OnhandleOTP={() => {
-												OnhandleOTP(row);
-											}}
-										/>
-									</TableCell>
+
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{Convert.convertToJalali(row?.registeredAt)}
 									</TableCell>
@@ -381,6 +389,23 @@ const index: FC<IPageProps> = ({
 												? 'تایید شده'
 												: 'رد شده'}
 										</LoadingButton>
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										<Action
+											OnhandleListDocument={() => {
+												OnhandleListDocument(row);
+											}}
+											OnhandleShow={() => {
+												OnhandleShow(row);
+											}}
+											OnhandleOTP={() => {
+												OnhandleOTP(row);
+											}}
+											Bluck={row?.isBlocked}
+											OnhandelBlack={() => {
+												OnhandelBlack(row);
+											}}
+										/>
 									</TableCell>
 								</TableRow>
 							))

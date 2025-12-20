@@ -52,19 +52,7 @@ const Index: FC<IPageProps> = ({
 							>
 								ردیف
 							</TableCell>
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400px',
-									fontSize: '0.9rem',
-									whiteSpace: 'nowrap',
-									paddingY: 0,
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -140,6 +128,19 @@ const Index: FC<IPageProps> = ({
 							>
 								فعال/غیرفعال
 							</TableCell>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									whiteSpace: 'nowrap',
+									paddingY: 0,
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 
@@ -156,22 +157,7 @@ const Index: FC<IPageProps> = ({
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{index + 1}
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									<Action
-										OnhandleEdit={() => {
-											OnhandleEditClick(row);
-										}}
-										OnhandleMap={() => {
-											OnhandleMap(row);
-										}}
-										OnhandelCurser={() => {
-											OnhandleCursel(row);
-										}}
-										OnhandleBanner={() => {
-											OnhandleBaner(row);
-										}}
-									/>
-								</TableCell>
+
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.abbreviation}
 								</TableCell>
@@ -194,6 +180,22 @@ const Index: FC<IPageProps> = ({
 											<ToggleOffIcon color="disabled" sx={{ height: '35px ', width: '35px' }} />
 										)}
 									</IconButton>
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandleMap={() => {
+											OnhandleMap(row);
+										}}
+										OnhandelCurser={() => {
+											OnhandleCursel(row);
+										}}
+										OnhandleBanner={() => {
+											OnhandleBaner(row);
+										}}
+									/>
 								</TableCell>
 							</TableRow>
 						))}

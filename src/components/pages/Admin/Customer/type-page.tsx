@@ -4,13 +4,14 @@ export type RowTable = {
 };
 export interface IPageProps {
 	setData?(setState: (data: any) => any): void;
-	onSearchItem?: (name?: any, cell?: string) => void;
+	onSearchItem?: (name?: any, cell?: string, end?: string) => void;
 	OnhandleEditClick?: (value: any) => void;
 	OnhandleDocument?: (value: any) => void;
 	OnsetRowsPerPage?: (row: number, page: number) => void;
 	OnhandleVideo?: (value: any) => void;
 	OnhandleShow?: (value: any) => void;
 	OnhandleOTP?: (value: any) => void;
+	Onhandlesort?: (value: any) => void;
 	DataRow?: [];
 	TotalCount?: number;
 	rows?: [];

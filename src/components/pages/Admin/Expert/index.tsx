@@ -58,16 +58,13 @@ const index = () => {
 				return {
 					city: { province: { name: { contains: value } } },
 				};
-			case 'registeredAt':
+			default:
 				return {
 					registeredAt: {
 						gte: value,
 						lte: valueend,
 					},
 				};
-
-			default:
-				return {};
 		}
 	};
 

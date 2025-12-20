@@ -5,7 +5,7 @@ import Modal from '@/components/organisms/ModalOTP';
 
 import TableForm from './TableForm';
 import { IPageProps } from './type-page';
-const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, TotalCount }) => {
+const Index: FC<IPageProps> = ({ DataRow, Onhandlesort, OnsetRowsPerPage, TotalCount, onRefreshItem }) => {
 	const [open, setOpen] = useState(false);
 	const [Name, setName] = useState('');
 	const [Mobil, setMobil] = useState('');
@@ -16,12 +16,16 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, Total
 				OnsetRowsPerPage={(row, page) => {
 					OnsetRowsPerPage(row, page);
 				}}
+				onRefreshItem={() => {
+					onRefreshItem();
+				}}
 				TotalCount={TotalCount}
 				OnhandleOTP={(row) => {
 					setMobil(row?.phoneNumber);
 					setName(row?.firstName + ' ' + row?.lastName);
 					setOpen(true);
 				}}
+				Onhandlesort={Onhandlesort}
 			/>
 			<Modal
 				open={open}

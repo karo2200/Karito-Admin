@@ -120,6 +120,9 @@ const Index: FC<IPageProps> = ({ DataRow, onRefreshItem, OnsetRowsPerPage, Total
 					setname(row?.firstName + ' ' + row?.lastName);
 					setOpenOTP(true);
 				}}
+				onRefreshItem={() => {
+					onRefreshItem();
+				}}
 			/>
 			<ModalOTP
 				open={openOTP}

@@ -1,16 +1,35 @@
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 
 import Action from '@/components/organisms/Action';
 import Pagination from '@/components/organisms/pagination';
+import { useUser_SetBlockStateMutation } from '@/graphql/generated';
+import Convert from '@/utils/convert';
 
 import { IPageProps } from './type-page';
-const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP }) => {
+const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP, Onhandlesort, onRefreshItem }) => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [page, setPage] = React.useState(0);
 	const router = useRouter();
-
+	const { mutate, isLoading: isLoading } = useUser_SetBlockStateMutation();
+	const OnhandelBlack = (row) => {
+		mutate(
+			{
+				input: {
+					userId: row?.id,
+					isBlocked: !row.isBlocked,
+				},
+			},
+			{
+				onSuccess: async (res) => {
+					onRefreshItem();
+				},
+				onError: (err) => {},
+			}
+		);
+	};
 	return (
 		<>
 			<TableContainer component={Paper} sx={{ direction: 'rtl' }}>
@@ -38,15 +57,18 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 							</TableCell>
 							<TableCell
 								sx={{
+									textAlign: 'right',
 									color: '#2a2a2a',
 									fontWeight: '400px',
 									fontSize: '0.9rem',
-									whiteSpace: 'nowrap',
 									paddingY: 0,
-									width: '70px',
+									whiteSpace: 'nowrap',
+									cursor: 'pointer',
 								}}
+								onClick={() => Onhandlesort('D')}
 							>
-								عملیات
+								تاریخ عضویت
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
@@ -69,8 +91,10 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 									paddingY: 0,
 									whiteSpace: 'nowrap',
 								}}
+								onClick={() => Onhandlesort('F')}
 							>
 								نام
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
@@ -81,8 +105,10 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 									paddingY: 0,
 									whiteSpace: 'nowrap',
 								}}
+								onClick={() => Onhandlesort('L')}
 							>
-								نام خانواگی{' '}
+								نام خانواگی
+								<SwapVertIcon />
 							</TableCell>
 							<TableCell
 								sx={{
@@ -108,6 +134,18 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 							>
 								تصویر
 							</TableCell>
+							<TableCell
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									whiteSpace: 'nowrap',
+									paddingY: 0,
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -131,20 +169,7 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 										{index + 1}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-										<Action
-											OnhandleOTP={() => {
-												OnhandleOTP(row);
-											}}
-											OnhandelDiscount={() => {
-												router.push({
-													pathname: '/Admin/DiscountCode',
-													query: {
-														customerName: row.firstName + '' + row.lastName,
-														customerId: row.id,
-													},
-												});
-											}}
-										/>
+										{Convert.convertToJalali(row?.registeredAt)}
 									</TableCell>
 									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 										{row?.code}
@@ -163,6 +188,26 @@ const index: FC<IPageProps> = ({ rows, TotalCount, OnsetRowsPerPage, OnhandleOTP
 											src={row?.profileImageUrl}
 											style={{ width: '50px', height: '50px', border: '1px solid #00000036', borderRadius: '50%' }}
 										></img>
+									</TableCell>
+									<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+										<Action
+											OnhandleOTP={() => {
+												OnhandleOTP(row);
+											}}
+											OnhandelDiscount={() => {
+												router.push({
+													pathname: '/Admin/DiscountCode',
+													query: {
+														customerName: row.firstName + '' + row.lastName,
+														customerId: row.id,
+													},
+												});
+											}}
+											Bluck={row?.isBlocked}
+											OnhandelBlack={() => {
+												OnhandelBlack(row);
+											}}
+										/>
 									</TableCell>
 								</TableRow>
 							))

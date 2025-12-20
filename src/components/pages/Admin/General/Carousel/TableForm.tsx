@@ -35,20 +35,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 							>
 								ردیف
 							</TableCell>
-
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400px',
-									fontSize: '0.9rem',
-									whiteSpace: 'nowrap',
-									paddingY: 0,
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -74,6 +60,20 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 							>
 								سرویس
 							</TableCell>
+
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400px',
+									fontSize: '0.9rem',
+									whiteSpace: 'nowrap',
+									paddingY: 0,
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -90,16 +90,6 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 									{index + 1}
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									<Action
-										OnhandleEdit={() => {
-											OnhandleEditClick(row);
-										}}
-										OnhandelDelete={() => {
-											OnhandleDeleteClick(row);
-										}}
-									/>
-								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.title}
 								</TableCell>
 								{/*<TableCell
@@ -113,6 +103,16 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick, O
 									{row?.serviceTypes?.map((data, i) => (
 										<div key={i}>{data?.name}</div>
 									))}
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandelDelete={() => {
+											OnhandleDeleteClick(row);
+										}}
+									/>
 								</TableCell>
 							</TableRow>
 						))}

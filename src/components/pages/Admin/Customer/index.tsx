@@ -1,18 +1,33 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SortEnumType, useCustomer_GetAllQuery } from 'src/graphql/generated';
 
 import COLORS from '@/theme/colors';
 
 import MidelForm from './MidelForm';
 import SearchPage from './SearchForm';
+type SortKey = 'D' | 'F' | 'L';
 
 const index = () => {
 	const [value, setValue] = useState('');
-	const [cell, setCell] = useState<'firstName' | 'lastName' | 'code' | 'phoneNumber'>('firstName');
+	const [valueend, setvalueend] = useState('');
+	const [cell, setCell] = useState<'firstName' | 'lastName' | 'code' | 'phoneNumber' | 'registeredAt'>('firstName');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(20);
 	const [load, setLoad] = useState(1);
+	const [sort, setSort] = useState<{ key: SortKey; direction: SortEnumType }>({
+		key: 'D',
+		direction: SortEnumType.Desc,
+	});
+
+	const order = useMemo(() => {
+		const map: Record<SortKey, any> = {
+			D: { registeredAt: sort.direction },
+			F: { firstName: sort.direction },
+			L: { lastName: sort.direction },
+		};
+		return map[sort.key];
+	}, [sort]);
 	const getWhereByCell = () => {
 		if (!value) return {};
 		switch (cell) {
@@ -34,7 +49,12 @@ const index = () => {
 					phoneNumber: { contains: value },
 				};
 			default:
-				return {};
+				return {
+					registeredAt: {
+						gte: value,
+						lte: valueend,
+					},
+				};
 		}
 	};
 	const {
@@ -45,7 +65,7 @@ const index = () => {
 		{
 			take: rowsPerPage,
 			skip: page * rowsPerPage,
-			order: { id: SortEnumType.Desc },
+			order,
 			where: {
 				...getWhereByCell(),
 			},
@@ -61,7 +81,14 @@ const index = () => {
 			setLoad(0);
 		}
 	}, [load, isSuccess, isError]);
-
+	const handleSort = (key: SortKey) => {
+		setSort((prev) => ({
+			key,
+			direction: prev.key === key && prev.direction === SortEnumType.Desc ? SortEnumType.Asc : SortEnumType.Desc,
+		}));
+		setPage(0);
+		setLoad(1);
+	};
 	return (
 		<>
 			<Box
@@ -77,8 +104,9 @@ const index = () => {
 				}}
 			>
 				<SearchPage
-					onSearchItem={(search, cell) => {
+					onSearchItem={(search, cell, end) => {
 						setValue(search);
+						setvalueend(end);
 						setCell(cell);
 						setLoad(1);
 					}}
@@ -95,6 +123,7 @@ const index = () => {
 					setPage(page);
 					setLoad(1);
 				}}
+				Onhandlesort={handleSort}
 			/>
 		</>
 	);

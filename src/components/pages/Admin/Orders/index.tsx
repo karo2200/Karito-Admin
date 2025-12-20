@@ -128,7 +128,12 @@ const ServiceRequestPage = () => {
 					serviceType: { name: { contains: value } },
 				};
 			default:
-				return {};
+				return {
+					createdAt: {
+						gte: value,
+						lte: valueend,
+					},
+				};
 		}
 	};
 

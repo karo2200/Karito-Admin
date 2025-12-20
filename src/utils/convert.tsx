@@ -15,26 +15,38 @@ class Convert {
 		return `${customYear}-${customMonth}-${customDay === '00' ? '01' : customDay}`;
 	}
 	static convertToJalali(dateString) {
-		if (!dateString) return;
+		if (!dateString) return '';
+
 		const date = new Date(dateString);
-		if (isNaN(date)) return;
+		if (isNaN(date.getTime())) return '';
+
 		const jDate = toJalaali(date);
-		return `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
+
+		const hours = date.getHours().toString().padStart(2, '0');
+		const minutes = date.getMinutes().toString().padStart(2, '0');
+
+		return `${jDate.jy}/${jDate.jm}/${jDate.jd} ${hours}:${minutes}`;
 	}
-	static TimeZoneStart(Date) {
-		const input = Date;
-		const [y, m, d] = input.split('/').map(Number);
-		const IRAN_OFFSET_MIN = 210;
-		const start = new Date(Date.UTC(y, m - 1, d, 0, 0 - IRAN_OFFSET_MIN));
-		return start.toISOString();
+
+	static TimeZoneStart(dateString: string) {
+		const [y, m, d] = dateString.split('/').map(Number);
+
+		return new Date(Date.UTC(y, m - 1, d, 0, 0, 0)).toISOString();
 	}
-	static TimeZoneEnd(Date) {
-		const input = Date;
-		const [y, m, d] = input.split('/').map(Number);
-		const IRAN_OFFSET_MIN = 210;
-		const end = new Date(Date.UTC(y, m - 1, d, 23, 59 - IRAN_OFFSET_MIN));
-		return end.toISOString();
+
+	static addOneDay(dateString: string) {
+		const [y, m, d] = dateString.split('/').map(Number);
+
+		const date = new Date(Date.UTC(y, m - 1, d));
+		date.setUTCDate(date.getUTCDate() + 1);
+
+		const yy = date.getUTCFullYear();
+		const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
+		const dd = String(date.getUTCDate()).padStart(2, '0');
+
+		return `${yy}/${mm}/${dd}`;
 	}
+
 	static convertoLowerCase(value?: string): string {
 		if (value != undefined) {
 			const st = value.toLowerCase();

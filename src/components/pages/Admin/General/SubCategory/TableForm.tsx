@@ -35,19 +35,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								ردیف
 							</TableCell>
-							<TableCell
-								align="center"
-								sx={{
-									color: '#2a2a2a',
-									fontWeight: '400',
-									fontSize: '0.9rem',
-									paddingY: 0,
-									whiteSpace: 'nowrap',
-									width: '70px',
-								}}
-							>
-								عملیات
-							</TableCell>
+
 							<TableCell
 								sx={{
 									textAlign: 'right',
@@ -96,6 +84,19 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 							>
 								تصاویر
 							</TableCell>
+							<TableCell
+								align="center"
+								sx={{
+									color: '#2a2a2a',
+									fontWeight: '400',
+									fontSize: '0.9rem',
+									paddingY: 0,
+									whiteSpace: 'nowrap',
+									width: '70px',
+								}}
+							>
+								عملیات
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -111,16 +112,7 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{index + 1}
 								</TableCell>
-								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
-									<Action
-										OnhandleEdit={() => {
-											OnhandleEditClick(row);
-										}}
-										OnhandelDelete={() => {
-											OnhandleDeleteClick(row);
-										}}
-									/>
-								</TableCell>
+
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
 									{row.abbreviation}
 								</TableCell>
@@ -132,6 +124,16 @@ const index: FC<IPageProps> = ({ rows, OnhandleEditClick, OnhandleDeleteClick })
 								</TableCell>
 								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30, width: 100 }}>
 									<img src={row.logo} style={{ width: '50px', height: '50px', border: '1px solid #00000036' }}></img>
+								</TableCell>
+								<TableCell scope="row" sx={{ textAlign: 'right', paddingY: 0, height: 30 }}>
+									<Action
+										OnhandleEdit={() => {
+											OnhandleEditClick(row);
+										}}
+										OnhandelDelete={() => {
+											OnhandleDeleteClick(row);
+										}}
+									/>
 								</TableCell>
 							</TableRow>
 						))}
