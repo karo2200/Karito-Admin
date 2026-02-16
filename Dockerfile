@@ -50,6 +50,7 @@ COPY --from=builder /app/package*.json ./
 
 # نصب فقط پکیج‌های production (بدون devDependencies)
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--dns-result-order=ipv4first"
 RUN npm ci --omit=dev --legacy-peer-deps
 
 # پورت مورد استفاده توسط اپلیکیشن
