@@ -64,6 +64,15 @@ const menuItems = [
 		Icon: '/icons/users.png',
 		link: '/Admin/Users',
 	},
+	{
+		text: 'تنظیمات',
+		Icon: '/icons/service.png',
+		link: '#',
+		subMenu: [
+			{ text: 'رنکینگ', link: '/Admin/Setting/Ranking' },
+			{ text: 'مهارتها', link: '/Admin/Setting/Skill' },
+		],
+	},
 ];
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';

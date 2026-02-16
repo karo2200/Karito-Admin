@@ -1,0 +1,42 @@
+query settings_getSpecialistRequestRankingSettings {
+	settings_getSpecialistRequestRankingSettings {
+		status
+		result {
+			primarySkillWeight
+			secondarySkillWeight
+			optionalSkillWeight
+			budgetScoreMultiplier
+			enableDistancePenalty
+			distancePenaltyFactor
+			distancePenaltyPower
+			distancePenaltyMax
+			enableRegistrationAgePenalty
+			registrationAgePenaltyFactor
+			registrationAgePenaltyPower
+			registrationAgePenaltyMax
+		}
+	}
+}
+
+mutation settings_updateSpecialistRequestRankingSettings($input: UpdateSkillMatchingSettingsInput!) {
+	settings_updateSpecialistRequestRankingSettings(input: $input) {
+		status
+	}
+}
+
+query settings_getSkillLimitationSettings {
+	settings_getSkillLimitationSettings {
+		status
+		result {
+			maxPrimarySkills
+			maxSecondarySkills
+			maxOptionalSkills
+		}
+	}
+}
+
+mutation settings_updateSkillLimitationSettings($input: UpdateSkillLimitationSettingsInput!) {
+	settings_updateSkillLimitationSettings(input: $input) {
+		status
+	}
+}

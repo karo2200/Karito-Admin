@@ -13,6 +13,8 @@ export { default as SubCategoryPage } from './Admin/General/SubCategory';
 export { default as SubSubCategoryPage } from './Admin/General/SubSubCategory';
 export { default as OrderPage } from './Admin/Orders';
 export { default as ReasonsCancelPage } from './Admin/ReasonsCancel';
+export { default as RankingPage } from './Admin/Setting/Ranking';
+export { default as SkillPage } from './Admin/Setting/Skill';
 export { default as UserPage } from './Admin/Users';
 export { default as HomePage } from './Home';
 export { default as LandingPage } from './Landing';
